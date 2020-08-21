@@ -1,10 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+
+import AppStack from './src/routes/AppStack'
 
 export default function App() {
     return (
-        <View>
-
-        </View>
+        <AppStack />
     );
 }
