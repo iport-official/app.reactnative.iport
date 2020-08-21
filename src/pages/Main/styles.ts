@@ -5,7 +5,7 @@ export const ContainerKeyboardAvoidView = styled.View`
 `
 
 export const HeaderView = styled.View`
-    height: 50px;
+    height: 85px;
     background-color: #5A3E77;
     flex-direction: row;
     justify-content: space-between;
