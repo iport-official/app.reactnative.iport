@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageSourcePropType } from 'react-native'
+import { ImageSourcePropType, ViewStyle, StyleProp } from 'react-native'
 
 import {
     ContainerView,
@@ -10,16 +10,17 @@ import {
     PublishingDateText
 } from './styles'
 
-interface JobProps {
+export interface JobProps {
+    style?: StyleProp<ViewStyle>
     imageSource: ImageSourcePropType
     title: string
     description: string
     publishingDate: string
 }
 
-const Job: React.FC<JobProps> = ({ imageSource, title, description, publishingDate }) => {
+const Job: React.FC<JobProps> = ({ style, imageSource, title, description, publishingDate }) => {
     return (
-        <ContainerView>
+        <ContainerView style={style}>
             <EnterpriseImage source={imageSource} />
             <TextsView>
                 <TitleText>{title}</TitleText>
