@@ -30,6 +30,8 @@ const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
     }
 
     return (
+        //#region JSX
+
         <ContainerView>
             <TitleText>{title}</TitleText>
             <ContainerScrollView
@@ -39,6 +41,8 @@ const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
                 {jobs.map(handleJobsArray)}
             </ContainerScrollView>
         </ContainerView>
+
+        //#endregion
     )
 }
 

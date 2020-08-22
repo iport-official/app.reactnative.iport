@@ -1,9 +1,9 @@
 import React from 'react'
-import { AppStackParamsList } from '../../routes/AppStack'
-
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { StackScreenProps } from '@react-navigation/stack'
 import { Ionicons } from '@expo/vector-icons';
 
+import { AppStackParamsList } from '../../routes/AppStack'
 import Jobs from '../../components/JobList';
 import ProfilePhoto from '../../components/ProfilePhoto'
 
@@ -21,6 +21,8 @@ type DefaultMainPageProps = StackScreenProps<
     AppStackParamsList,
     "MainPage"
 >
+
+const { Navigator, Screen } = createDrawerNavigator()
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
     return (
