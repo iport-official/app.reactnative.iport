@@ -9,7 +9,10 @@ import ProfilePhoto from '../../components/ProfilePhoto'
 import photo from '../../assets/foto_example.png'
 
 import {
-    HeaderView
+    ContainerKeyboardAvoidView,
+    HeaderView,
+    JobsScrollView,
+    FooterView
 } from './styles'
 import { SafeAreaView } from 'react-native';
 
@@ -23,7 +26,7 @@ type DefaultMainPageProps = StackScreenProps<
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <ContainerKeyboardAvoidView>
             <HeaderView>
                 <Ionicons
                     name="ios-menu"
@@ -32,7 +35,14 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                 />
                 <ProfilePhoto source={photo} />
             </HeaderView>
-            <Job />
-        </SafeAreaView>
+
+            <JobsScrollView>
+                <Jobs />
+            </JobsScrollView>
+
+            <FooterView>
+
+            </FooterView>
+        </ContainerKeyboardAvoidView>
     )
 }
