@@ -1,12 +1,14 @@
 import React from 'react'
 import { AppStackParamsList } from '../../routes/AppStack'
-import { StackScreenProps } from '@react-navigation/stack'
 
+import { StackScreenProps } from '@react-navigation/stack'
 import { Ionicons } from '@expo/vector-icons';
 
+import Jobs from '../../components/Jobs';
 import ProfilePhoto from '../../components/ProfilePhoto'
 
 import photo from '../../assets/foto_example.png'
+import enterpriseImage from '../../assets/millenium-falcon.jpg'
 
 import {
     ContainerKeyboardAvoidView,
@@ -14,10 +16,6 @@ import {
     JobsScrollView,
     FooterView
 } from './styles'
-import { SafeAreaView } from 'react-native';
-
-import Jobs from '../../components/Jobs';
-import Job from '../../components/Jobs/Job';
 
 type DefaultMainPageProps = StackScreenProps<
     AppStackParamsList,
@@ -37,7 +35,63 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
             </HeaderView>
 
             <JobsScrollView>
-                <Jobs />
+                <Jobs
+                    title="Hot Jobs"
+                    jobs={[
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        }
+                    ]}
+                />
+                <Jobs
+                    title="Hot Jobs"
+                    jobs={[
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        }
+                    ]}
+                />
+                <Jobs
+                    title="Hot Jobs"
+                    jobs={[
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        }
+                    ]}
+                />
             </JobsScrollView>
 
             <FooterView>
