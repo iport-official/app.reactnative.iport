@@ -1,20 +1,45 @@
 import React from 'react'
-import { Text } from 'react-native'
-import Job from './Job'
 
-import { ContainerScrollView } from './styles'
+import {
+    ContainerView,
+    TitleText,
+    ContainerScrollView
+} from './styles'
 
-import enterpriseImage from '../../assets/millenium-falcon.jpg'
+import Job, { JobProps } from './Job'
 
-export default function Jobs() {
-    return (
-        <ContainerScrollView>
+export interface JobsProps {
+    title: string
+    jobs: JobProps[]
+}
+
+const Jobs: React.FC<JobsProps> = ({ title, jobs }) => {
+    function handleJobsArray(job: JobProps, index: number, array: JobProps[]) {
+        return (
             <Job
-                imageSource={enterpriseImage}
-                title="Milleniu Falcon"
-                description="The fastest spaceship of the galaxy"
-                publishingDate="yesterday"
+                style={{
+                    marginLeft: index === 0 ? 0 : 10
+                }}
+                key={index} // must add key property cause it is using with map method
+                imageSource={job.imageSource}
+                title={job.title}
+                description={job.description}
+                publishingDate={job.publishingDate}
             />
-        </ContainerScrollView>
+        )
+    }
+
+    return (
+        <ContainerView>
+            <TitleText>{title}</TitleText>
+            <ContainerScrollView horizontal>
+
+                {/* Add white spaces between jobs just when more than one */}
+
+                {jobs.map(handleJobsArray)}
+            </ContainerScrollView>
+        </ContainerView>
     )
 }
+
+export default Jobs
