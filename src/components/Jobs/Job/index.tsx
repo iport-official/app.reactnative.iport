@@ -1,10 +1,35 @@
 import React from 'react'
-import { View } from 'react-native'
+import {
+    View,
+    Image,
+    Text,
+    ImageSourcePropType
+} from 'react-native'
 
-export default function Job() {
+import {
+    ContainerView,
+    EnterpriseImage,
+    TitleText,
+    DescriptionText,
+    PublishingDateText
+} from './styles'
+
+interface JobProps {
+    imageSource: ImageSourcePropType
+    title: string
+    description: string
+    publishingDate: string
+}
+
+const Job: React.FC<JobProps> = ({ imageSource, title, description, publishingDate }) => {
     return (
-        <View>
-
-        </View>
+        <ContainerView>
+            <EnterpriseImage source={imageSource} />
+            <TitleText>{title}</TitleText>
+            <DescriptionText>{description}</DescriptionText>
+            <PublishingDateText>{publishingDate}</PublishingDateText>
+        </ContainerView>
     )
 }
+
+export default Job
