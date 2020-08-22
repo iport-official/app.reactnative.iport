@@ -4,7 +4,7 @@ import { AppStackParamsList } from '../../routes/AppStack'
 import { StackScreenProps } from '@react-navigation/stack'
 import { Ionicons } from '@expo/vector-icons';
 
-import Jobs from '../../components/Jobs';
+import Jobs from '../../components/JobList';
 import ProfilePhoto from '../../components/ProfilePhoto'
 
 import photo from '../../assets/foto_example.png'

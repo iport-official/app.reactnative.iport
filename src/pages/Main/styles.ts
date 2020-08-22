@@ -22,3 +22,4 @@ export const FooterView = styled.View`
     height: 60px;
     background-color: #5A3E77;
 `
+ 
