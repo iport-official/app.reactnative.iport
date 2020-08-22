@@ -1,14 +1,10 @@
 import React from 'react'
-import {
-    View,
-    Image,
-    Text,
-    ImageSourcePropType
-} from 'react-native'
+import { ImageSourcePropType } from 'react-native'
 
 import {
     ContainerView,
     EnterpriseImage,
+    TextsView,
     TitleText,
     DescriptionText,
     PublishingDateText
@@ -25,9 +21,11 @@ const Job: React.FC<JobProps> = ({ imageSource, title, description, publishingDa
     return (
         <ContainerView>
             <EnterpriseImage source={imageSource} />
-            <TitleText>{title}</TitleText>
-            <DescriptionText>{description}</DescriptionText>
-            <PublishingDateText>{publishingDate}</PublishingDateText>
+            <TextsView>
+                <TitleText>{title}</TitleText>
+                <DescriptionText>{description}</DescriptionText>
+                <PublishingDateText>{publishingDate}</PublishingDateText>
+            </TextsView>
         </ContainerView>
     )
 }
