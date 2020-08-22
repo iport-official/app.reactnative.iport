@@ -32,10 +32,10 @@ const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
     return (
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <ContainerScrollView horizontal>
-
-                {/* Add white spaces between jobs just when more than one */}
-
+            <ContainerScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+            >
                 {jobs.map(handleJobsArray)}
             </ContainerScrollView>
         </ContainerView>
