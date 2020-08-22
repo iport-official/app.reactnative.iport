@@ -6,14 +6,14 @@ import {
     ContainerScrollView
 } from './styles'
 
-import Job, { JobProps } from './Job'
+import Job, { JobProps } from '../Job'
 
 export interface JobsProps {
     title: string
     jobs: JobProps[]
 }
 
-const Jobs: React.FC<JobsProps> = ({ title, jobs }) => {
+const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
     function handleJobsArray(job: JobProps, index: number, array: JobProps[]) {
         return (
             <Job
@@ -42,4 +42,4 @@ const Jobs: React.FC<JobsProps> = ({ title, jobs }) => {
     )
 }
 
-export default Jobs
+export default JobList
