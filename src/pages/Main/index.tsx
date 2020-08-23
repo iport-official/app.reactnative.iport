@@ -1,15 +1,97 @@
 import React from 'react'
-import { View } from 'react-native'
-import { StackScreenProps } from '@react-navigation/stack'
-import { AppStackParamsList } from '../../routes/AppStack'
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
-type DefaultMainPageProps = StackScreenProps<
-    AppStackParamsList,
+import { DrawerParamsList } from '../../routes/Drawer';
+import Jobs from '../../components/JobList';
+import ProfilePhoto from '../../components/ProfilePhoto'
+import Menu from '../../components/Menu';
+
+import photo from '../../assets/foto_example.png'
+import enterpriseImage from '../../assets/millenium-falcon.jpg'
+
+import {
+    ContainerKeyboardAvoidView,
+    HeaderView,
+    JobsScrollView,
+    FooterView
+} from './styles'
+
+type DefaultMainPageProps = DrawerScreenProps<
+    DrawerParamsList,
     "MainPage"
 >
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
     return (
-        <View />
+        <ContainerKeyboardAvoidView>
+            <HeaderView>
+                <Menu onPress={() => { navigation.openDrawer() }} />
+                <ProfilePhoto source={photo} />
+            </HeaderView>
+
+            <JobsScrollView>
+                <Jobs
+                    title="Hot Jobs"
+                    jobs={[
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        }
+                    ]}
+                />
+                <Jobs
+                    title="Hot Jobs"
+                    jobs={[
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        }
+                    ]}
+                />
+                <Jobs
+                    title="Hot Jobs"
+                    jobs={[
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        },
+                        {
+                            imageSource: enterpriseImage,
+                            title: "Millenium Falcon",
+                            description: "The fastest spaceship in the galaxy",
+                            publishingDate: "2 years ago"
+                        }
+                    ]}
+                />
+            </JobsScrollView>
+
+            <FooterView>
+
+            </FooterView>
+        </ContainerKeyboardAvoidView>
     )
 }

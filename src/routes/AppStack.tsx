@@ -3,25 +3,29 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import LoginPage from '../pages/Login'
-import MainPage from '../pages/Main'
+import Drawer, { DrawerParamsList } from '../routes/Drawer'
 
 export type AppStackParamsList = {
     LoginPage: undefined
-    MainPage: undefined
+    Drawer: DrawerParamsList
 }
 
 const { Navigator, Screen } = createStackNavigator<AppStackParamsList>()
 
 export default function AppStack() {
     return (
+        //#region JSX
+
         <NavigationContainer>
             <Navigator
-                screenOptions={{headerShown: false}}
-                initialRouteName="LoginPage"
+                screenOptions={{ headerShown: false }}
+                initialRouteName="Drawer"
             >
                 <Screen name="LoginPage" component={LoginPage} />
-                <Screen name="MainPage" component={MainPage} />
+                <Screen name="Drawer" component={Drawer} />
             </Navigator>
         </NavigationContainer>
+
+        //#endregion
     )
 }

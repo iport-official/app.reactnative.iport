@@ -1,10 +1,28 @@
 import React from 'react';
-import { View } from 'react-native';
+import { AppLoading } from "expo";
+
+import AppStack from './src/routes/AppStack'
+
+import { Poppins_400Regular, Poppins_600SemiBold, useFonts } from '@expo-google-fonts/poppins'
+
+let fontsLoaded: boolean;
+
+function LoadFonts() {
+    [fontsLoaded] = useFonts({
+        Poppins_400Regular,
+        Poppins_600SemiBold
+    })
+}
 
 export default function App() {
-    return (
-        <View>
 
-        </View>
+    LoadFonts()
+
+    if (!fontsLoaded) {
+        return <AppLoading />
+    }
+
+    return (
+        <AppStack />
     );
 }
