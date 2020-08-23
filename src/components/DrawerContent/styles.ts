@@ -18,7 +18,9 @@ export const ProfileView = styled.View`
 `
 
 export const ProfileText = styled.Text`
-    margin-left: 15px;
+    margin-left: 10px;
+    font-family: Poppins_600SemiBold;
+    font-size: 15px;
     color: #fff;
 `
 
