@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppLoading } from "expo";
+import { enableScreens } from 'react-native-screens';
 
 import AppStack from './src/routes/AppStack'
 
@@ -15,13 +16,14 @@ function LoadFonts() {
 }
 
 export default function App() {
-
     LoadFonts()
+
 
     if (!fontsLoaded) {
         return <AppLoading />
     }
 
+    enableScreens()
     return (
         <AppStack />
     );
