@@ -36,61 +36,66 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                 </ProfileView>
                 <ContentView>
                     <DrawerItem
-                        icon={({ color, size }) =>
+                        icon={({ size }) =>
                             <MaterialIcons
                                 name="home"
                                 size={size}
-                                color={color}
+                                color="#fff"
                             />
                         }
                         label="Início"
+                        labelStyle={{ color: "#fff" }}
                         onPress={() => { }}
                     />
                     <DrawerItem
-                        icon={({ color, size }) =>
+                        icon={({ size }) =>
                             <MaterialIcons
                                 name="person"
                                 size={size}
-                                color={color}
+                                color="#fff"
                             />
                         }
                         label="Perfil"
+                        labelStyle={{ color: "#fff" }}
                         onPress={() => { }}
                     />
                     <DrawerItem
-                        icon={({ color, size }) =>
+                        icon={({ size }) =>
                             <MaterialIcons
                                 name="settings"
                                 size={size}
-                                color={color}
+                                color="#fff"
                             />
                         }
                         label="Configurações"
-                        onPress={() => { }}
-                    />
-                    <DrawerItem
-                        icon={({ color, size }) =>
-                            <MaterialIcons
-                                name="help"
-                                size={size}
-                                color={color}
-                            />
-                        }
-                        label="Ajuda"
+                        labelStyle={{ color: "#fff" }}
                         onPress={() => { }}
                     />
                 </ContentView>
             </ContentDrawerContentScrollView>
             <FooterView>
                 <DrawerItem
-                    icon={({ color, size }) =>
+                    icon={({ size }) =>
+                        <MaterialIcons
+                            name="help"
+                            size={size}
+                            color="#fff"
+                        />
+                    }
+                    label="Ajuda"
+                    labelStyle={{ color: "#fff" }}
+                    onPress={() => { }}
+                />
+                <DrawerItem
+                    icon={({ size }) =>
                         <FontAwesome
                             name="sign-out"
                             size={size}
-                            color={color}
+                            color="#fff"
                         />
                     }
                     label="Sair"
+                    labelStyle={{ color: "#fff" }}
                     onPress={() => { }}
                 />
             </FooterView>
