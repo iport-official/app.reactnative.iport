@@ -22,6 +22,7 @@ export default function Drawer({ navigation }: DefaultDrawerParamsList) {
         <Navigator
             initialRouteName="MainPage"
             drawerContent={props => (<DrawerContent {...props} />)}
+            drawerStyle={{ width: "80%" }}
         >
             <Screen name="MainPage" component={MainPage} />
         </Navigator>
