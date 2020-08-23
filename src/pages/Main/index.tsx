@@ -1,11 +1,10 @@
 import React from 'react'
-import { createDrawerNavigator } from '@react-navigation/drawer'
-import { StackScreenProps } from '@react-navigation/stack'
-import { Ionicons } from '@expo/vector-icons';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import { AppStackParamsList } from '../../routes/AppStack'
+import { DrawerParamsList } from '../../routes/Drawer';
 import Jobs from '../../components/JobList';
 import ProfilePhoto from '../../components/ProfilePhoto'
+import Menu from '../../components/Menu';
 
 import photo from '../../assets/foto_example.png'
 import enterpriseImage from '../../assets/millenium-falcon.jpg'
@@ -17,22 +16,16 @@ import {
     FooterView
 } from './styles'
 
-type DefaultMainPageProps = StackScreenProps<
-    AppStackParamsList,
+type DefaultMainPageProps = DrawerScreenProps<
+    DrawerParamsList,
     "MainPage"
 >
-
-const { Navigator, Screen } = createDrawerNavigator()
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
     return (
         <ContainerKeyboardAvoidView>
             <HeaderView>
-                <Ionicons
-                    name="ios-menu"
-                    size={24}
-                    color="#fff"
-                />
+                <Menu onPress={() => { navigation.openDrawer() }} />
                 <ProfilePhoto source={photo} />
             </HeaderView>
 
