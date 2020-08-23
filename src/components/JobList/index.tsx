@@ -17,10 +17,7 @@ const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
     function handleJobsArray(job: JobProps, index: number, array: JobProps[]) {
         return (
             <Job
-                style={{
-                    marginLeft: index === 0 ? 0 : 10,
-                    marginRight: index === array.length - 1 ? 10 : 0 
-                }}
+                style={{ marginLeft: index === 0 ? 0 : 10 }}
                 key={index} // must add key property cause it is using with map method
                 imageSource={job.imageSource}
                 title={job.title}

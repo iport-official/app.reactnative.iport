@@ -6,7 +6,7 @@ export const ContainerView = styled.View`
     flex: 1;
     border-bottom-color: ${colors.ligherPurple};
     border-bottom-width: 3px;
-    padding: 10px 0px 10px 10px;
+    padding: 10px 10px 10px 10px;
 `
 
 export const TitleText = styled.Text`
