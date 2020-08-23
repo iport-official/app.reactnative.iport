@@ -1,10 +1,10 @@
 import React from 'react';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import {
     ImageProperties,
 } from 'react-native';
 
 import { ProfileImage } from './styles'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export interface ProfilePhotoProps extends ImageProperties {
     size: number,
