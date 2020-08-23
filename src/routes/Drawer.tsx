@@ -1,5 +1,6 @@
 import React from 'react'
 import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer'
+import DrawerContent from '../components/DrawerContent'
 
 import MainPage from '../pages/Main'
 
@@ -18,10 +19,15 @@ export default function Drawer({ navigation }: DefaultDrawerParamsList) {
     return (
         //#region JSX
 
-        <Navigator initialRouteName="MainPage">
+        <Navigator
+            initialRouteName="MainPage"
+            drawerContent={props => (<DrawerContent {...props} />)}
+        >
             <Screen name="MainPage" component={MainPage} />
         </Navigator>
 
         //#endregion
     )
 }
+
+// DrawerContentComponentProps<DrawerContentOptions>
