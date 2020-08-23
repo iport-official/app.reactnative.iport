@@ -18,7 +18,8 @@ const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
         return (
             <Job
                 style={{
-                    marginLeft: index === 0 ? 0 : 10
+                    marginLeft: index === 0 ? 0 : 10,
+                    marginRight: index === array.length - 1 ? 10 : 0 
                 }}
                 key={index} // must add key property cause it is using with map method
                 imageSource={job.imageSource}
