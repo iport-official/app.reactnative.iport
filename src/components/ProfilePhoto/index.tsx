@@ -1,19 +1,27 @@
 import React from 'react';
 import {
-    ImageProperties, View,
+    ImageProperties,
 } from 'react-native';
 
 import { ProfileImage } from './styles'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export interface ProfilePhotoProps extends ImageProperties {
-    onPress?(): any
+    size: number,
+    onPress?(): void
 }
 
-const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ onPress, ...rest }) => {
+const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ size, onPress, ...rest }) => {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
-            <ProfileImage  {...rest} />
+            <ProfileImage
+                style={{
+                    height: size,
+                    width: size,
+                    borderRadius: size / 2
+                }}
+                {...rest}
+            />
         </TouchableWithoutFeedback>
     )
 }
