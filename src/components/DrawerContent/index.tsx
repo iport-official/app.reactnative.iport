@@ -1,29 +1,31 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 import {
-    DrawerItem,
-    DrawerContentScrollView,
     DrawerContentComponentProps,
     DrawerContentOptions
 } from '@react-navigation/drawer'
 
-import { ContainerView } from './styles'
+import {
+    ContainerView,
+    ContentDrawerContentScrollView,
+    FooterView
+} from './styles'
 
 const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = (props) => {
     return (
         //#region JSX
 
         <ContainerView>
-            <DrawerContentScrollView {...props} >
+            <ContentDrawerContentScrollView {...props} >
                 <Text>
                     Content
                 </Text>
-            </DrawerContentScrollView>
-            <View>
+            </ContentDrawerContentScrollView>
+            <FooterView>
                 <Text>
                     Footer
                 </Text>
-            </View>
+            </FooterView>
         </ContainerView>
 
         //#endregion
