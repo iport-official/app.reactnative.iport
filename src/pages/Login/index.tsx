@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { setStatusBarHidden, setStatusBarStyle } from 'expo-status-bar';
@@ -22,24 +22,40 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     setStatusBarHidden(true, "slide");
     setStatusBarStyle('dark');
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [checked, setChecked] = useState(false);
+
+    const handleEmail = (text: string) => {
+        setEmail(text);
+    }
+
+    const handlePassword = (text: string) => {
+        setPassword(text);
+    }
+
     return (
         <LoginContainer>
             <LoginLogo source={require('../../assets/icon.png')}></LoginLogo>
 
-            <TextField label='E-mail'/>
-            <TextField label='Senha'/>
+            <TextField label='E-mail' keyboard='email-address' onTextChange={(text: string) => handleEmail(text)} />
+            <TextField label='Senha' fieldType='password' onTextChange={(text: string) => handlePassword(text)} />
+
 
             <LoginFooter>
-                <CheckboxContainer>
-                    <Checkbox />
+                <CheckboxContainer onTouchStart={() => setChecked(!checked)} >
+                    <Checkbox checked={checked} />
                     <CheckboxText>Lembrar</CheckboxText>
                 </CheckboxContainer>
                 <ForgotPassword onPress={() => alert('Esqueceu?')}>Esqueceu a senha?</ForgotPassword>
             </LoginFooter>
 
-            <FormButton label='Login' color={colors.grayPurple}
+            <FormButton label='Login'
+                color={colors.grayPurple}
                 disableColor={colors.grayPurple + '88'}
-                ripple={colors.lightPurple}/>
+                ripple={colors.lightPurple}
+                disable={!email || !password}
+                onPress={() => alert(email + '\n' + password)} />
 
         </LoginContainer>
     )

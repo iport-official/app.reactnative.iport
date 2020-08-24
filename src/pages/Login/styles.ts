@@ -29,9 +29,11 @@ export const CheckboxContainer = styled.View`
 
 export const CheckboxText = styled.Text`
     color: ${colors.grayPurple};
+    font-weight: bold;
     margin-left: 5px;
 `
 
 export const ForgotPassword = styled.Text`
     color: ${colors.grayPurple};
+    font-weight: bold;
 `
