@@ -1,4 +1,12 @@
 import styled from 'styled-components/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { colors } from '../../styles'
+
+export const ContainerSafeAreaView = styled(SafeAreaView)`
+    flex: 1;
+    background: ${colors.grayPurple};
+`
 
 export const ContainerKeyboardAvoidView = styled.View`
     flex: 1;
@@ -6,8 +14,8 @@ export const ContainerKeyboardAvoidView = styled.View`
 `
 
 export const HeaderView = styled.View`
-    height: 85px;
-    background-color: #5A3E77;
+    height: 70px;
+    background-color: ${colors.grayPurple};
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -15,11 +23,11 @@ export const HeaderView = styled.View`
 `
 
 export const JobsScrollView = styled.ScrollView`
+    background: #fff;
     flex: 1;
 `
 
 export const FooterView = styled.View`
-    height: 60px;
-    background-color: #5A3E77;
+    height: 40px;
+    background-color: ${colors.grayPurple};
 `
- 
