@@ -2,7 +2,7 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 
-import { DrawerParamsList } from '../../routes/Drawer'
+import { DrawerParamsList } from '../MainDrawer'
 import Jobs from '../../components/JobList'
 import ProfilePhoto from '../../components/ProfilePhoto'
 import Menu from '../../components/Menu';

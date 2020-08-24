@@ -1,8 +1,8 @@
 import React from 'react'
 import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer'
-import DrawerContent from '../components/DrawerContent'
+import DrawerContent from '../../components/DrawerContent'
 
-import MainPage from '../pages/Main'
+import MainPage from '../Main'
 
 export type DrawerParamsList = {
     MainPage: undefined
