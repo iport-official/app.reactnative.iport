@@ -7,7 +7,7 @@ export const CheckboxStyle = styled.View`
     border-style: solid;
     border-radius: 20px;
 
-    background-color: ${colors.lightPurple}70;
+    background-color: ${colors.lightPurple}50;
     overflow: hidden;
 
     height: 22px;

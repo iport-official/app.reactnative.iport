@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -14,6 +15,7 @@ export const TextFieldStyle = styled.View`
     border-radius: 8px;
     padding: 0 10px;
     margin-bottom: 15px;
+    justify-content: center;
 `
 
 export const TextFieldPlaceholder = styled(Animated.Text)`
@@ -31,6 +33,12 @@ export const TextFieldInputStyle = styled(AnimatedTextInput)`
     border-style: solid;
     width: 95%;
     padding-bottom: 5px;
-    align-self: center;
+    left: 16px;
     bottom: 0px;
+`
+
+export const PasswordIcon = styled(Feather)`
+    position: absolute;
+    align-self: flex-end;
+    right: 15px;
 `
