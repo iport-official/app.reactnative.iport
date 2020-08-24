@@ -1,16 +1,22 @@
 import React, { useState, useRef } from 'react';
-import { Animated, TextInputProps } from 'react-native';
+import { Animated, TextInputProps, Text } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
-import { TextFieldStyle, TextFieldPlaceholder, TextFieldInputStyle } from './styles';
+import { TextFieldStyle, TextFieldPlaceholder, TextFieldInputStyle, PasswordIcon } from './styles';
+import { colors } from '../../styles';
 import styled from 'styled-components/native';
+import AnimatedTextInput from './AnimatedTextInput';
 
 interface TextFieldProperties extends TextInputProps {
     label: string,
+    keyboard?: string,
+    fieldType?: string,
     onEnter?(): any,
-    onLeave?(): any
+    onLeave?(): any,
+    onTextChange?(text: string): void
 }
 
-const TextField: React.FC<TextFieldProperties> = ({ onEnter, onLeave, label, ...rest }) => {
+const TextField: React.FC<TextFieldProperties> = ({ onTextChange, label, keyboard, fieldType, ...rest }) => {
 
     const animatedInput = useRef(new Animated.Value(0)).current;
     const animatedTextSize = useRef(new Animated.Value(16)).current;
@@ -56,20 +62,29 @@ const TextField: React.FC<TextFieldProperties> = ({ onEnter, onLeave, label, ...
         ]).start();
     }
 
+    const [inputText, setInputText] = useState('');
+
+    const [isPassword, setIsPassword] = useState(fieldType === 'password' ? true : false);
+    const [secure, setSecure] = useState(true);
+
     return (
         <TextFieldStyle>
             <TextFieldPlaceholder style={{ fontSize: animatedTextSize, top: animatedLabelPosition }}
                 >{ label }</TextFieldPlaceholder>
             <TextFieldInputStyle
+                secureTextEntry={isPassword && secure}
+                keyboardType={keyboard} value={inputText}
+                onChangeText={(text: string) => { setInputText(text); if(onTextChange) onTextChange(text); }}
                 onFocus={() => {
-                    animateOnFocus();
-                    if(onEnter) onEnter();
+                    if(!inputText) animateOnFocus();
                 }}
                 onBlur={() => {
-                    animateOnBlur();
-                    if(onLeave) onLeave();
-                }} style={{ opacity: animatedInput }}
+                    if(!inputText) animateOnBlur();
+                }} style={{ opacity: animatedInput, width: isPassword ? '80%' : '95%' }}
                 />
+            { isPassword ?
+                <PasswordIcon name={ secure ? 'eye-off' : 'eye' } size={28}
+                    color={colors.grayPurple} onPress={() => setSecure(!secure)} /> : <Text/> }
         </TextFieldStyle>
     )
 }
