@@ -8,8 +8,10 @@ import TextField from '../../components/TextField';
 import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
 
-import { LoginContainer, LoginLogo, LoginFooter,
-    CheckboxContainer, CheckboxText, ForgotPassword } from './styles';
+import {
+    LoginContainer, LoginLogo, LoginFooter,
+    CheckboxContainer, CheckboxText, ForgotPassword
+} from './styles';
 import { colors } from '../../styles';
 
 type DefaultLoginPageProps = StackScreenProps<
@@ -55,7 +57,9 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                 disableColor={colors.grayPurple + '88'}
                 ripple={colors.lightPurple}
                 disable={!email || !password}
-                onPress={() => alert(email + '\n' + password)} />
+                onPress={() => {
+                    navigation.navigate("Drawer", { MainPage: undefined })
+                }} />
 
         </LoginContainer>
     )
