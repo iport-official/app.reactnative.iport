@@ -30,10 +30,6 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
             <ContainerKeyboardAvoidView>
                 <HeaderView>
                     <Menu onPress={() => { navigation.openDrawer() }} />
-                    <ProfilePhoto
-                        size={50}
-                        source={photo}
-                    />
                 </HeaderView>
 
                 <JobsScrollView>
