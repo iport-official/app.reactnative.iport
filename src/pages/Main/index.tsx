@@ -4,10 +4,8 @@ import { DrawerScreenProps } from '@react-navigation/drawer'
 
 import { DrawerParamsList } from '../MainDrawer'
 import Jobs from '../../components/JobList'
-import ProfilePhoto from '../../components/ProfilePhoto'
 import Menu from '../../components/Menu';
 
-import photo from '../../assets/foto_example.png'
 import enterpriseImage from '../../assets/millenium-falcon.jpg'
 
 import {

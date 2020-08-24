@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { setStatusBarHidden, setStatusBarStyle } from 'expo-status-bar';
 
@@ -9,8 +8,12 @@ import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
 
 import {
-    LoginContainer, LoginLogo, LoginFooter,
-    CheckboxContainer, CheckboxText, ForgotPassword
+    LoginContainer,
+    LoginLogo,
+    LoginFooter,
+    CheckboxContainer,
+    CheckboxText,
+    ForgotPassword
 } from './styles';
 import { colors } from '../../styles';
 
@@ -43,7 +46,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             <TextField label='E-mail' keyboard='email-address' onTextChange={(text: string) => handleEmail(text)} />
             <TextField label='Senha' fieldType='password' onTextChange={(text: string) => handlePassword(text)} />
 
-
             <LoginFooter>
                 <CheckboxContainer onTouchStart={() => setChecked(!checked)} >
                     <Checkbox checked={checked} />
@@ -57,9 +59,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                 disableColor={colors.grayPurple + '88'}
                 ripple={colors.lightPurple}
                 disable={!email || !password}
-                onPress={() => {
-                    navigation.navigate("Drawer", { MainPage: undefined })
-                }} />
+                onPress={() => { navigation.navigate("Drawer", { MainPage: undefined }) }} />
 
         </LoginContainer>
     )

@@ -1,8 +1,6 @@
 import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import {
-    ImageProperties,
-} from 'react-native';
+import { ImageProperties } from 'react-native';
 
 import { ProfileImage } from './styles'
 
