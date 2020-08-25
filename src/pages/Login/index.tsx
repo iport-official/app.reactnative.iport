@@ -30,7 +30,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
 
-    const animatedLogin = useRef(new Animated.Value(20)).current;
+    const animatedLogin = useRef(new Animated.Value(0)).current;
     const animatedLogo = useRef(new Animated.Value(150)).current;
 
     const handleEmail = (text: string) => {
@@ -55,11 +55,12 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         setStatusBarStyle('light')
         Animated.parallel([
             Animated.timing(animatedLogin, {
-                toValue: 150,
+                toValue: -50,
                 duration: 200,
                 useNativeDriver: false
             }),
             Animated.timing(animatedLogo, {
+                delay: 200,
                 toValue: 1500,
                 duration: 200,
                 useNativeDriver: false
@@ -71,7 +72,8 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         setStatusBarStyle('dark')
         Animated.parallel([
             Animated.timing(animatedLogin, {
-                toValue: 20,
+                delay: 200,
+                toValue: 0,
                 duration: 200,
                 useNativeDriver: false
             }),
@@ -86,7 +88,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     return (
         <ContainerSafeAreaView>
             <StatusBar translucent />
-            <LoginContainer style={{ paddingBottom: animatedLogin }}>
+            <LoginContainer style={{ top: animatedLogin }}>
                 <LoginLogo source={require('../../assets/icon.png')}
                     style={{ width: animatedLogo }}></LoginLogo>
 
