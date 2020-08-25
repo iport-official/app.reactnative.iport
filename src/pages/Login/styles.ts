@@ -1,6 +1,14 @@
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 import { colors } from '../../styles';
+
+export const ContainerSafeAreaView = styled(SafeAreaView)`
+    background-color: #fff;
+    flex: 1;
+    justify-content: center;
+`
 
 export const LoginContainer = styled(Animated.View)`
     flex: 1;

@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Keyboard, Animated } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { setStatusBarHidden, setStatusBarStyle } from 'expo-status-bar';
+import { StatusBar, setStatusBarStyle, setStatusBarTranslucent } from 'expo-status-bar'
+
 
 import { AppStackParamsList } from '../../routes/AppStack';
 import TextField from '../../components/TextField';
@@ -9,6 +10,7 @@ import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
 
 import {
+    ContainerSafeAreaView,
     LoginContainer,
     LoginLogo,
     LoginFooter,
@@ -24,15 +26,11 @@ type DefaultLoginPageProps = StackScreenProps<
 >
 
 export default function LoginPage({ navigation }: DefaultLoginPageProps) {
-
-    setStatusBarHidden(true, "slide");
-    setStatusBarStyle('dark');
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
 
-    const animatedLogin = useRef(new Animated.Value(20)).current;
+    const animatedLogin = useRef(new Animated.Value(0)).current;
     const animatedLogo = useRef(new Animated.Value(150)).current;
 
     const handleEmail = (text: string) => {
@@ -54,14 +52,15 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     });
 
     const _keyboardDidShow = () => {
-        setStatusBarStyle('light');
+        setStatusBarStyle('light')
         Animated.parallel([
             Animated.timing(animatedLogin, {
-                toValue: 350,
+                toValue: -50,
                 duration: 200,
                 useNativeDriver: false
             }),
             Animated.timing(animatedLogo, {
+                delay: 200,
                 toValue: 1500,
                 duration: 200,
                 useNativeDriver: false
@@ -70,10 +69,11 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }
 
     const _keyboardDidHide = () => {
-        setStatusBarStyle('dark');
+        setStatusBarStyle('dark')
         Animated.parallel([
             Animated.timing(animatedLogin, {
-                toValue: 20,
+                delay: 200,
+                toValue: 0,
                 duration: 200,
                 useNativeDriver: false
             }),
@@ -86,30 +86,33 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }
 
     return (
-        <LoginContainer style={{paddingBottom: animatedLogin}}>
-            <LoginLogo source={require('../../assets/icon.png')}
-                style={{width: animatedLogo}}></LoginLogo>
+        <ContainerSafeAreaView>
+            <StatusBar translucent />
+            <LoginContainer style={{ top: animatedLogin }}>
+                <LoginLogo source={require('../../assets/icon.png')}
+                    style={{ width: animatedLogo }}></LoginLogo>
 
-            <TextField label='E-mail' keyboard='email-address' onFocus={() => alert('d')}
-                onTextChange={(text: string) => handleEmail(text)} />
-            <TextField label='Senha' fieldType='password'
-                onTextChange={(text: string) => handlePassword(text)}/>
+                <TextField label='E-mail' keyboard='email-address' onFocus={() => alert('d')}
+                    onTextChange={(text: string) => handleEmail(text)} />
+                <TextField label='Senha' fieldType='password'
+                    onTextChange={(text: string) => handlePassword(text)} />
 
-            <LoginFooter>
-                <CheckboxContainer onTouchStart={() => setChecked(!checked)} >
-                    <Checkbox checked={checked} />
-                    <CheckboxText>Lembrar</CheckboxText>
-                </CheckboxContainer>
-                <ForgotPassword onPress={() => alert('Esqueceu?')}>Esqueceu a senha?</ForgotPassword>
-            </LoginFooter>
+                <LoginFooter>
+                    <CheckboxContainer onTouchStart={() => setChecked(!checked)} >
+                        <Checkbox checked={checked} />
+                        <CheckboxText>Lembrar</CheckboxText>
+                    </CheckboxContainer>
+                    <ForgotPassword onPress={() => alert('Esqueceu?')}>Esqueceu a senha?</ForgotPassword>
+                </LoginFooter>
 
-            <FormButton label='Login'
-                color={colors.grayPurple}
-                disableColor={colors.grayPurple + '88'}
-                ripple={colors.lightPurple}
-                disable={!email || !password}
-                onPress={() => { navigation.navigate("Drawer", { MainPage: undefined }) }} />
+                <FormButton label='Login'
+                    color={colors.grayPurple}
+                    disableColor={colors.grayPurple + '88'}
+                    ripple={colors.lightPurple}
+                    disable={!email || !password}
+                    onPress={() => { navigation.navigate("Drawer", { MainPage: undefined }) }} />
 
-        </LoginContainer>
+            </LoginContainer>
+        </ContainerSafeAreaView>
     )
 }
