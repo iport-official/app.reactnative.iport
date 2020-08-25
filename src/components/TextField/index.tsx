@@ -1,11 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Animated, TextInputProps, Text } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Animated, Keyboard, TextInputProps, Text } from 'react-native';
 
 import { TextFieldStyle, TextFieldPlaceholder, TextFieldInputStyle, PasswordIcon } from './styles';
 import { colors } from '../../styles';
-import styled from 'styled-components/native';
-import AnimatedTextInput from './AnimatedTextInput';
 
 interface TextFieldProperties extends TextInputProps {
     label: string,
@@ -69,6 +66,8 @@ const TextField: React.FC<TextFieldProperties> = ({ onTextChange, label, keyboar
 
     return (
         <TextFieldStyle>
+            { isPassword ? <PasswordIcon name={ secure ? 'eye-off' : 'eye' } size={28}
+                    color={colors.grayPurple} onPress={() => setSecure(!secure)} /> : <Text/> }
             <TextFieldPlaceholder style={{ fontSize: animatedTextSize, top: animatedLabelPosition }}
                 >{ label }</TextFieldPlaceholder>
             <TextFieldInputStyle
@@ -82,9 +81,6 @@ const TextField: React.FC<TextFieldProperties> = ({ onTextChange, label, keyboar
                     if(!inputText) animateOnBlur();
                 }} style={{ opacity: animatedInput, width: isPassword ? '80%' : '95%' }}
                 />
-            { isPassword ?
-                <PasswordIcon name={ secure ? 'eye-off' : 'eye' } size={28}
-                    color={colors.grayPurple} onPress={() => setSecure(!secure)} /> : <Text/> }
         </TextFieldStyle>
     )
 }
