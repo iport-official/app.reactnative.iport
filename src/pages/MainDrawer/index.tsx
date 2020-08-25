@@ -1,21 +1,26 @@
 import React from 'react'
-import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer'
-import DrawerContent from '../../components/DrawerContent'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import MainPage from '../Main'
+import ProfilePage from '../Profile'
+
+import DrawerContent from '../../components/DrawerContent'
+import { StackScreenProps } from '@react-navigation/stack'
+import { AppStackParamsList } from '../../routes/AppStack'
 
 export type DrawerParamsList = {
     MainPage: undefined
+    ProfilePage: undefined
 }
 
-export type DefaultDrawerParamsList = DrawerScreenProps<
-    DrawerParamsList,
-    "MainPage"
+type DefaultLoginPageProps = StackScreenProps<
+    AppStackParamsList,
+    "Drawer"
 >
 
 const { Navigator, Screen } = createDrawerNavigator<DrawerParamsList>()
 
-export default function Drawer({ navigation }: DefaultDrawerParamsList) {
+export default function Drawer({ navigation }: DefaultLoginPageProps) {
     return (
         //#region JSX
 
@@ -25,6 +30,7 @@ export default function Drawer({ navigation }: DefaultDrawerParamsList) {
             drawerStyle={{ width: "80%" }}
         >
             <Screen name="MainPage" component={MainPage} />
+            <Screen name="ProfilePage" component={ProfilePage} />
         </Navigator>
 
         //#endregion
