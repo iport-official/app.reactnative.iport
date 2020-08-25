@@ -1,14 +1,16 @@
+import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { colors } from '../../styles';
 
-export const LoginContainer = styled.View`
+export const LoginContainer = styled(Animated.View)`
     flex: 1;
     background-color: #fff;
     justify-content: center;
     align-items: center;
+    padding-bottom: 20px;
 `
 
-export const LoginLogo = styled.Image`
+export const LoginLogo = styled(Animated.Image)`
     height: 150px;
     width: 150px;
     margin-bottom: 50px;
@@ -19,6 +21,7 @@ export const LoginFooter = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 10px;
 `
 
 export const CheckboxContainer = styled.View`
