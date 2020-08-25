@@ -1,19 +1,18 @@
-import React from 'react'
-import { StatusBar } from 'expo-status-bar'
+import React, { useEffect } from 'react'
+import { setStatusBarStyle } from 'expo-status-bar'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 
 import { DrawerParamsList } from '../MainDrawer'
 import Jobs from '../../components/JobList'
-import Menu from '../../components/Menu';
+import MainHeader from '../../components/MainHeader'
+import MainFooter from '../../components/MainFooter'
 
 import enterpriseImage from '../../assets/millenium-falcon.jpg'
 
 import {
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
-    HeaderView,
-    JobsScrollView,
-    FooterView
+    JobsScrollView
 } from './styles'
 
 type DefaultMainPageProps = DrawerScreenProps<
@@ -22,13 +21,15 @@ type DefaultMainPageProps = DrawerScreenProps<
 >
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
+
+    useEffect(() => { setStatusBarStyle("light") }, [])
+
     return (
+        //#region JSX
+
         <ContainerSafeAreaView>
-            <StatusBar style="light" />
             <ContainerKeyboardAvoidView>
-                <HeaderView>
-                    <Menu onPress={() => { navigation.openDrawer() }} />
-                </HeaderView>
+                <MainHeader onPress={() => { navigation.openDrawer() }} />
 
                 <JobsScrollView>
                     <Jobs
@@ -90,10 +91,10 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                     />
                 </JobsScrollView>
 
-                <FooterView>
-
-                </FooterView>
+                <MainFooter />
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
+
+        //#endregion
     )
 }
