@@ -8,12 +8,7 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
     background: ${colors.grayPurple};
 `
 
-export const ContainerKeyboardAvoidView = styled.View`
+export const ContentView = styled.View`
     flex: 1;
-    justify-content: space-between;
-`
-
-export const JobsScrollView = styled.ScrollView`
     background: #fff;
-    flex: 1;
 `

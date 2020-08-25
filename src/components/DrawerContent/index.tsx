@@ -21,7 +21,7 @@ import {
 
 import photo from '../../assets/foto_example.png'
 
-const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = (props) => {
+const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({navigation, ...props}) => {
     return (
         //#region JSX
 
@@ -45,7 +45,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                         }
                         label="Início"
                         labelStyle={{ color: "#fff" }}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate("MainPage") }}
                     />
                     <DrawerItem
                         icon={({ size }) =>
@@ -57,19 +57,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                         }
                         label="Perfil"
                         labelStyle={{ color: "#fff" }}
-                        onPress={() => { }}
-                    />
-                    <DrawerItem
-                        icon={({ size }) =>
-                            <MaterialIcons
-                                name="settings"
-                                size={size}
-                                color="#fff"
-                            />
-                        }
-                        label="Configurações"
-                        labelStyle={{ color: "#fff" }}
-                        onPress={() => { }}
+                        onPress={() => { navigation.navigate("ProfilePage") }}
                     />
                 </ContentView>
             </ContentDrawerContentScrollView>

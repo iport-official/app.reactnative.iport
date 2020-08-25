@@ -49,7 +49,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
             Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
         }
-    });
+    }, []);
 
     const _keyboardDidShow = () => {
         setStatusBarStyle('light')
