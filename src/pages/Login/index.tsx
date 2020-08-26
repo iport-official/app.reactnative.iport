@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Keyboard, Animated } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { StatusBar, setStatusBarStyle, setStatusBarTranslucent } from 'expo-status-bar'
-
+import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 
 import { AppStackParamsList } from '../../routes/AppStack';
 import TextField from '../../components/TextField';
@@ -20,6 +19,8 @@ import {
 } from './styles';
 import { colors } from '../../styles';
 
+import { rules } from '../../utils';
+
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
     "LoginPage"
@@ -32,14 +33,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
 
     const animatedLogin = useRef(new Animated.Value(0)).current;
     const animatedLogo = useRef(new Animated.Value(150)).current;
-
-    const handleEmail = (text: string) => {
-        setEmail(text);
-    }
-
-    const handlePassword = (text: string) => {
-        setPassword(text);
-    }
 
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
@@ -85,6 +78,43 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         ]).start();
     }
 
+    const isEmailValid = !!email && rules.emailRegex.test(email);
+    const isPasswordValid = !!password && rules.passwordRegex.test(password);
+
+    const handleEmail = (text: string) => {
+        setEmail(text);
+    }
+
+    const handlePassword = (text: string) => {
+        setPassword(text);
+    }
+
+    const [clearPassword, setClearPassword] = useState(false);
+    const [clearEmail, setClearEmail] = useState(false);
+
+    const loginButtonPress = () => {
+        if(!isPasswordValid) {
+            setClearPassword(true);
+            setPassword('');
+            alert('Password: \nMin 6 characters with at least one capital letter, one lower case and one number');
+
+            setTimeout(() => setClearPassword(false), 10);
+
+            return ;
+        }
+
+        setClearEmail(true);
+        setClearPassword(true);
+        setPassword('');
+        setEmail('');
+
+        setTimeout(() => {
+            setClearEmail(false);
+            setClearPassword(false);
+        }, 10);
+        return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
+    }
+
     return (
         <ContainerSafeAreaView>
             <StatusBar translucent />
@@ -92,9 +122,9 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                 <LoginLogo source={require('../../assets/icon.png')}
                     style={{ width: animatedLogo }}></LoginLogo>
 
-                <TextField label='E-mail' keyboard='email-address' onFocus={() => alert('d')}
+                <TextField label='E-mail' keyboard='email-address' onFocus={() => alert('d')} clear={clearEmail}
                     onTextChange={(text: string) => handleEmail(text)} />
-                <TextField label='Senha' fieldType='password'
+                <TextField label='Senha' fieldType='password' clear={clearPassword}
                     onTextChange={(text: string) => handlePassword(text)} />
 
                 <LoginFooter>
@@ -109,8 +139,8 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                     color={colors.grayPurple}
                     disableColor={colors.grayPurple + '88'}
                     ripple={colors.lightPurple}
-                    disable={!email || !password}
-                    onPress={() => { navigation.navigate("Drawer", { MainPage: undefined }) }} />
+                    disable={!isEmailValid || !password}
+                    onPress={loginButtonPress} />
 
             </LoginContainer>
         </ContainerSafeAreaView>
