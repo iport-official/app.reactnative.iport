@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Animated, Keyboard, TextInputProps, Text } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Animated, TextInputProps, Text } from 'react-native';
 
 import { TextFieldStyle, TextFieldPlaceholder, TextFieldInputStyle, PasswordIcon } from './styles';
 import { colors } from '../../styles';
@@ -8,12 +8,11 @@ interface TextFieldProperties extends TextInputProps {
     label: string,
     keyboard?: string,
     fieldType?: string,
-    onEnter?(): any,
-    onLeave?(): any,
+    clear?: boolean,
     onTextChange?(text: string): void
 }
 
-const TextField: React.FC<TextFieldProperties> = ({ onTextChange, label, keyboard, fieldType, ...rest }) => {
+const TextField: React.FC<TextFieldProperties> = ({ onTextChange, label, keyboard, fieldType, clear, ...rest }) => {
 
     const animatedInput = useRef(new Animated.Value(0)).current;
     const animatedTextSize = useRef(new Animated.Value(16)).current;
@@ -63,6 +62,10 @@ const TextField: React.FC<TextFieldProperties> = ({ onTextChange, label, keyboar
 
     const [isPassword, setIsPassword] = useState(fieldType === 'password' ? true : false);
     const [secure, setSecure] = useState(true);
+
+    useEffect(() => {
+        if(clear) setInputText('');
+    })
 
     return (
         <TextFieldStyle>
