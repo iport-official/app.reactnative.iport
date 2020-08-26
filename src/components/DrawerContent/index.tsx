@@ -4,6 +4,7 @@ import {
     DrawerContentOptions,
     DrawerItem
 } from '@react-navigation/drawer'
+import { StackActions } from '@react-navigation/native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -84,7 +85,9 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                     }
                     label="Sair"
                     labelStyle={{ color: "#fff" }}
-                    onPress={() => { }}
+                    onPress={() => { navigation.dispatch(
+                        StackActions.replace('LoginPage')
+                    ) }}
                 />
             </FooterView>
         </ContainerView>

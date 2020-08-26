@@ -36,5 +36,3 @@ export default function Drawer({ navigation }: DefaultLoginPageProps) {
         //#endregion
     )
 }
-
-// DrawerContentComponentProps<DrawerContentOptions>
