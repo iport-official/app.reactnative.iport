@@ -1,8 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import Menu from '../Menu'
+import Menu from '../Menu';
+import coinPhoto from '../../assets/PortCoins.png';
 
-import { ContainerHeaderView } from './styles'
+import {
+    ContainerHeaderView,
+    ContainerPortCoins,
+    PortCoinsCounter,
+    PortCoinsSymbol
+} from './styles';
 
 interface MainHeader {
     onPress?(): void
@@ -14,6 +20,10 @@ const MainHeader: React.FC<MainHeader> = ({ onPress }) => {
 
         <ContainerHeaderView>
             <Menu onPress={onPress} />
+            <ContainerPortCoins>
+                <PortCoinsCounter>1300</PortCoinsCounter>
+                <PortCoinsSymbol source={coinPhoto}></PortCoinsSymbol>
+            </ContainerPortCoins>
         </ContainerHeaderView>
 
         //#endregion
