@@ -1,11 +1,10 @@
-import styled from 'styled-components/native'
-import { DrawerContentScrollView } from '@react-navigation/drawer'
+import styled from 'styled-components/native';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 
-import { colors } from '../../styles'
+import { colors } from '../../styles';
 
 export const ContainerView = styled.View`
     flex: 1;
-    background: ${colors.grayPurple};
 `
 
 export const ContentDrawerContentScrollView = styled(DrawerContentScrollView)``

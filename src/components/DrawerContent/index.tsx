@@ -5,11 +5,12 @@ import {
     DrawerItem
 } from '@react-navigation/drawer'
 import { StackActions } from '@react-navigation/native';
+import { BlurView } from 'expo-blur';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-import ProfilePhoto from '../ProfilePhoto'
+import ProfilePhoto from '../ProfilePhoto';
 
 import {
     ContainerView,
