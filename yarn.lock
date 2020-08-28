@@ -2728,6 +2728,13 @@ expo-asset@~8.1.7:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-blur@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-4.0.0.tgz#fec893e59cad653042a390002933d2ccab2c81a4"
+  integrity sha512-mZV4MMGR9KocnFEM/qpE1Tev7gVan8lz8XS5GE6cl7akVrafYDjyfPgsC5aQFZr0GSlB/w8oK2DIEJsWHjlN8Q==
+  dependencies:
+    prop-types "^15.6.0"
+
 expo-constants@~9.1.1:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.1.1.tgz#bca141ee3d4550e308798128f66c6d9c6a206ca1"
