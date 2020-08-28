@@ -5,7 +5,7 @@ import { colors } from '../../styles'
 
 export const ContainerSafeAreaView = styled(SafeAreaView)`
     flex: 1;
-    background: ${colors.grayPurple};
+    background: ${colors.vividPurple};
 `
 
 export const ContainerKeyboardAvoidView = styled.View`

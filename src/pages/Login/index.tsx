@@ -37,6 +37,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
         Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+        setStatusBarStyle('light');
 
         return () => {
             Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
@@ -45,7 +46,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }, []);
 
     const _keyboardDidShow = () => {
-        setStatusBarStyle('light')
         Animated.parallel([
             Animated.timing(animatedLogin, {
                 toValue: -50,
@@ -62,7 +62,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }
 
     const _keyboardDidHide = () => {
-        setStatusBarStyle('dark')
         Animated.parallel([
             Animated.timing(animatedLogin, {
                 delay: 200,
@@ -117,7 +116,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
 
     return (
         <ContainerSafeAreaView>
-            <StatusBar translucent />
+            <StatusBar translucent backgroundColor='#612e96' />
             <LoginContainer style={{ top: animatedLogin }}>
                 <LoginLogo source={require('../../assets/icon.png')}
                     style={{ width: animatedLogo }}></LoginLogo>

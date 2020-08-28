@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react'
-import { setStatusBarStyle } from 'expo-status-bar'
-import { DrawerScreenProps } from '@react-navigation/drawer'
+import React, { useEffect } from 'react';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import { DrawerParamsList } from '../MainDrawer'
-import Jobs from '../../components/JobList'
-import MainHeader from '../../components/MainHeader'
-import MainFooter from '../../components/MainFooter'
+import { DrawerParamsList } from '../MainDrawer';
+import Jobs from '../../components/JobList';
+import MainHeader from '../../components/MainHeader';
+import MainFooter from '../../components/MainFooter';
 
-import enterpriseImage from '../../assets/millenium-falcon.jpg'
+import enterpriseImage from '../../assets/millenium-falcon.jpg';
 
 import {
     ContainerSafeAreaView,
@@ -22,7 +21,8 @@ type DefaultMainPageProps = DrawerScreenProps<
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
 
-    useEffect(() => { setStatusBarStyle("light") }, [])
+    useEffect(() => {
+    }, []);
 
     return (
         //#region JSX
