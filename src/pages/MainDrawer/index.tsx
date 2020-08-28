@@ -1,12 +1,13 @@
-import React from 'react'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import React from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import MainPage from '../Main'
-import ProfilePage from '../Profile'
+import MainPage from '../Main';
+import ProfilePage from '../Profile';
+import { colors } from '../../styles';
 
-import DrawerContent from '../../components/DrawerContent'
-import { StackScreenProps } from '@react-navigation/stack'
-import { AppStackParamsList } from '../../routes/AppStack'
+import DrawerContent from '../../components/DrawerContent';
+import { StackScreenProps } from '@react-navigation/stack';
+import { AppStackParamsList } from '../../routes/AppStack';
 
 export type DrawerParamsList = {
     MainPage: undefined
@@ -27,10 +28,9 @@ export default function Drawer({ navigation }: DefaultLoginPageProps) {
         <Navigator
             initialRouteName="MainPage"
             drawerContent={props => (<DrawerContent {...props} />)}
-            drawerStyle={{ width: "80%" }}
-        >
-            <Screen name="MainPage" component={MainPage} />
-            <Screen name="ProfilePage" component={ProfilePage} />
+            drawerStyle={{ width: "80%", backgroundColor: colors.vividPurple + 'dd' }}>
+                <Screen name="MainPage" component={MainPage} />
+                <Screen name="ProfilePage" component={ProfilePage} />
         </Navigator>
 
         //#endregion
