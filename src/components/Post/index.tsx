@@ -3,8 +3,8 @@ import {
     ImageSourcePropType,
     ViewStyle,
     StyleProp,
-    Text
 } from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import {
     PostContainerView,
@@ -21,33 +21,43 @@ import {
     CoinsText
 } from './styles'
 
-export interface JobProps {
+export interface PostItemProps {
+    id: string
     style?: StyleProp<ViewStyle>
     imageSource: ImageSourcePropType
-    title: string
-    description: string
+    profileImageSource: ImageSourcePropType
+    profile: string
     publishingDate: string
+    title: string
+    coinsAmount: number
+    onRescale?(value: boolean): void
 }
-
-import photo from '../../assets/eifel_tower.jpg'
-import profilePhoto from '../../assets/foto_example.png'
-import { FontAwesome5 } from '@expo/vector-icons';
 
 import { colors } from '../../styles'
 
-const PostItem = () => {
+const PostItem: React.FC<PostItemProps> = ({
+    style,
+    imageSource,
+    profileImageSource,
+    profile,
+    publishingDate,
+    title,
+    coinsAmount
+}) => {
     return (
+        //#region JSX
+
         <PostContainerView>
-            <PostImage source={photo} />
+            <PostImage source={imageSource} />
             <TextsView>
                 <ProfileView>
-                    <ProfileImage source={profilePhoto} />
+                    <ProfileImage source={profileImageSource} />
                     <ProfileSimpleView>
-                        <NameText>Scarlett Johansson</NameText>
-                        <PublishingDateText>4 Years ago</PublishingDateText>
+                        <NameText>{profile}</NameText>
+                        <PublishingDateText>{publishingDate}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
-                <TitleText>Viajem para Paris com tudo pago</TitleText>
+                <TitleText>{title}</TitleText>
                 <FooterView>
                     <CoinsView>
                         <FontAwesome5
@@ -55,7 +65,7 @@ const PostItem = () => {
                             size={24}
                             color={colors.darkGray}
                         />
-                        <CoinsText>1300</CoinsText>
+                        <CoinsText>{coinsAmount}</CoinsText>
                     </CoinsView>
                     <FontAwesome5
                         name="share"
@@ -65,6 +75,8 @@ const PostItem = () => {
                 </FooterView>
             </TextsView>
         </PostContainerView>
+
+        //#endregion
     )
 }
 

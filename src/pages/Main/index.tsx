@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
 import { DrawerParamsList } from '../MainDrawer';
-import Jobs from '../../components/JobList';
+import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
-
-import enterpriseImage from '../../assets/millenium-falcon.jpg';
 
 import {
     ContainerSafeAreaView,
@@ -32,7 +30,9 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
 
                 <JobsScrollView>
-                    <Jobs />
+                    <PostList />
+                    {/* <PostList />
+                    <PostList /> */}
                 </JobsScrollView>
 
                 <MainFooter />
