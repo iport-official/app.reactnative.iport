@@ -3,11 +3,9 @@ import { FlatList } from 'react-native'
 
 import { PostItemProps } from '../Post'
 
-import { colors } from '../../styles'
-
 export const ContainerView = styled.View`
     flex: 1;
-    margin-top: 10px;
+    margin: 30px 0;
 `
 
 export const TitleText = styled.Text`
@@ -16,7 +14,7 @@ export const TitleText = styled.Text`
     font-size: 20px;
     text-align: center;
     color: black;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 `
 
 export const PostFlatList = styled(FlatList as new () => FlatList<PostItemProps>)`

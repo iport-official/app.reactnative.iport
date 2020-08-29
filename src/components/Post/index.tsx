@@ -5,6 +5,7 @@ import {
     StyleProp,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 import {
     PostContainerView,
@@ -34,6 +35,7 @@ export interface PostItemProps {
 }
 
 import { colors } from '../../styles'
+import HeartIcon from './Heart';
 
 const PostItem: React.FC<PostItemProps> = ({
     style,
@@ -67,6 +69,10 @@ const PostItem: React.FC<PostItemProps> = ({
                         />
                         <CoinsText>{coinsAmount}</CoinsText>
                     </CoinsView>
+                    <HeartIcon
+                        size={27}
+                        color="red"
+                    />
                     <FontAwesome5
                         name="share"
                         size={24}

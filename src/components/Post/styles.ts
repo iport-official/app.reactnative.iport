@@ -71,11 +71,11 @@ export const TitleText = styled.Text`
 `
 
 export const FooterView = styled.View`
-    width: 70%;
+    width: 75%;
     height: 50px;
     padding: 0 15px;
     border-radius: 15px;
-    background: white;
+    background: #fff;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
