@@ -6,24 +6,12 @@ import {
     ContainerScrollView
 } from './styles'
 
-import Job, { JobProps } from '../Job'
+import PostItem, { JobProps } from '../Post'
 
-export interface JobsProps {
-    title: string
-    jobs: JobProps[]
-}
-
-const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
+const JobList = () => {
     function handleJobsArray(job: JobProps, index: number, array: JobProps[]) {
         return (
-            <Job
-                style={{ marginLeft: index === 0 ? 0 : 10 }}
-                key={index} // must add key property cause it is using with map method
-                imageSource={job.imageSource}
-                title={job.title}
-                description={job.description}
-                publishingDate={job.publishingDate}
-            />
+            <PostItem />
         )
     }
 
@@ -31,12 +19,13 @@ const JobList: React.FC<JobsProps> = ({ title, jobs }) => {
         //#region JSX
 
         <ContainerView>
-            <TitleText>{title}</TitleText>
+            <TitleText>Título</TitleText>
             <ContainerScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
             >
-                {jobs.map(handleJobsArray)}
+                <PostItem />
+                <PostItem />
             </ContainerScrollView>
         </ContainerView>
 
