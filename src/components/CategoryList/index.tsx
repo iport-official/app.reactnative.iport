@@ -14,13 +14,19 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
     return (
         <ContainerFlatList
             horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+                flexGrow: 1,
+                alignItems: 'stretch',
+            }}
             data={categories}
             renderItem={({ item }) => {
-                const {...rest} = item
+                const { ...rest } = item
                 return <CategoryItem
                     {...rest}
                 />
             }}
+            keyExtractor={(item) => item.id}
         />
     )
 }
