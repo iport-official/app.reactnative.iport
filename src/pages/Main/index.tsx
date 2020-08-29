@@ -41,13 +41,28 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                     <CategoryList
                         categories={[
                             {
+                                id: '0',
                                 name: 'Engenharia'
                             },
                             {
+                                id: '1',
                                 name: 'TI e derivados'
                             },
                             {
+                                id: '2',
                                 name: 'Arquitetura'
+                            },
+                            {
+                                id: '3',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '4',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '5',
+                                name: 'Outros'
                             }
                         ]}
                     />
