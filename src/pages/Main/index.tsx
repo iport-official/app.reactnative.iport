@@ -32,63 +32,7 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
 
                 <JobsScrollView>
-                    <Jobs
-                        title="Hot Jobs"
-                        jobs={[
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            },
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            },
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            },
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            }
-                        ]}
-                    />
-                    <Jobs
-                        title="Hot Jobs"
-                        jobs={[
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            }
-                        ]}
-                    />
-                    <Jobs
-                        title="Hot Jobs"
-                        jobs={[
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            },
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            }
-                        ]}
-                    />
+                    <Jobs />
                 </JobsScrollView>
 
                 <MainFooter />
