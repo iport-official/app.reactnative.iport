@@ -2,11 +2,18 @@ import React, { useEffect } from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
 import { DrawerParamsList } from '../MainDrawer';
-import Jobs from '../../components/JobList';
+import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
+import CategoryList from '../../components/CategoryList';
 
-import enterpriseImage from '../../assets/millenium-falcon.jpg';
+import profilePhoto from '../../assets/foto_example.png'
+import photo02 from '../../assets/photo02.jpg'
+import photo3 from '../../assets/netflix.jpg'
+
+import backgroundPhoto01 from '../../assets/image01.jpg'
+import backgroundPhoto02 from '../../assets/image02.png'
+import backgroundPhoto03 from '../../assets/madmax.jpg'
 
 import {
     ContainerSafeAreaView,
@@ -30,62 +37,63 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
         <ContainerSafeAreaView>
             <ContainerKeyboardAvoidView>
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
-
                 <JobsScrollView>
-                    <Jobs
-                        title="Hot Jobs"
-                        jobs={[
+                    <CategoryList
+                        categories={[
                             {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
+                                id: '0',
+                                name: 'Engenharia'
                             },
                             {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
+                                id: '1',
+                                name: 'TI e derivados'
                             },
                             {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
+                                id: '2',
+                                name: 'Arquitetura'
                             },
                             {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
+                                id: '3',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '4',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '5',
+                                name: 'Outros'
                             }
                         ]}
                     />
-                    <Jobs
-                        title="Hot Jobs"
-                        jobs={[
+                    <PostList
+                        data={[
                             {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
-                            }
-                        ]}
-                    />
-                    <Jobs
-                        title="Hot Jobs"
-                        jobs={[
-                            {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
+                                id: '0',
+                                imageSource: backgroundPhoto01,
+                                profileImageSource: profilePhoto,
+                                profile: 'Scarlett Johansson',
+                                title: 'Scarlett Johansson is hiring programmers right now',
+                                publishingDate: '3 hours ago',
+                                coinsAmount: 1300
                             },
                             {
-                                imageSource: enterpriseImage,
-                                title: "Millenium Falcon",
-                                description: "The fastest spaceship in the galaxy",
-                                publishingDate: "2 years ago"
+                                id: '1',
+                                imageSource: backgroundPhoto02,
+                                profileImageSource: photo02,
+                                profile: 'Erick Escagion',
+                                title: 'Erick Escagion have created a new tech',
+                                publishingDate: '2 weeks ago',
+                                coinsAmount: 0
+                            },
+                            {
+                                id: '2',
+                                imageSource: backgroundPhoto03,
+                                profileImageSource: photo3,
+                                profile: 'Netflix',
+                                title: 'Netflix is sharing new movies...',
+                                publishingDate: '1 year ago',
+                                coinsAmount: 12560
                             }
                         ]}
                     />

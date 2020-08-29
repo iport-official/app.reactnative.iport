@@ -19,7 +19,7 @@ export default function AppStack() {
         <NavigationContainer>
             <Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="LoginPage"
+                initialRouteName="Drawer"
             >
                 <Screen name="LoginPage" component={LoginPage} />
                 <Screen name="Drawer" component={Drawer} />
