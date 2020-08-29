@@ -1,13 +1,13 @@
 import styled from 'styled-components/native'
+import { FlatList } from 'react-native'
+
+import { PostItemProps } from '../Post'
 
 import { colors } from '../../styles'
-import { Roboto_700Bold } from '@expo-google-fonts/roboto'
 
 export const ContainerView = styled.View`
     flex: 1;
-    border-bottom-color: ${colors.ligherPurple};
-    border-bottom-width: 3px;
-    padding: 10px 10px 10px 10px;
+    margin-top: 10px;
 `
 
 export const TitleText = styled.Text`
@@ -19,7 +19,7 @@ export const TitleText = styled.Text`
     margin-bottom: 15px;
 `
 
-export const ContainerScrollView = styled.ScrollView`
+export const PostFlatList = styled(FlatList as new () => FlatList<PostItemProps>)`
     flex: 1;
     flex-direction: row;
 `
