@@ -13,7 +13,7 @@ interface PostListProps {
     data: PostItemProps[]
 }
 
-const PostList: React.FC<PostListProps> = ({data}) => {
+const PostList: React.FC<PostListProps> = ({ data }) => {
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
     const handleOnViewableItemsChanged = useRef((viewableItems: {
@@ -28,7 +28,7 @@ const PostList: React.FC<PostListProps> = ({data}) => {
         //#region JSX
 
         <ContainerView>
-            <TitleText>Hot Jobs</TitleText>
+            {/* <TitleText>Hot Jobs</TitleText> */}
             <PostFlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -36,7 +36,9 @@ const PostList: React.FC<PostListProps> = ({data}) => {
                 renderItem={({ item }) => {
                     const { ...rest } = item
                     return (
-                        <PostItem {...rest} />
+                        <PostItem
+                            {...rest}
+                        />
                     )
                 }}
                 keyExtractor={item => item.id}

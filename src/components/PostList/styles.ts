@@ -5,7 +5,7 @@ import { PostItemProps } from '../Post'
 
 export const ContainerView = styled.View`
     flex: 1;
-    margin: 30px 0;
+    margin-top: 20px;
 `
 
 export const TitleText = styled.Text`
