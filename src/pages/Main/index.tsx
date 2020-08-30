@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
+
+import { Image } from 'react-native'
 
 import { DrawerParamsList } from '../MainDrawer';
 import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
 import CategoryList from '../../components/CategoryList';
+import MainPost from '../../components/MainPost';
 
 import profilePhoto from '../../assets/foto_example.png'
 import photo02 from '../../assets/photo02.jpg'
@@ -26,11 +29,9 @@ type DefaultMainPageProps = DrawerScreenProps<
     "MainPage"
 >
 
+import { photo } from '../../assets/image04.jpg'
+
 export default function MainPage({ navigation }: DefaultMainPageProps) {
-
-    useEffect(() => {
-    }, []);
-
     return (
         //#region JSX
 
@@ -38,6 +39,7 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
             <ContainerKeyboardAvoidView>
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
                 <JobsScrollView>
+                    <MainPost />
                     <CategoryList
                         categories={[
                             {
