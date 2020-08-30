@@ -1,11 +1,8 @@
 import React from 'react'
-import {
-    ImageSourcePropType,
-    ViewStyle,
-    StyleProp,
-} from 'react-native'
+import { ImageSourcePropType } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+
+import HeartIcon from './Heart';
 
 import {
     PostContainerView,
@@ -15,8 +12,10 @@ import {
     ProfileSimpleView,
     NameText,
     PublishingDateText,
+    PostContentView,
     TextsView,
     TitleText,
+    DescriptionText,
     FooterView,
     CoinsView,
     CoinsText
@@ -24,34 +23,41 @@ import {
 
 export interface PostItemProps {
     id: string
-    style?: StyleProp<ViewStyle>
+    isMain?: boolean
     imageSource: ImageSourcePropType
     profileImageSource: ImageSourcePropType
     profile: string
     publishingDate: string
     title: string
+    description?: string
     coinsAmount: number
     onRescale?(value: boolean): void
 }
 
 import { colors } from '../../styles'
-import HeartIcon from './Heart';
 
 const PostItem: React.FC<PostItemProps> = ({
-    style,
+    isMain,
     imageSource,
     profileImageSource,
     profile,
     publishingDate,
     title,
+    description,
     coinsAmount
 }) => {
+
     return (
         //#region JSX
 
-        <PostContainerView>
-            <PostImage source={imageSource} />
-            <TextsView>
+        <PostContainerView
+            isMain={isMain}
+        >
+            <PostImage
+                isMain={isMain}
+                source={imageSource}
+            />
+            <PostContentView>
                 <ProfileView>
                     <ProfileImage source={profileImageSource} />
                     <ProfileSimpleView>
@@ -59,7 +65,12 @@ const PostItem: React.FC<PostItemProps> = ({
                         <PublishingDateText>{publishingDate}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
-                <TitleText>{title}</TitleText>
+                <TextsView isMain={isMain} >
+                    <TitleText isMain={isMain} >{title}</TitleText>
+                    {description && isMain && (
+                        <DescriptionText>{description}</DescriptionText>
+                    )}
+                </TextsView>
                 <FooterView>
                     <CoinsView>
                         <FontAwesome5
@@ -79,7 +90,7 @@ const PostItem: React.FC<PostItemProps> = ({
                         color={colors.darkGray}
                     />
                 </FooterView>
-            </TextsView>
+            </PostContentView>
         </PostContainerView>
 
         //#endregion

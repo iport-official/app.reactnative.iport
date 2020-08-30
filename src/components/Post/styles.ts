@@ -4,26 +4,36 @@ import { colors } from '../../styles'
 
 const borderRadius = 50
 const textShadow = `0px 0px 1px white`
-const boxWidth = 300
-const boxHeight = 210
+
+const isNotMainBoxHeight = 210
+const isNotMainBoxWidth = 300
+
+const isMainBoxHeight = 400
 
 export const PostContainerView = styled.View`
-    margin: 0 5px;
-    width: ${boxWidth}px;
-    height: ${boxHeight}px;
+    width: ${(props:  { isMain?: boolean }) => props.isMain
+        ? "100%"
+        : isNotMainBoxWidth + "px"};
+    height: ${(props:  { isMain?: boolean }) => props.isMain
+        ? isMainBoxHeight
+        : isNotMainBoxHeight}px;
     border-radius: ${borderRadius}px;
     justify-content: space-between;
 `
 
 export const PostImage = styled.Image`
     position: absolute;
-    width: ${boxWidth}px;
-    height: ${boxHeight}px;
+    width: ${(props:  { isMain?: boolean }) => props.isMain
+        ? "100%"
+        : isNotMainBoxWidth + "px"};
+    height: ${(props:  { isMain?: boolean }) => props.isMain
+        ? isMainBoxHeight
+        : isNotMainBoxHeight}px;
     border-radius: ${borderRadius}px;
     overflow: hidden;
 `
 
-export const TextsView = styled.View`
+export const PostContentView = styled.View`
     flex: 1;
     background: #00000060;
     border-radius: ${borderRadius}px;
@@ -62,16 +72,33 @@ export const PublishingDateText = styled.Text`
     font-family: Poppins_400Regular;
 `
 
+export const TextsView = styled.View`
+    flex: 1;
+    justify-content: center;
+    margin: 0 ${(props: { isMain?: boolean }) => props.isMain
+        ? 50
+        : 0}px;
+`
+
 export const TitleText = styled.Text`
     text-shadow: ${textShadow};
-    color: white;
-    font-size: 18px;
+    color: #fff;
+    font-size: ${(props: { isMain?: boolean }) => props.isMain
+        ? 25
+        : 18}px;
     font-family: Roboto_700Bold;
-    width: 200px;
+    width: ${(props: { isMain?: boolean }) => props.isMain
+        ? 300
+        : 200}px;
+`
+
+export const DescriptionText = styled.Text`
+    color: #fff;
+    margin-top: 10px;
 `
 
 export const FooterView = styled.View`
-    width: 75%;
+    width: 215px;
     height: 50px;
     padding: 0 15px;
     border-radius: 15px;
