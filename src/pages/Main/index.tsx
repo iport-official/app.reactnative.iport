@@ -1,8 +1,6 @@
 import React from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import { Image } from 'react-native'
-
 import { DrawerParamsList } from '../MainDrawer';
 import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
@@ -29,8 +27,6 @@ type DefaultMainPageProps = DrawerScreenProps<
     "MainPage"
 >
 
-import { photo } from '../../assets/image04.jpg'
-
 export default function MainPage({ navigation }: DefaultMainPageProps) {
     return (
         //#region JSX
@@ -40,34 +36,7 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
                 <JobsScrollView>
                     <MainPost />
-                    <CategoryList
-                        categories={[
-                            {
-                                id: '0',
-                                name: 'Engenharia'
-                            },
-                            {
-                                id: '1',
-                                name: 'TI e derivados'
-                            },
-                            {
-                                id: '2',
-                                name: 'Arquitetura'
-                            },
-                            {
-                                id: '3',
-                                name: 'Medicina'
-                            },
-                            {
-                                id: '4',
-                                name: 'Medicina'
-                            },
-                            {
-                                id: '5',
-                                name: 'Outros'
-                            }
-                        ]}
-                    />
+
                     <PostList
                         data={[
                             {
@@ -96,6 +65,34 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                                 title: 'Netflix is sharing new movies...',
                                 publishingDate: '1 year ago',
                                 coinsAmount: 12560
+                            }
+                        ]}
+                    />
+                    <CategoryList
+                        categories={[
+                            {
+                                id: '0',
+                                name: 'Engenharia'
+                            },
+                            {
+                                id: '1',
+                                name: 'TI e derivados'
+                            },
+                            {
+                                id: '2',
+                                name: 'Arquitetura'
+                            },
+                            {
+                                id: '3',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '4',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '5',
+                                name: 'Outros'
                             }
                         ]}
                     />
