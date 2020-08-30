@@ -4,8 +4,8 @@ import {
     ViewStyle,
     StyleProp,
 } from 'react-native'
+
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
 
 import {
     PostContainerView,
