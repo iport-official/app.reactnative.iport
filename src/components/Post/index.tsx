@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-    ImageSourcePropType,
-    ViewStyle,
-    StyleProp,
-} from 'react-native'
-
+import { ImageSourcePropType } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import HeartIcon from './Heart';
@@ -29,7 +24,6 @@ import {
 export interface PostItemProps {
     id: string
     isMain?: boolean
-    // style?: StyleProp<ViewStyle>
     imageSource: ImageSourcePropType
     profileImageSource: ImageSourcePropType
     profile: string
@@ -42,26 +36,25 @@ export interface PostItemProps {
 
 import { colors } from '../../styles'
 
-const PostItem: React.FC<PostItemProps> = (props) => {
-
-    const {
-        imageSource,
-        profileImageSource,
-        profile,
-        publishingDate,
-        title,
-        description,
-        coinsAmount
-    } = props
+const PostItem: React.FC<PostItemProps> = ({
+    isMain,
+    imageSource,
+    profileImageSource,
+    profile,
+    publishingDate,
+    title,
+    description,
+    coinsAmount
+}) => {
 
     return (
         //#region JSX
 
         <PostContainerView
-            {...props}
+            isMain={isMain}
         >
             <PostImage
-                {...props}
+                isMain={isMain}
                 source={imageSource}
             />
             <PostContentView>
@@ -72,9 +65,9 @@ const PostItem: React.FC<PostItemProps> = (props) => {
                         <PublishingDateText>{publishingDate}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
-                <TextsView>
-                    <TitleText>{title}</TitleText>
-                    {description && (
+                <TextsView isMain={isMain} >
+                    <TitleText isMain={isMain} >{title}</TitleText>
+                    {description && isMain && (
                         <DescriptionText>{description}</DescriptionText>
                     )}
                 </TextsView>

@@ -6,15 +6,17 @@ import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
 import CategoryList from '../../components/CategoryList';
-import MainPost from '../../components/MainPost';
+import PostItem from '../../components/Post';
 
-import profilePhoto from '../../assets/foto_example.png'
-import photo02 from '../../assets/photo02.jpg'
-import photo3 from '../../assets/netflix.jpg'
+import profilePhoto01 from '../../assets/foto_example.png'
+import profilePhoto02 from '../../assets/photo02.jpg'
+import profilePhoto03 from '../../assets/netflix.jpg'
+import profilePhoto04 from '../../assets/henrique.jpg'
 
 import backgroundPhoto01 from '../../assets/image01.jpg'
 import backgroundPhoto02 from '../../assets/image02.png'
 import backgroundPhoto03 from '../../assets/madmax.jpg'
+import backgroundPhoto04 from '../../assets/image04.jpg'
 
 import {
     ContainerSafeAreaView,
@@ -35,14 +37,24 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
             <ContainerKeyboardAvoidView>
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
                 <JobsScrollView>
-                    <MainPost />
-
+                    {/* <MainPost /> */}
+                    <PostItem
+                        id="0"
+                        isMain
+                        imageSource={backgroundPhoto04}
+                        profileImageSource={profilePhoto04}
+                        profile="Henrique César"
+                        title="Henrique César está chamando todos para o Vale do Silício"
+                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        publishingDate="5 minutes ago"
+                        coinsAmount={1300}
+                    />
                     <PostList
                         data={[
                             {
                                 id: '0',
                                 imageSource: backgroundPhoto01,
-                                profileImageSource: profilePhoto,
+                                profileImageSource: profilePhoto01,
                                 profile: 'Scarlett Johansson',
                                 title: 'Scarlett Johansson is hiring programmers right now',
                                 publishingDate: '3 hours ago',
@@ -51,7 +63,7 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                             {
                                 id: '1',
                                 imageSource: backgroundPhoto02,
-                                profileImageSource: photo02,
+                                profileImageSource: profilePhoto02,
                                 profile: 'Erick Escagion',
                                 title: 'Erick Escagion have created a new tech',
                                 publishingDate: '2 weeks ago',
@@ -60,7 +72,7 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                             {
                                 id: '2',
                                 imageSource: backgroundPhoto03,
-                                profileImageSource: photo3,
+                                profileImageSource: profilePhoto03,
                                 profile: 'Netflix',
                                 title: 'Netflix is sharing new movies...',
                                 publishingDate: '1 year ago',
