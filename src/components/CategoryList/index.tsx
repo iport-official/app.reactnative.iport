@@ -17,7 +17,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
                 flexGrow: 1,
-                alignItems: 'stretch',
+                alignItems: 'stretch'
             }}
             data={categories}
             renderItem={({ item }) => {
