@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
+import React, { useState } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
 
 import {
     ContainerView,
     CategoryNameText,
     BorderBottomView
-} from './styles'
+} from './styles';
+
+import { colors } from '../../../styles';
 
 export interface CategoryItemProps {
     id: string
@@ -14,12 +16,12 @@ export interface CategoryItemProps {
 }
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ onPress, name }) => {
-    const [isActive, setIsActive] = useState(false)
+    const [isActive, setIsActive] = useState(false);
 
     function handleOnPress() {
-        setIsActive(!isActive)
+        setIsActive(!isActive);
         if (onPress)
-            onPress(isActive)
+            onPress(isActive);
     }
 
     return (
@@ -27,7 +29,11 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ onPress, name }) => {
             onPress={handleOnPress}
         >
             <ContainerView>
-                <CategoryNameText>{name}</CategoryNameText>
+                <CategoryNameText style={{ color: isActive ? colors.lighterVividPurple : '#fff',
+                    textShadowColor: colors.grayPurple,
+                    textShadowRadius: 15,
+                    textShadowOffset: isActive ? { width: 1, height: 1 } : { width: 0, height: 0 } }}
+                    >{name}</CategoryNameText>
                 {isActive && <BorderBottomView
                     pointerEvents="none"
                 />}
