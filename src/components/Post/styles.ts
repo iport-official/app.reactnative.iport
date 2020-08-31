@@ -1,24 +1,29 @@
-import styled from 'styled-components/native'
+import styled from 'styled-components/native';
 
-import { colors } from '../../styles'
+import { colors } from '../../styles';
 
-const borderRadius = 50
-const textShadow = `0px 0px 1px white`
+const borderRadius = 50;
+const textShadow = `0px 0px 1px white`;
 
-const isNotMainBoxHeight = 210
-const isNotMainBoxWidth = 300
+const isNotMainBoxHeight = 210;
+const isNotMainBoxWidth = 300;
 
-const isMainBoxHeight = 400
+const isMainBoxHeight = 300;
 
 export const PostContainerView = styled.View`
     width: ${(props:  { isMain?: boolean }) => props.isMain
-        ? "100%"
+        ? "94.5%"
         : isNotMainBoxWidth + "px"};
     height: ${(props:  { isMain?: boolean }) => props.isMain
         ? isMainBoxHeight
         : isNotMainBoxHeight}px;
     border-radius: ${borderRadius}px;
     justify-content: space-between;
+    margin: 0 10px;
+    margin-top: ${(props: { isMain?: boolean }) => props.isMain
+        ? '20px' : '0' };
+    margin-bottom: ${(props: { isMain?: boolean }) => props.isMain
+        ? '0' : '20px' };
 `
 
 export const PostImage = styled.Image`
@@ -101,6 +106,7 @@ export const FooterView = styled.View`
     width: 215px;
     height: 50px;
     padding: 0 15px;
+    margin-bottom: 2px;
     border-radius: 15px;
     background: #fff;
     justify-content: space-between;
