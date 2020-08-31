@@ -81,7 +81,7 @@ const PostItem: React.FC<PostItemProps> = ({
                         <CoinsText>{coinsAmount}</CoinsText>
                     </CoinsView>
                     <HeartIcon
-                        size={27}
+                        size={120}
                         color="red"
                     />
                     <FontAwesome5
