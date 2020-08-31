@@ -8,7 +8,7 @@ export const ContainerView = styled.View`
     flex-direction: row;
     overflow: hidden;
     background-color: ${colors.darkGray};
-    padding: 0 10px;
+    padding: 0 15px;
     border-radius: 30px;
 `
 

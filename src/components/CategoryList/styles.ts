@@ -6,9 +6,9 @@ import { CategoryItemProps } from './CategoryItem'
 import { colors } from '../../styles'
 
 export const ContainerFlatList = styled(FlatList as new () => FlatList<CategoryItemProps>)`
-    overflow: hidden;
-    height: 45px;
+    overflow: visible;
+    height: 35px;
     border-radius: 23px;
-    /* margin: 0 7px; */
+    margin: 0 5px;
     margin-top: 20px;
 `

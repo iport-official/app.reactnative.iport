@@ -52,6 +52,13 @@ const PostItem: React.FC<PostItemProps> = ({
 
         <PostContainerView
             isMain={isMain}
+            style={{
+                shadowOffset: { width: 0, height: 3 },
+                shadowColor: '#000',
+                shadowOpacity: 0.29,
+                shadowRadius: 4.65,
+                elevation: 7
+            }}
         >
             <PostImage
                 isMain={isMain}

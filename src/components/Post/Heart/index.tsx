@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import {
     TouchableWithoutFeedback,
     TouchableWithoutFeedbackProps,
     Animated,
-    Easing
+    Easing,
+    View
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 
@@ -56,8 +57,10 @@ const HeartIcon: React.FC<HeartIconsProps> = ({ onActive, size, color, onPress, 
         <TouchableWithoutFeedback
             onPress={handleOnPress}
             {...rest}>
-            <LottieView resizeMode='contain' source={ require('../../../assets/lottie/heart.json') }
-                style={{ height: size, position: "absolute", right: 0 }} progress={animation} />
+            <View style={{ height: 50, width: 50, position: 'absolute', right: 50 }}>
+                <LottieView resizeMode='contain' source={ require('../../../assets/lottie/heart.json') }
+                    style={{ height: size, position: "absolute", right: -27.5, bottom: -17.5 }} progress={animation} />
+            </View>
         </TouchableWithoutFeedback>
 
         //#endregion

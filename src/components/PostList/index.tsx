@@ -10,10 +10,11 @@ import {
 } from './styles'
 
 interface PostListProps {
+    title: string
     data: PostItemProps[]
 }
 
-const PostList: React.FC<PostListProps> = ({ data }) => {
+const PostList: React.FC<PostListProps> = ({ title, data }) => {
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
     const handleOnViewableItemsChanged = useRef((viewableItems: {
@@ -29,6 +30,7 @@ const PostList: React.FC<PostListProps> = ({ data }) => {
 
         <ContainerView>
             {/* <TitleText>Hot Jobs</TitleText> */}
+            <TitleText>{ title }</TitleText>
             <PostFlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}

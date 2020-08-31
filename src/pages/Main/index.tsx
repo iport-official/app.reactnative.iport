@@ -49,7 +49,36 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                         publishingDate="5 minutes ago"
                         coinsAmount={1300}
                     />
+                    <CategoryList
+                        categories={[
+                            {
+                                id: '0',
+                                name: 'Engenharia'
+                            },
+                            {
+                                id: '1',
+                                name: 'TI e derivados'
+                            },
+                            {
+                                id: '2',
+                                name: 'Arquitetura'
+                            },
+                            {
+                                id: '3',
+                                name: 'Medicina'
+                            },
+                            {
+                                id: '4',
+                                name: 'Tecnologia'
+                            },
+                            {
+                                id: '5',
+                                name: 'Outros'
+                            }
+                        ]}
+                    />
                     <PostList
+                        title='Vagas Recentes'
                         data={[
                             {
                                 id: '0',
@@ -80,31 +109,35 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                             }
                         ]}
                     />
-                    <CategoryList
-                        categories={[
+                    <PostList
+                        title='Tecnologia'
+                        data={[
                             {
                                 id: '0',
-                                name: 'Engenharia'
+                                imageSource: backgroundPhoto01,
+                                profileImageSource: profilePhoto01,
+                                profile: 'Scarlett Johansson',
+                                title: 'Scarlett Johansson is hiring programmers right now',
+                                publishingDate: '3 hours ago',
+                                coinsAmount: 1300
                             },
                             {
                                 id: '1',
-                                name: 'TI e derivados'
+                                imageSource: backgroundPhoto02,
+                                profileImageSource: profilePhoto02,
+                                profile: 'Erick Escagion',
+                                title: 'Erick Escagion have created a new tech',
+                                publishingDate: '2 weeks ago',
+                                coinsAmount: 0
                             },
                             {
                                 id: '2',
-                                name: 'Arquitetura'
-                            },
-                            {
-                                id: '3',
-                                name: 'Medicina'
-                            },
-                            {
-                                id: '4',
-                                name: 'Medicina'
-                            },
-                            {
-                                id: '5',
-                                name: 'Outros'
+                                imageSource: backgroundPhoto03,
+                                profileImageSource: profilePhoto03,
+                                profile: 'Netflix',
+                                title: 'Netflix is sharing new movies...',
+                                publishingDate: '1 year ago',
+                                coinsAmount: 12560
                             }
                         ]}
                     />
