@@ -3,6 +3,7 @@ import { Keyboard, Animated } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 
+
 import { AppStackParamsList } from '../../routes/AppStack';
 import TextField from '../../components/TextField';
 import Checkbox from '../../components/Checkbox';
@@ -20,6 +21,7 @@ import {
 import { colors } from '../../styles';
 
 import { rules } from '../../utils';
+import api from '../../services/api';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -102,16 +104,28 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             return ;
         }
 
-        setClearEmail(true);
-        setClearPassword(true);
-        setPassword('');
-        setEmail('');
+        const user = { email, password };
 
-        setTimeout(() => {
-            setClearEmail(false);
-            setClearPassword(false);
-        }, 10);
-        return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
+        api.post(`/auth/login`, user)
+            .then(response => {
+                const resp = response.data;
+                alert(resp.id);
+            })
+            .then(() => {
+                setClearEmail(true);
+                setClearPassword(true);
+                setPassword('');
+                setEmail('');
+
+                setTimeout(() => {
+                    setClearEmail(false);
+                    setClearPassword(false);
+                }, 10);
+                return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
+            })
+            .catch(error => {
+                alert(error);
+            })
     }
 
     return (
