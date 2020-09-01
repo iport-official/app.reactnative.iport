@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
 
-import { PostItemProps } from '../Post';
+import { PostItemProps } from '../PostItem';
 import { colors } from '../../styles';
 
 export const ContainerView = styled.View`

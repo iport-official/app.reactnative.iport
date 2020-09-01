@@ -6,7 +6,7 @@ import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
 import CategoryList from '../../components/CategoryList';
-import PostItem from '../../components/Post';
+import PostItem from '../../components/PostItem';
 
 import profilePhoto01 from '../../assets/foto_example.png'
 import profilePhoto02 from '../../assets/photo02.jpg'

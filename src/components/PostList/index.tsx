@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { ViewToken } from 'react-native'
 
-import PostItem, { PostItemProps } from '../Post'
+import PostItem, { PostItemProps } from '../PostItem'
 
 import {
     ContainerView,
