@@ -22,6 +22,7 @@ import { colors } from '../../styles';
 
 import { rules } from '../../utils';
 import api from '../../services/api';
+import userModel from '../../global/user';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -107,25 +108,44 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         const user = { email, password };
 
         api.post(`/auth/login`, user)
-            .then(response => {
-                const resp = response.data;
-                alert(resp.id);
-            })
-            .then(() => {
-                setClearEmail(true);
-                setClearPassword(true);
-                setPassword('');
-                setEmail('');
+        .then(response => {
+            const resp = response.data;
+            const token = resp.access_token;
+            const status = response.status;
 
-                setTimeout(() => {
-                    setClearEmail(false);
-                    setClearPassword(false);
-                }, 10);
-                return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
-            })
-            .catch(error => {
+            if(status == 201) {
+                api.get(`/profile`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(res => {
+                    userModel.email = res.data.username;
+                    userModel.authToken = token;
+
+                    setClearEmail(true);
+                    setClearPassword(true);
+                    setPassword('');
+                    setEmail('');
+
+                    setTimeout(() => {
+                        setClearEmail(false);
+                        setClearPassword(false);
+                    }, 10);
+                    return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
+                })
+                .catch(error => {
+                    alert('Token ' + error);
+                })
+            }
+        })
+        .catch(error => {
+            if(error.response.status == 400) {
+                alert('Wrong credentials provided!');
+            } else {
                 alert(error);
-            })
+            }
+        })
     }
 
     return (
