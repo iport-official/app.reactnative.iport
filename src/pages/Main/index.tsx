@@ -1,7 +1,7 @@
 import React from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import { DrawerParamsList } from '../../navigations';
+import { DrawerParamsList } from '../../navigations/MainDrawer';
 import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
@@ -37,7 +37,6 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
             <ContainerKeyboardAvoidView>
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
                 <JobsScrollView>
-                    {/* <MainPost /> */}
                     <PostItem
                         id="0"
                         isMain
