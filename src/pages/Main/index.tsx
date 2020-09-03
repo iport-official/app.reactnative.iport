@@ -1,7 +1,7 @@
 import React from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import { DrawerParamsList } from '../MainDrawer';
+import { DrawerParamsList } from '../../navigations';
 import PostList from '../../components/PostList';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';

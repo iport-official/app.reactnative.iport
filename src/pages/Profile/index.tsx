@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 
-import { DrawerParamsList } from '../MainDrawer'
+import { DrawerParamsList } from '../../navigations'
 import MainHeader from '../../components/MainHeader'
 
 import {

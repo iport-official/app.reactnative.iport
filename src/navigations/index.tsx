@@ -1,13 +1,13 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import MainPage from '../Main';
-import ProfilePage from '../Profile';
-import { colors } from '../../styles';
+import MainPage from '../pages/Main';
+import ProfilePage from '../pages/Profile';
+import { colors } from '../styles';
 
-import DrawerContent from '../../components/DrawerContent';
+import DrawerContent from '../components/DrawerContent';
 import { StackScreenProps } from '@react-navigation/stack';
-import { AppStackParamsList } from '../../routes/AppStack';
+import { AppStackParamsList } from './AppStack';
 
 export type DrawerParamsList = {
     MainPage: undefined

@@ -3,8 +3,7 @@ import { Keyboard, Animated } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 
-
-import { AppStackParamsList } from '../../routes/AppStack';
+import { AppStackParamsList } from '../../navigations/AppStack';
 import TextField from '../../components/TextField';
 import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
@@ -114,7 +113,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             const status = response.status;
 
             if(status == 201) {
-                api.get(`/profile`, {
+                api.get(`users/profile`, {
                     headers: {
                         'Authorization': 'Bearer ' + token
                     }
