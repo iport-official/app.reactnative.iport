@@ -26,6 +26,16 @@ export const PostContainerView = styled.View`
         ? '0' : '20px' };
 `
 
+export const PostShadow = styled.View`
+    width: 101%;
+    height: ${(props: { isMain?: boolean }) => props.isMain
+        ? '101%' : '101.5%'};
+    background: #8883;
+    border-radius: ${borderRadius}px;
+    position: absolute;
+    z-index: -1;
+`
+
 export const PostImage = styled.Image`
     position: absolute;
     width: ${(props:  { isMain?: boolean }) => props.isMain
@@ -44,6 +54,7 @@ export const PostContentView = styled.View`
     border-radius: ${borderRadius}px;
     justify-content: space-between;
     align-items: center;
+    border: 4px solid ${colors.strongPurple}aa;
 `
 
 export const ProfileView = styled.View`
