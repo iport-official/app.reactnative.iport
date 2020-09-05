@@ -7,6 +7,7 @@ import HeartIcon from './Heart';
 import {
     PostContainerView,
     PostImage,
+    PostShadow,
     ProfileView,
     ProfileImage,
     ProfileSimpleView,
@@ -51,7 +52,7 @@ const PostItem: React.FC<PostItemProps> = ({
         //#region JSX
 
         <PostContainerView
-            isMain={isMain}
+        isMain={isMain}
             style={{
                 shadowOffset: { width: 0, height: 3 },
                 shadowColor: '#000',
@@ -59,7 +60,8 @@ const PostItem: React.FC<PostItemProps> = ({
                 shadowRadius: 4.65,
                 elevation: 7
             }}
-        >
+            >
+            <PostShadow isMain={isMain} />
             <PostImage
                 isMain={isMain}
                 source={imageSource}
