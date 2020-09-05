@@ -15,7 +15,7 @@ export const TitleText = styled.Text`
     text-shadow: 0px 0px 1px ${colors.lighterVividPurple}80;
     font-size: 21px;
 
-    color: ${colors.vividPurple};
+    color: ${colors.livePurple};
     margin: 7px 0 10px 0;
     padding-left: 30px;
 `
