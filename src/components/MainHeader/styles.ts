@@ -1,3 +1,5 @@
+import { Roboto_700Bold } from '@expo-google-fonts/roboto';
+import { Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import styled from 'styled-components/native'
 
 import { colors } from '../../styles'
@@ -17,14 +19,8 @@ export const ContainerPortCoins = styled.View`
 `
 
 export const PortCoinsCounter = styled.Text`
-    font-size: 20px;
-    font-weight: bold;
-    color: ${colors.lighterVividPurple};
-    text-shadow: 0px 0px 4px #0008;
+    font-family: Roboto_700Bold;
+    font-size: 18px;
+    color: #fff;
     margin-right: 5px;
-`
-
-export const PortCoinsSymbol = styled.Image`
-    height: 36px;
-    width: 36px;
 `

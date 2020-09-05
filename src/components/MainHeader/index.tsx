@@ -1,13 +1,12 @@
 import React from 'react';
 
 import Menu from '../Menu';
-import coinPhoto from '../../assets/PortCoins.png';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import {
     ContainerHeaderView,
     ContainerPortCoins,
-    PortCoinsCounter,
-    PortCoinsSymbol
+    PortCoinsCounter
 } from './styles';
 
 interface MainHeader {
@@ -22,7 +21,11 @@ const MainHeader: React.FC<MainHeader> = ({ onPress }) => {
             <Menu onPress={onPress} />
             <ContainerPortCoins>
                 <PortCoinsCounter>1300</PortCoinsCounter>
-                <PortCoinsSymbol source={coinPhoto}></PortCoinsSymbol>
+                <FontAwesome5
+                    name="coins"
+                    size={24}
+                    color='#fff'
+                />
             </ContainerPortCoins>
         </ContainerHeaderView>
 
