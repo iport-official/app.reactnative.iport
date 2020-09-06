@@ -154,7 +154,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                 <LoginLogo source={require('../../assets/icon.png')}
                     style={{ width: animatedLogo }}></LoginLogo>
 
-                <TextField label='E-mail' keyboard='email-address' onFocus={() => alert('d')} clear={clearEmail}
+                <TextField label='E-mail' keyboard='email-address' clear={clearEmail}
                     onTextChange={(text: string) => handleEmail(text)} />
                 <TextField label='Senha' fieldType='password' clear={clearPassword}
                     onTextChange={(text: string) => handlePassword(text)} />
