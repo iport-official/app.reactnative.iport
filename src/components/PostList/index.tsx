@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { ViewToken } from 'react-native'
+import * as SecureStore from 'expo-secure-store';
 
-import PostItem, { PostItemProps } from '../PostItem'
+import PostItem from '../PostItem'
 
 import {
     ContainerView,
@@ -9,28 +10,47 @@ import {
     PostFlatList
 } from './styles'
 
-interface PostListProps {
-    title: string
-    data: PostItemProps[]
+import { PostProxy } from '../../services/Post/post.proxy'
+
+import api from '../../services/api'
+
+export interface PostListProps {
+    category: string
 }
 
-const PostList: React.FC<PostListProps> = ({ title, data }) => {
+const PostList: React.FC<PostListProps> = ({ category }) => {
+
+    const [data, setData] = useState<PostProxy[]>([])
+
+    async function loadData(category: string) {
+        const token = await SecureStore.getItemAsync('access_token')
+        const response = await api.get<PostProxy[]>(`posts/recomendations?category=${category}&page=0`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+
+        setData(response.data)
+    }
+
+    useEffect(() => {
+        loadData(category)
+    }, [])
+
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
     const handleOnViewableItemsChanged = useRef((viewableItems: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
     }) => {
-        console.log(viewableItems)
-
+        // console.log(viewableItems)
     })
 
     return (
         //#region JSX
 
         <ContainerView>
-            {/* <TitleText>Hot Jobs</TitleText> */}
-            <TitleText>{ title }</TitleText>
+            <TitleText>{category}</TitleText>
             <PostFlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
