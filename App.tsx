@@ -21,7 +21,6 @@ function LoadFonts() {
 export default function App() {
     LoadFonts()
 
-
     if (!fontsLoaded) {
         return <AppLoading />
     }

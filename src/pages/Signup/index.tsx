@@ -15,7 +15,7 @@ import {
     MinusButton,
     SignupChoice,
     SignupContainer
-    } from './styles';
+} from './styles';
 
 import { colors } from '../../styles';
 import { rules } from '../../utils';
@@ -72,7 +72,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     }
 
     const handleCpfCnpj = (text: string) => {
-        if(personalCheck) {
+        if (personalCheck) {
             setUser({ ...user, cpf: text });
         } else {
             setUser({ ...user, cnpj: text });
@@ -104,11 +104,11 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const isCnpjValid = !!user.cnpj && user.cnpj.length === 14;
 
     const signupButtonPress = () => {
-        if(!isPasswordValid || !isPasswordSame) {
+        if (!isPasswordValid || !isPasswordSame) {
             setClearPassword(true);
-            setUser({ ...user, password: ''});
+            setUser({ ...user, password: '' });
             setConfirmPassword('');
-            if(!isPasswordValid) {
+            if (!isPasswordValid) {
                 alert('Password: \nMin 6 characters with at least one capital letter, one lower case and one number');
             } else {
                 alert('Password fields does not match! Enter your password again.');
@@ -116,7 +116,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
             setTimeout(() => setClearPassword(false), 10);
 
-            return ;
+            return;
         }
 
         alert(
@@ -172,32 +172,32 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
                 <SignupChoice>
                     <CheckboxContainer onTouchStart={() => {
-                            setPersonalCheck(true);
-                            setCompanyCheck(false);
+                        setPersonalCheck(true);
+                        setCompanyCheck(false);
 
-                            if(!personalCheck) {
-                                setUser({ ...user, cpf: user.cnpj });
-                                if(!companyCheck) animateContainer();
-                            }
-                        }} >
+                        if (!personalCheck) {
+                            setUser({ ...user, cpf: user.cnpj });
+                            if (!companyCheck) animateContainer();
+                        }
+                    }} >
                         <Checkbox checked={personalCheck} />
                         <CheckboxText>Personal</CheckboxText>
                     </CheckboxContainer>
                     <CheckboxContainer onTouchStart={() => {
-                            setCompanyCheck(true);
-                            setPersonalCheck(false);
+                        setCompanyCheck(true);
+                        setPersonalCheck(false);
 
-                            if(!companyCheck) {
-                                setUser({ ...user, cnpj: user.cpf });
-                                if(!personalCheck) animateContainer();
-                            }
-                        }} >
+                        if (!companyCheck) {
+                            setUser({ ...user, cnpj: user.cpf });
+                            if (!personalCheck) animateContainer();
+                        }
+                    }} >
                         <Checkbox checked={companyCheck} />
                         <CheckboxText>Company</CheckboxText>
                     </CheckboxContainer>
                 </SignupChoice>
 
-                { personalCheck || companyCheck
+                {personalCheck || companyCheck
                     ? <ExtraFieldsContainer style={{ opacity: animatedOpacity, top: animatedExtra }}>
                         <TextField
                             clear={clearField}
@@ -205,9 +205,9 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             onTextChange={(text: string) => handleName(text)} />
                         <TextField
                             clear={clearField}
-                            label={ personalCheck ? 'CPF' : 'CNPJ' }
+                            label={personalCheck ? 'CPF' : 'CNPJ'}
                             keyboard='number-pad'
-                            length={ personalCheck ? 11 : 14 }
+                            length={personalCheck ? 11 : 14}
                             onTextChange={(text: string) => handleCpfCnpj(text)} />
                         <TextField
                             clear={clearField}
