@@ -1,4 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect
+} from 'react';
 import { Keyboard, Animated } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
@@ -18,12 +22,15 @@ import {
     CheckboxText,
     ForgotPassword
 } from './styles';
+
+import api from '../../services/api';
+
+import { LoginPayload } from '../../services/User/login.payload'
+import { LoginProxy } from '../../services/User/login.proxy';
+
 import { colors } from '../../styles';
 
 import { rules } from '../../utils';
-import api from '../../services/api';
-import { LoginPayload } from '../../services/User/login.payload'
-import { LoginProxy } from '../../services/User/login.proxy';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -151,10 +158,11 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
 
     async function login() {
         try {
-            const response = await api.post<LoginProxy>('users/login', {
+            const payload: LoginPayload = {
                 email,
                 password
-            })
+            }
+            const response = await api.post<LoginProxy>('users/login', payload)
             if (response.status == 201) {
                 await SecureStore.setItemAsync('access_token', response.data.access_token)
                 console.log('connected')
