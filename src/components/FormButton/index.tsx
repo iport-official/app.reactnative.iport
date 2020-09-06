@@ -9,14 +9,25 @@ interface ButtonProperties extends RectButtonProperties {
     color: string,
     disableColor: string,
     ripple: string,
-    disable?: boolean
+    disable?: boolean,
+    buttonWidth?: number,
+    buttonHeight?: number
 }
 
-const FormButton: React.FC<ButtonProperties> = ({ label, color, disableColor, ripple, disable, ...rest }) => {
+const FormButton: React.FC<ButtonProperties> = ({
+    label,
+    color,
+    disableColor,
+    ripple,
+    disable,
+    buttonWidth,
+    buttonHeight,
+    ...rest }) => {
     return (
         <ButtonStyle
             enabled={!disable}
-            style={{ backgroundColor: disable ?  disableColor : color }}
+            style={{ backgroundColor: disable ?  disableColor : color,
+                width: buttonWidth || 220, height: buttonHeight || 50 }}
             rippleColor={ripple} { ...rest } >
             <ButtonText>{ label }</ButtonText>
         </ButtonStyle>
