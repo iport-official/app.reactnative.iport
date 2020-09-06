@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import { ViewToken } from 'react-native'
 import * as SecureStore from 'expo-secure-store';
 
-import PostItem from '../PostItem'
+import PostItem from '../../PostItem'
 
 import {
     ContainerView,
@@ -10,9 +10,9 @@ import {
     PostFlatList
 } from './styles'
 
-import { PostProxy } from '../../services/Post/post.proxy'
+import { PostProxy } from '../../../services/Post/post.proxy'
 
-import api from '../../services/api'
+import api from '../../../services/api'
 
 export interface PostListProps {
     category: string
