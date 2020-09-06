@@ -1,3 +1,5 @@
+import { UserProxyBasic } from "../User/user.proxy";
+
 export interface PostProxy {
     id: string
     image: string
@@ -12,4 +14,6 @@ export interface PostProxy {
     requirements: string
     experienceLevel: string
     vacancyDescription: string
+    createAt: Date
+    user: UserProxyBasic
 }
