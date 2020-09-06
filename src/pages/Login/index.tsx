@@ -165,7 +165,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             const response = await api.post<LoginProxy>('users/login', payload)
             if (response.status == 201) {
                 await SecureStore.setItemAsync('access_token', response.data.access_token)
-                console.log('connected')
                 navigation.navigate("Drawer", {
                     MainPage: undefined,
                     ProfilePage: undefined
