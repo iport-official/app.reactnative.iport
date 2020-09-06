@@ -1,12 +1,14 @@
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import LoginPage from '../pages/Login'
-import Drawer, { DrawerParamsList } from './MainDrawer'
+import LoginPage from '../pages/Login';
+import SignupPage from '../pages/Signup';
+import Drawer, { DrawerParamsList } from './MainDrawer';
 
 export type AppStackParamsList = {
-    LoginPage: undefined
+    LoginPage: undefined,
+    SignupPage: undefined,
     Drawer: DrawerParamsList
 }
 
@@ -19,10 +21,11 @@ export default function AppStack() {
         <NavigationContainer>
             <Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="Drawer"
+                initialRouteName='SignupPage'
             >
-                <Screen name="LoginPage" component={LoginPage} />
-                <Screen name="Drawer" component={Drawer} />
+                <Screen name='LoginPage' component={LoginPage} />
+                <Screen name='SignupPage' component={SignupPage} />
+                <Screen name='Drawer' component={Drawer} />
             </Navigator>
         </NavigationContainer>
 
