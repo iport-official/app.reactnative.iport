@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
 import { getItemAsync } from 'expo-secure-store';
 
 import PostList from '../PostList';
@@ -18,16 +17,21 @@ interface HighlightsPostListProps {
 
 const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
+    const [page, setPage] = useState(0)
     const [data, setData] = useState<PostProxy[]>([])
 
-    async function loadData() {
+    async function loadData(pageNumber: number = page) {
         const token = await getItemAsync('access_token')
-        const response = await api.get<PostProxy[]>(`posts/highlights?page=0`, {
+        const response = await api.get<PostProxy[]>(`posts/highlights?page=${pageNumber}`, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
         })
-        setData(response.data)
+        setData([
+            ...data,
+            ...response.data
+        ])
+        setPage(pageNumber + 1)
     }
 
     useEffect(() => { loadData() }, [])
@@ -37,7 +41,11 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <PostList data={data} />
+            <PostList
+                data={data}
+                onEndReached={loadData}
+                onEndReachedThreshold={0.1}
+            />
         </ContainerView>
 
         //#endregion
