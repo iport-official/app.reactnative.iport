@@ -49,9 +49,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <CategoryList
-                categories={categoryData}
-            />
+            <CategoryList categories={categoryData} />
         </ContainerView>
 
         //#endregion
