@@ -1,44 +1,50 @@
 import React, { useRef } from 'react'
 import { ViewToken } from 'react-native'
 
-import PostItem, { PostItemProps } from '../PostItem'
+import PostItem from '../../PostItem'
 
 import {
     ContainerView,
-    TitleText,
     PostFlatList
 } from './styles'
 
-interface PostListProps {
-    title: string
-    data: PostItemProps[]
+import { PostProxy } from '../../../services/Post/post.proxy'
+
+export interface PostListProps {
+    onEndReached?(): void
+    onEndReachedThreshold?: number
+    data: PostProxy[]
 }
 
-const PostList: React.FC<PostListProps> = ({ title, data }) => {
+const PostList: React.FC<PostListProps> = ({ onEndReached, onEndReachedThreshold, data }) => {
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
     const handleOnViewableItemsChanged = useRef((viewableItems: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
     }) => {
-        console.log(viewableItems)
-
+        // console.log(viewableItems)
     })
 
     return (
         //#region JSX
 
         <ContainerView>
-            {/* <TitleText>Hot Jobs</TitleText> */}
-            <TitleText>{ title }</TitleText>
             <PostFlatList
                 horizontal
+                onEndReached={() => {
+                    if (onEndReached)
+                        onEndReached()
+                }}
+                onEndReachedThreshold={onEndReachedThreshold}
                 showsHorizontalScrollIndicator={false}
                 data={data}
                 renderItem={({ item }) => {
-                    const { ...rest } = item
+                    const { id, ...rest } = item
                     return (
                         <PostItem
+                            key={id}
+                            id={id}
                             {...rest}
                         />
                     )

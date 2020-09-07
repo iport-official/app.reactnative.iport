@@ -1,5 +1,4 @@
-import React from 'react'
-import { ImageSourcePropType } from 'react-native'
+import React, { useEffect } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import HeartIcon from './Heart';
@@ -22,37 +21,29 @@ import {
     CoinsText
 } from './styles'
 
-export interface PostItemProps {
-    id: string
-    isMain?: boolean
-    imageSource: ImageSourcePropType
-    profileImageSource: ImageSourcePropType
-    profile: string
-    publishingDate: string
-    title: string
-    description?: string
-    coinsAmount: number
-    onRescale?(value: boolean): void
-}
+import { PostProxy } from '../../services/Post/post.proxy';
 
 import { colors } from '../../styles'
 
+export interface PostItemProps extends PostProxy {
+    isMain?: boolean
+}
+
 const PostItem: React.FC<PostItemProps> = ({
     isMain,
-    imageSource,
-    profileImageSource,
-    profile,
-    publishingDate,
+    image,
     title,
     description,
-    coinsAmount
+    recomendation,
+    createAt,
+    user
 }) => {
 
     return (
         //#region JSX
 
         <PostContainerView
-        isMain={isMain}
+            isMain={isMain}
             style={{
                 shadowOffset: { width: 0, height: 3 },
                 shadowColor: '#000',
@@ -60,18 +51,20 @@ const PostItem: React.FC<PostItemProps> = ({
                 shadowRadius: 4.65,
                 elevation: 7
             }}
-            >
+        >
             <PostShadow isMain={isMain} />
             <PostImage
                 isMain={isMain}
-                source={imageSource}
+                source={{ uri: `data:image/gif;base64,${image}` }}
             />
             <PostContentView>
                 <ProfileView>
-                    <ProfileImage source={profileImageSource} />
+                    <ProfileImage
+                        source={{ uri: `data:image/gif;base64,${user.profileImage}` }}
+                    />
                     <ProfileSimpleView>
-                        <NameText>{profile}</NameText>
-                        <PublishingDateText>{publishingDate}</PublishingDateText>
+                        <NameText>{user.username}</NameText>
+                        <PublishingDateText>{createAt}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
                 <TextsView isMain={isMain} >
@@ -87,7 +80,7 @@ const PostItem: React.FC<PostItemProps> = ({
                             size={24}
                             color={colors.darkGray}
                         />
-                        <CoinsText>{coinsAmount}</CoinsText>
+                        <CoinsText>{recomendation}</CoinsText>
                     </CoinsView>
                     <HeartIcon
                         size={120}
