@@ -29,7 +29,8 @@
         "react-native-screens": "^2.10.1",
         "react-redux": "^7.2.1",
         "redux": "^4.0.5",
-        "styled-components": "^5.1.1"
+        "styled-components": "^5.1.1",
+        "typesafe-actions": "^5.1.0"
     },
     "devDependencies": {
         "@babel/core": "^7.8.6",

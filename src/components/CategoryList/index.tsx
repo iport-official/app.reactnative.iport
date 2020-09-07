@@ -6,7 +6,7 @@ import {
     ContainerFlatList
 } from './styles'
 
-import { CategoryProxy } from '../../services/Category/category.proxy'
+import { CategoryProxy } from '../../store/ducks/categories/types'
 
 interface CategoryListProps {
     categories: CategoryProxy[]
