@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { getItemAsync } from 'expo-secure-store';
+
+import PostList from '../PostList';
+
+import {
+    ContainerView,
+    TitleText
+} from './styles'
 
 import api from '../../../services/api';
 import { PostProxy } from '../../../services/Post/post.proxy';
-import PostList from '../PostList';
 
-export default function HighlightsPostLis() {
+interface HighlightsPostListProps {
+    title: string
+}
+
+const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
     const [data, setData] = useState<PostProxy[]>([])
 
@@ -17,21 +27,21 @@ export default function HighlightsPostLis() {
                 Authorization: 'Bearer ' + token
             }
         })
-
         setData(response.data)
     }
 
-    useEffect(() => {
-        loadData()
-    }, [])
+    useEffect(() => { loadData() }, [])
 
     return (
         //#region JSX
-        <View>
-            <Text>Mais Votados</Text>
+
+        <ContainerView>
+            <TitleText>{title}</TitleText>
             <PostList data={data} />
-        </View>
+        </ContainerView>
 
         //#endregion
     )
 }
+
+export default HighlightsPostList
