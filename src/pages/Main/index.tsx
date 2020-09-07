@@ -11,6 +11,7 @@ import {
     ContainerKeyboardAvoidView,
     JobsScrollView
 } from './styles'
+import HighlightsPostList from '../../components/PostLists/HighlightsPostList';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
@@ -25,8 +26,8 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
             <ContainerKeyboardAvoidView>
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
                 <JobsScrollView>
-                    <PostList
-                        category='Informatica'
+                    <HighlightsPostList
+                        title="Mais Votados"
                     />
                 </JobsScrollView>
                 <MainFooter />
