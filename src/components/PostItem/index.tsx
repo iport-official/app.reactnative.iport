@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import HeartIcon from './Heart';
@@ -24,7 +24,6 @@ import {
 import { PostProxy } from '../../services/Post/post.proxy';
 
 import { colors } from '../../styles'
-import photo from '../../assets/foto_example.png'
 
 export interface PostItemProps extends PostProxy {
     isMain?: boolean
@@ -32,26 +31,19 @@ export interface PostItemProps extends PostProxy {
 
 const PostItem: React.FC<PostItemProps> = ({
     isMain,
-    id,
     image,
     title,
     description,
-    category,
     recomendation,
-    contact,
-    salary,
-    post,
-    local,
-    requirements,
-    experienceLevel,
-    vacancyDescription
+    createAt,
+    user
 }) => {
 
     return (
         //#region JSX
 
         <PostContainerView
-        isMain={isMain}
+            isMain={isMain}
             style={{
                 shadowOffset: { width: 0, height: 3 },
                 shadowColor: '#000',
@@ -59,7 +51,7 @@ const PostItem: React.FC<PostItemProps> = ({
                 shadowRadius: 4.65,
                 elevation: 7
             }}
-            >
+        >
             <PostShadow isMain={isMain} />
             <PostImage
                 isMain={isMain}
@@ -67,10 +59,12 @@ const PostItem: React.FC<PostItemProps> = ({
             />
             <PostContentView>
                 <ProfileView>
-                    <ProfileImage source={photo} />
+                    <ProfileImage
+                        source={{ uri: `data:image/gif;base64,${user.profileImage}` }}
+                    />
                     <ProfileSimpleView>
-                        <NameText>Scarlett Johansson</NameText>
-                        <PublishingDateText>5 days ago</PublishingDateText>
+                        <NameText>{user.username}</NameText>
+                        <PublishingDateText>{createAt}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
                 <TextsView isMain={isMain} >
