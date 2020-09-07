@@ -11,11 +11,12 @@ import {
 import { PostProxy } from '../../../services/Post/post.proxy'
 
 export interface PostListProps {
+    onEndReached?(): void
+    onEndReachedThreshold?: number
     data: PostProxy[]
 }
 
-const PostList: React.FC<PostListProps> = ({ data }) => {
-
+const PostList: React.FC<PostListProps> = ({ onEndReached, onEndReachedThreshold, data }) => {
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
     const handleOnViewableItemsChanged = useRef((viewableItems: {
@@ -31,6 +32,11 @@ const PostList: React.FC<PostListProps> = ({ data }) => {
         <ContainerView>
             <PostFlatList
                 horizontal
+                onEndReached={() => {
+                    if (onEndReached)
+                        onEndReached()
+                }}
+                onEndReachedThreshold={onEndReachedThreshold}
                 showsHorizontalScrollIndicator={false}
                 data={data}
                 renderItem={({ item }) => {
