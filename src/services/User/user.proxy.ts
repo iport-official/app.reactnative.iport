@@ -1,5 +1,5 @@
 export interface UserProxyBasic {
-    image: string
+    profileImage: string
     username: string
 }
 
