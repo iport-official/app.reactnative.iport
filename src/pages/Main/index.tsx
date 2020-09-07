@@ -11,6 +11,7 @@ import {
     JobsScrollView
 } from './styles'
 import HighlightsPostList from '../../components/PostLists/HighlightsPostList';
+import CategoryPostList from '../../components/PostLists/CategoryPostList';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
@@ -27,6 +28,9 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
                 <JobsScrollView>
                     <HighlightsPostList
                         title="Mais Votados"
+                    />
+                    <CategoryPostList
+                        title="Por Categoria"
                     />
                 </JobsScrollView>
                 <MainFooter />
