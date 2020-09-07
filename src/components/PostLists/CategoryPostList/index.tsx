@@ -18,23 +18,28 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
                 categories={[
                     {
                         id: '0',
-                        name: 'React'
+                        name: 'React',
+                        category: 'React'
                     },
                     {
                         id: '1',
-                        name: 'ReactNative'
+                        name: 'ReactNative',
+                        category: 'ReactNative'
                     },
                     {
                         id: '2',
-                        name: 'Unity'
+                        name: 'Unity',
+                        category: 'Unity'
                     },
                     {
                         id: '3',
-                        name: 'Nestjs'
+                        name: 'Nestjs',
+                        category: 'RNestjseact'
                     },
                     {
                         id: '4',
-                        name: 'Angular'
+                        name: 'Angular',
+                        category: 'Angular'
                     }
                 ]}
             />

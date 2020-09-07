@@ -12,6 +12,7 @@ import { colors } from '../../../styles';
 export interface CategoryItemProps {
     id: string
     name: string
+    category: string
     onPress?(value: boolean): void
 }
 
