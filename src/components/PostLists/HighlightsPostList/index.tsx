@@ -15,6 +15,7 @@ import {
     PostFlatList
 } from './styles'
 
+import { BaseArrayProxy } from '../../../services/base-array-proxy';
 import { PostProxy } from '../../../services/Post/post.proxy';
 
 import api from '../../../services/api';
@@ -40,14 +41,14 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
     async function loadData(pageNumber: number = page) {
         setLoading(true)
         const token = await getItemAsync('access_token')
-        const response = await api.get<PostProxy[]>(`posts/highlights?page=${pageNumber}`, {
+        const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/highlights?page=${pageNumber}`, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
         })
         setData([
             ...data,
-            ...response.data
+            ...response.data.array
         ])
         setPage(pageNumber + 1)
         setLoading(false)
