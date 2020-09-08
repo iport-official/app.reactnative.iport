@@ -4,14 +4,14 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamsList } from '../../navigations/MainDrawer';
 import MainHeader from '../../components/MainHeader';
 import MainFooter from '../../components/MainFooter';
+import HighlightsPostList from '../../components/PostLists/HighlightsPostList';
+import CategoryPostList from '../../components/PostLists/CategoryPostList';
 
 import {
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
     JobsScrollView
 } from './styles'
-import HighlightsPostList from '../../components/PostLists/HighlightsPostList';
-import CategoryPostList from '../../components/PostLists/CategoryPostList';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
