@@ -1,13 +1,15 @@
 import React from 'react'
 
-import CategoryItem, { CategoryItemProps } from './CategoryItem'
+import CategoryItem from './CategoryItem'
 
 import {
     ContainerFlatList
 } from './styles'
 
+import { CategoryProxy } from '../../store/ducks/categories/types'
+
 interface CategoryListProps {
-    categories: CategoryItemProps[]
+    categories: CategoryProxy[]
 }
 
 const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
@@ -21,9 +23,17 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             }}
             data={categories}
             renderItem={({ item }) => {
-                const { ...rest } = item
+                const {
+                    id,
+                    category,
+                    name
+                } = item
                 return <CategoryItem
-                    {...rest}
+                    key={id}
+                    name={name}
+                    onPress={(active: boolean) => {
+
+                    }}
                 />
             }}
             keyExtractor={(item) => item.id}

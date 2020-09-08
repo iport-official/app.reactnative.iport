@@ -2,7 +2,10 @@ import React from 'react';
 import { AppLoading } from "expo";
 import { enableScreens } from 'react-native-screens';
 
+import store from './src/store';
+
 import AppStack from './src/navigations/AppStack'
+import { Provider } from 'react-redux';
 
 import { Poppins_400Regular, Poppins_600SemiBold, useFonts } from '@expo-google-fonts/poppins'
 import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
@@ -27,6 +30,8 @@ export default function App() {
 
     enableScreens()
     return (
-        <AppStack />
+        <Provider store={store}>
+            <AppStack />
+        </Provider>
     );
 }
