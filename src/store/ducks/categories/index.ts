@@ -18,7 +18,6 @@ const reducer: Reducer<CategoriesState> = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: true
             }
-            break
         case CategoriesTypes.LOAD_SUCCESS:
             return {
                 ...state,
@@ -26,7 +25,6 @@ const reducer: Reducer<CategoriesState> = (state = INITIAL_STATE, action) => {
                 error: false,
                 data: action.payload.data
             }
-            break
         case CategoriesTypes.LOAD_FAILURE:
             return {
                 ...state,
@@ -34,7 +32,6 @@ const reducer: Reducer<CategoriesState> = (state = INITIAL_STATE, action) => {
                 error: true,
                 data: []
             }
-            break
         default:
             return state
     }

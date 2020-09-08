@@ -1,3 +1,5 @@
+import BaseArrayProxy from "../../../services/base-array-proxy";
+
 /**
  * Action types
  */
@@ -20,7 +22,7 @@ export interface CategoryProxy {
  * State type
  */
 export interface CategoriesState {
-    readonly data: CategoryProxy[]
+    readonly data: BaseArrayProxy<CategoryProxy>
     readonly loading: boolean
     readonly error: boolean
 }
