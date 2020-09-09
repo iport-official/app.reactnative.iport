@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { FlatList } from 'react-native'
 
-import { CategoryProxy } from '../../services/Category/category.proxy'
+import { CategoryProxy } from '../../store/ducks/categories/types'
 
 export const ContainerFlatList = styled(FlatList as new () => FlatList<CategoryProxy>)`
     overflow: visible;
