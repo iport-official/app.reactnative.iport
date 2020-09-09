@@ -15,3 +15,7 @@ export function loadSuccess(data: BaseArrayProxy<CategoryProxy>) {
 export function loadFailure() {
     return action(CategoriesTypes.LOAD_FAILURE)
 }
+
+export function select() {
+    return action(CategoriesTypes.SELECT)
+}
