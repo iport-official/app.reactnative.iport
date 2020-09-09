@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import { BaseArrayProxy } from '../../../services/base-array-proxy'
 import { ApplicationState } from '../../../store'
-import { CategoriesTypes } from '../../../store/ducks/categories/types'
+import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types'
 
 import CategoryList from '../../CategoryList'
 
@@ -11,19 +12,33 @@ import {
     TitleText
 } from './styles'
 
-
 interface CategoryPostListProps {
     title: string
 }
 
 const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 
-    const categories = useSelector((state: ApplicationState) => state.categories.data.array)
     const dispatch = useDispatch()
+    const { array } = useSelector<ApplicationState, BaseArrayProxy<CategoryProxy>>(state => state.categories.data)
 
-    function loadRequest() {
-        dispatch({ type: CategoriesTypes.LOAD_REQUEST })
-    }
+    useEffect(() => { dispatch({ type: CategoriesTypes.LOAD_REQUEST }) }, [])
+
+    return (
+        //#region JSX
+
+        <ContainerView>
+            <TitleText>{title}</TitleText>
+            <CategoryList categories={array} />
+        </ContainerView>
+
+        //#endregion
+    )
+
+}
+
+export default CategoryPostList
+
+//#region Old code
 
     // const [categoryPage, setCategoryPage] = useState<number>(0)
     // const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
@@ -50,26 +65,5 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 
     // }
 
-    useEffect(() => { loadRequest() }, [])
 
-    return (
-        //#region JSX
-
-        <ContainerView>
-            <TitleText>{title}</TitleText>
-            <CategoryList categories={categories} />
-        </ContainerView>
-
-        //#endregion
-    )
-
-}
-
-// const mapStateToProps = (state: ApplicationState) => ({
-//     categories: state.categories.data
-// })
-
-// const mapDispatchToProps = (dispatch: Dispatch) =>
-//     bindActionCreators(CategoriesActions, dispatch)
-
-export default CategoryPostList
+//#endregion
