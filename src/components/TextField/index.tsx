@@ -13,18 +13,22 @@ interface TextFieldProperties extends TextInputProps {
     label: string,
     keyboard?: string,
     fieldType?: string,
+    textValue?: string,
     clear?: boolean,
     length?: number,
-    fieldWidth?: number
-    onTextChange?(text: string): void
+    fieldWidth?: number,
+    onTextChange?(text: string): void,
+    onFieldBlur?(text: string): void
 }
 
 const TextField: React.FC<TextFieldProperties> = ({
     onTextChange,
+    onFieldBlur,
     label,
     keyboard,
     fieldType,
     fieldWidth,
+    textValue,
     clear,
     length,
     ...rest }) => {
@@ -80,23 +84,35 @@ const TextField: React.FC<TextFieldProperties> = ({
 
     useEffect(() => {
         if(clear) setInputText('');
+
+        if(textValue) {
+            setInputText(textValue);
+        }
     })
 
     return (
         <TextFieldStyle style={{ width: fieldWidth || '80%' }}>
-            { isPassword ? <PasswordIcon name={ secure ? 'eye-off' : 'eye' } size={24}
-                    color={colors.grayPurple} onPress={() => setSecure(!secure)} /> : <Text/> }
+            { isPassword ?
+                <PasswordIcon
+                    name={ secure ? 'eye-off' : 'eye' }
+                    size={24}
+                    color={colors.grayPurple}
+                    onPress={() => setSecure(!secure)} /> :
+                    <Text/>
+            }
             <TextFieldPlaceholder style={{ fontSize: animatedTextSize, top: animatedLabelPosition }}
                 >{ label }</TextFieldPlaceholder>
             <TextFieldInputStyle
                 secureTextEntry={isPassword && secure}
-                keyboardType={keyboard} value={inputText}
+                keyboardType={keyboard}
+                value={inputText}
                 maxLength={length}
                 onChangeText={(text: string) => { setInputText(text); if(onTextChange) onTextChange(text); }}
                 onFocus={() => {
                     if(!inputText) animateOnFocus();
                 }}
                 onBlur={() => {
+                    if(onFieldBlur) onFieldBlur(inputText);
                     if(!inputText) animateOnBlur();
                 }}
                 style={{ opacity: animatedInput, width: isPassword ? '82%' : '95%' }}
