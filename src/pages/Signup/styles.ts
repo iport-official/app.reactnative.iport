@@ -62,7 +62,7 @@ export const ContactText = styled.Text`
 export const MinusButton = styled.TouchableOpacity`
     position: absolute;
     bottom: 5px;
-    right: 7%;
+    left: 7%;
 
     background: #fff;
 `
