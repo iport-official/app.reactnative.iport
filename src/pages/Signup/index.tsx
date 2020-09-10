@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Animated, View } from 'react-native';
+import { Animated, Text, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamsList } from '../../navigations/AppStack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
@@ -51,8 +51,17 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [clearField, setClearField] = useState(false);
     const [clearPassword, setClearPassword] = useState(false);
 
+    let multEmails: any = [];
+    let multPhones: any = [];
+
     useEffect(() => {
         setStatusBarStyle('light');
+
+        setCantAddPhone(phones.length === 3);
+        setCantAddEmail(emails.length === 3);
+
+        multEmails = [...user.additionalEmails];
+        multPhones = [...user.phone];
     });
 
     const handleEmail = (text: string) => {
@@ -83,18 +92,40 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         setUser({ ...user, cep: text });
     }
 
-    const handlePhone = (text: string, index: number) => {
-        const phones: any = user.phone;
+    const handlePhone = (text: string, index: number, action: boolean = false) => {
+        const phones: any = [...user.phone];
         phones.splice(index, 0, text);
 
-        setUser({ ...user, phone: phones });
+        const toSet: any = phones[index];
+
+        if(action && text) {
+            const userPhones: any = [...user.phone];
+            if(userPhones[index]) {
+                userPhones.splice(index, 1, toSet);
+            } else {
+                userPhones.splice(index, 0, toSet);
+            }
+            setTimeout(() => {
+                setUser({ ...user, phone: userPhones });
+            }, 10);
+        }
     }
 
-    const handleAddEmail = (text: string, index: number) => {
-        const emails: any = user.additionalEmails;
+    const handleAddEmail = (text: string, index: number, action: boolean = false) => {
+        const emails: any = [...user.additionalEmails];
         emails.splice(index, 0, text);
 
-        setUser({ ...user, additionalEmails: emails });
+        const toSet: any = emails[index];
+
+        if(action && text) {
+            const userEmails: any = [...user.additionalEmails];
+            if(userEmails[index]) {
+                userEmails.splice(index, 1, toSet);
+            } else {
+                userEmails.splice(index, 0, toSet);
+            }
+            setUser({ ...user, additionalEmails: userEmails });
+        }
     }
 
     const isEmailValid = !!user.email && rules.emailRegex.test(user.email);
@@ -126,8 +157,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             Name: ${user.name}
             CPF/CNPJ: ${user.cpf || user.cnpj}
             CEP: ${user.cep}
-            Phone: ${user.phone[0]}
-            E-mail's: ${user.additionalEmails[0]}
+            Phone: ${user.phone}
+            E-mail's: ${user.additionalEmails}
             `
         );
     }
@@ -139,7 +170,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         Animated.sequence([
             Animated.timing(animatedOpacity, {
                 toValue: 1,
-                duration: 1500,
+                delay: 300,
+                duration: 700,
                 useNativeDriver: false
             }),
             Animated.timing(animatedExtra, {
@@ -148,6 +180,41 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 useNativeDriver: false
             })
         ]).start();
+    }
+
+    const [phones, setPhones]  = useState([ 0 ]);
+    const phoneArray: any = [];
+
+    const newPhone = () => {
+        phoneArray.push( ...phones, phones.length);
+        setPhones(phoneArray);
+    }
+
+    const removePhone = (index: number) => {
+        const toSave: any = user.phone.filter((p: string, i: number) => i !== index);
+        setUser({ ...user, phone: toSave });
+
+        const selectedPhones: any = phones.splice(index, 1);
+        setPhones(phones.filter((p: number) => p !== selectedPhones[0]));
+    }
+
+    const [cantAddPhone, setCantAddPhone] = useState(false);
+    const [cantAddEmail, setCantAddEmail] = useState(false);
+
+    const [emails, setEmails]  = useState([ 0 ]);
+    const emailArray: any = [];
+
+    const newEmail = () => {
+        emailArray.push( ...emails, emails.length);
+        setEmails(emailArray);
+    }
+
+    const removeEmail = (index: number) => {
+        const toSave: any = user.additionalEmails.filter((e: string, i: number) => i !== index);
+        setUser({ ...user, additionalEmails: toSave });
+
+        const selectedEmails: any = emails.splice(index, 1);
+        setEmails(emails.filter((e: number) => e !== selectedEmails[0]));
     }
 
     return (
@@ -216,31 +283,55 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             length={8}
                             onTextChange={(text: string) => handleCep(text)} />
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%', justifyContent: 'space-between' }}>
-                            <ContactText>Contact</ContactText>
-                            <TouchableOpacity activeOpacity={0.5}>
-                                <FontAwesome5 name="plus-circle" size={24} color={colors.vividPurple} />
+                            <ContactText>Phones</ContactText>
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                onPress={() => newPhone()}
+                                disabled={cantAddPhone}>
+                                <FontAwesome5 name="plus-circle" size={24} color={colors.vividPurple}
+                                    style={{ opacity: cantAddPhone ? 0.5 : 1 }}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ width: '100%', alignItems: 'center' }}>
-                            <TextField
-                                clear={clearField}
-                                label='Phone'
-                                keyboard='phone-pad'
-                                onTextChange={(text: string) => handlePhone(text, 0)} />
-                            <MinusButton activeOpacity={1}>
-                                <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
-                            </MinusButton>
+                        { phones.map((p: any, i: number) =>
+                            <View style={{ width: '100%', alignItems: 'center' }} key={i}>
+                                <TextField
+                                    clear={clearField}
+                                    label='Phone'
+                                    keyboard='phone-pad'
+                                    textValue={multPhones[i]}
+                                    onFieldBlur={(text: string) => handlePhone(text, i, true)}
+                                    onTextChange={(text: string) => handlePhone(text, i)} />
+                                { i === phones.length - 1 ? <MinusButton activeOpacity={1} onPress={() => removePhone(i)}>
+                                    <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
+                                </MinusButton> : <View/> }
+                            </View>
+                            )
+                        }
+                        <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', width: '80%', justifyContent: 'space-between' }}>
+                            <ContactText>E-mail's</ContactText>
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                onPress={() => newEmail()}
+                                disabled={cantAddEmail}>
+                                <FontAwesome5 name="plus-circle" size={24} color={colors.vividPurple}
+                                    style={{ opacity: cantAddEmail ? 0.5 : 1 }} />
+                            </TouchableOpacity>
                         </View>
-                        <View style={{ width: '100%', alignItems: 'center' }}>
-                            <TextField
-                                clear={clearField}
-                                label='E-mail'
-                                keyboard='email-address'
-                                onTextChange={(text: string) => handleAddEmail(text, 0)} />
-                            <MinusButton activeOpacity={1}>
-                                <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
-                            </MinusButton>
-                        </View>
+                        { emails.map((e: any, i: number) =>
+                            <View style={{ width: '100%', alignItems: 'center' }} key={i}>
+                                <TextField
+                                    clear={clearField}
+                                    label='E-mail'
+                                    keyboard='email-address'
+                                    textValue={multEmails[i]}
+                                    onFieldBlur={(text: string) => handleAddEmail(text, i, true)}
+                                    onTextChange={(text: string) => handleAddEmail(text, i)} />
+                                { i === emails.length - 1 ? <MinusButton activeOpacity={1} onPress={() => removeEmail(i)}>
+                                    <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
+                                </MinusButton> : <View /> }
+                            </View>
+                            )
+                        }
                     </ExtraFieldsContainer>
                     : <View />}
                 <ButtonContainer style={{ marginTop: personalCheck || companyCheck ? 0 : 180 }}>
