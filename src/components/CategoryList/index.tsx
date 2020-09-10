@@ -1,17 +1,25 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import CategoryItem, { CategoryItemProps } from './CategoryItem'
+import { ApplicationState } from '../../store'
+import { CategoryProxy, CategoriesTypes } from '../../store/ducks/categories/types'
 
-import {
-    ContainerFlatList
-} from './styles'
+import CategoryItem from './CategoryItem'
+
+import { ContainerFlatList } from './styles'
 
 interface CategoryListProps {
-    categories: CategoryItemProps[]
+    categories: CategoryProxy[]
 }
 
 const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
+
+    const dispatch = useDispatch()
+    const category = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.select)
+
     return (
+        //#region JSX
+
         <ContainerFlatList
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -21,13 +29,29 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             }}
             data={categories}
             renderItem={({ item }) => {
-                const { ...rest } = item
+                const {
+                    id,
+                    category,
+                    name
+                } = item
                 return <CategoryItem
-                    {...rest}
+                    key={id}
+                    name={name}
+                    onPress={(active: boolean) => {
+                        if (active)
+                            dispatch({
+                                type: CategoriesTypes.SELECT,
+                                payload: {
+                                    select: item
+                                }
+                            })
+                    }}
                 />
             }}
             keyExtractor={(item) => item.id}
         />
+
+        //#endregion
     )
 }
 
