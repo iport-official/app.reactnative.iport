@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Animated, Text, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamsList } from '../../navigations/AppStack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
@@ -23,6 +23,7 @@ import { rules } from '../../utils';
 import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
 import TextField from '../../components/TextField';
+import AuthSwitch from '../../components/AuthSwitch';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type DefaultSignupPageProps = StackScreenProps<
@@ -220,6 +221,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     return (
         <ContainerSafeAreaView>
             <StatusBar translucent backgroundColor='#612e96' />
+            <AuthSwitch isSignup />
             <SignupContainer contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                 <TextField
                     clear={clearField}
@@ -301,9 +303,11 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     textValue={multPhones[i]}
                                     onFieldBlur={(text: string) => handlePhone(text, i, true)}
                                     onTextChange={(text: string) => handlePhone(text, i)} />
-                                { i === phones.length - 1 ? <MinusButton activeOpacity={1} onPress={() => removePhone(i)}>
-                                    <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
-                                </MinusButton> : <View/> }
+                                { i === phones.length - 1 && i !== 0 ?
+                                    <MinusButton activeOpacity={1} onPress={() => removePhone(i)}>
+                                        <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
+                                    </MinusButton> : <View/>
+                                }
                             </View>
                             )
                         }
@@ -326,15 +330,18 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     textValue={multEmails[i]}
                                     onFieldBlur={(text: string) => handleAddEmail(text, i, true)}
                                     onTextChange={(text: string) => handleAddEmail(text, i)} />
-                                { i === emails.length - 1 ? <MinusButton activeOpacity={1} onPress={() => removeEmail(i)}>
-                                    <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
-                                </MinusButton> : <View /> }
+                                { i === emails.length - 1 && i !== 0 ?
+                                    <MinusButton activeOpacity={1} onPress={() => removeEmail(i)}>
+                                        <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
+                                    </MinusButton> : <View />
+                                }
                             </View>
                             )
                         }
                     </ExtraFieldsContainer>
                     : <View />}
-                <ButtonContainer style={{ marginTop: personalCheck || companyCheck ? 0 : 180 }}>
+                <ButtonContainer style={{ marginTop: personalCheck || companyCheck ? 0 : 100,
+                    marginBottom: personalCheck || companyCheck ? 80 : 0 }}>
                     <FormButton
                         label='Sign up'
                         color={colors.grayPurple}
