@@ -1,11 +1,10 @@
-import React from 'react'
+import React from 'react';
 import {
     DrawerContentComponentProps,
     DrawerContentOptions,
     DrawerItem
-} from '@react-navigation/drawer'
+} from '@react-navigation/drawer';
 import { StackActions } from '@react-navigation/native';
-import { BlurView } from 'expo-blur';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -19,9 +18,9 @@ import {
     ProfileText,
     ContentView,
     FooterView
-} from './styles'
+} from './styles';
 
-import photo from '../../assets/foto_example.png'
+import photo from '../../assets/foto_example.png';
 
 const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({navigation, ...props}) => {
     return (
