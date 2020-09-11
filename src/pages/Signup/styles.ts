@@ -14,7 +14,7 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
 export const SignupContainer = styled.ScrollView`
     background: #fff;
     flex: 1;
-    margin-top: 40px;
+    padding-top: 40px;
     padding-bottom: 40px;
 `
 
@@ -42,7 +42,6 @@ export const CheckboxText = styled.Text`
 export const ButtonContainer = styled.View`
     width: 100%;
     align-items: center;
-    margin-bottom: 40px;
 `
 
 export const ExtraFieldsContainer = styled(Animated.View)`

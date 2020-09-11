@@ -21,7 +21,7 @@ export const LoginContainer = styled(Animated.View)`
 export const LoginLogo = styled(Animated.Image)`
     height: 150px;
     width: 150px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 `
 
 export const LoginFooter = styled.View`
