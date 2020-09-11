@@ -31,6 +31,7 @@ import { LoginProxy } from '../../services/User/login.proxy';
 import { colors } from '../../styles';
 
 import { rules } from '../../utils';
+import AuthSwitch from '../../components/AuthSwitch';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -61,14 +62,13 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     const _keyboardDidShow = () => {
         Animated.parallel([
             Animated.timing(animatedLogin, {
-                toValue: -50,
-                duration: 200,
+                toValue: 70,
+                duration: 0,
                 useNativeDriver: false
             }),
             Animated.timing(animatedLogo, {
-                delay: 200,
-                toValue: 1500,
-                duration: 200,
+                toValue: 50,
+                duration: 0,
                 useNativeDriver: false
             })
         ]).start();
@@ -77,14 +77,13 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     const _keyboardDidHide = () => {
         Animated.parallel([
             Animated.timing(animatedLogin, {
-                delay: 200,
                 toValue: 0,
-                duration: 200,
+                duration: 500,
                 useNativeDriver: false
             }),
             Animated.timing(animatedLogo, {
                 toValue: 150,
-                duration: 200,
+                duration: 500,
                 useNativeDriver: false
             })
         ]).start();
@@ -187,10 +186,11 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                 translucent
                 backgroundColor='#612e96'
             />
+            <AuthSwitch />
             <LoginContainer style={{ top: animatedLogin }}>
                 <LoginLogo
                     source={require('../../assets/icon.png')}
-                    style={{ width: animatedLogo }}
+                    style={{ width: animatedLogo, height: animatedLogo }}
                 />
                 <TextField
                     label='E-mail'
