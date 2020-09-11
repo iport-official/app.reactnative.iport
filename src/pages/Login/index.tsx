@@ -12,6 +12,7 @@ import { AppStackParamsList } from '../../navigations/AppStack';
 import TextField from '../../components/TextField';
 import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
+import AuthSwitch from '../../components/AuthSwitch';
 
 import {
     ContainerSafeAreaView,
@@ -31,7 +32,6 @@ import { LoginProxy } from '../../services/User/login.proxy';
 import { colors } from '../../styles';
 
 import { rules } from '../../utils';
-import AuthSwitch from '../../components/AuthSwitch';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -176,8 +176,8 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         }
     }
 
-    function onWrongCredentials() {
-
+    const onWrongCredentials = () => {
+        alert('O e-mail ou senha está errado! Tente novamente.');
     }
 
     return (
