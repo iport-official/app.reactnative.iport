@@ -25,6 +25,7 @@ interface HighlightsPostListProps {
 }
 
 const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
+
     const [page, setPage] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(false)
     const [data, setData] = useState<PostProxy[]>([])
