@@ -7,9 +7,7 @@ export function loadRequest() {
 }
 
 export function loadSuccess(data: BaseArrayProxy<CategoryProxy>) {
-    return action(CategoriesTypes.LOAD_SUCCESS, {
-        data
-    })
+    return action(CategoriesTypes.LOAD_SUCCESS, { data })
 }
 
 export function loadFailure() {
