@@ -6,7 +6,7 @@ import {
 
 const INITIAL_STATE: CategoriesState = {
     categories: {
-        lenght: 0,
+        length: 0,
         array: []
     },
     error: false,
@@ -37,7 +37,7 @@ const reducer: Reducer<CategoriesState> = (state = INITIAL_STATE, action) => {
                 loading: false,
                 error: true,
                 categories: {
-                    lenght: 0,
+                    length: 0,
                     array: []
                 },
                 selectedCategory: null
@@ -45,7 +45,7 @@ const reducer: Reducer<CategoriesState> = (state = INITIAL_STATE, action) => {
         case CategoriesTypes.SELECT:
             return {
                 ...state,
-                selectedCategory: action.payload.select
+                selectedCategory: action.payload.selectedCategory
             }
         default:
             return state
