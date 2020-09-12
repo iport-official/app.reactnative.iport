@@ -4,7 +4,7 @@ import React, {
     useRef
 } from 'react'
 import { ViewToken } from 'react-native';
-import { getItemAsync } from 'expo-secure-store';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PostItem from '../../PostItem';
 
@@ -15,10 +15,10 @@ import {
     PostFlatList
 } from './styles'
 
-import { BaseArrayProxy } from '../../../services/base-array-proxy';
-import { PostProxy } from '../../../services/Post/post.proxy';
+import { ApplicationState } from '../../../store';
+import { PostProxy, PostsTypes } from '../../../store/ducks/posts/types';
 
-import api from '../../../services/api';
+import { BaseArrayProxy } from '../../../services/base-array-proxy';
 
 interface HighlightsPostListProps {
     title: string
@@ -26,9 +26,11 @@ interface HighlightsPostListProps {
 
 const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
+    const dispatch = useDispatch()
+    const highlightsLoading = useSelector<ApplicationState, boolean>(state => state.posts.loadingHighlights)
+    const highlights = useSelector<ApplicationState, BaseArrayProxy<PostProxy>>(state => state.posts.highlights)
+
     const [page, setPage] = useState<number>(0)
-    const [loading, setLoading] = useState<boolean>(false)
-    const [data, setData] = useState<PostProxy[]>([])
 
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
@@ -39,23 +41,18 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
         // console.log(viewableItems)
     })
 
-    async function loadData(pageNumber: number = page) {
-        setLoading(true)
-        const token = await getItemAsync('access_token')
-        const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/highlights?page=${pageNumber}`, {
-            headers: {
-                Authorization: 'Bearer ' + token
+    function loadData(pageNumber: number = page, shouldStart: boolean = false) {
+        dispatch({
+            type: PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST,
+            payload: {
+                pageNumber,
+                shouldStart
             }
         })
-        setData([
-            ...data,
-            ...response.data.array
-        ])
         setPage(pageNumber + 1)
-        setLoading(false)
     }
 
-    useEffect(() => { loadData() }, [])
+    useEffect(() => { loadData(0, true) }, [])
 
     return (
         //#region JSX
@@ -65,13 +62,15 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
             <PostFlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={data}
+                data={highlights.array}
                 onEndReached={() => { loadData() }}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={(
                     <EndFlatListActivityIndicator
                         style={{
-                            display: loading ? 'flex' : 'none'
+                            display: highlightsLoading
+                                ? 'flex'
+                                : 'none'
                         }}
                     />
                 )}
@@ -99,3 +98,23 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 }
 
 export default HighlightsPostList
+
+//#region Old code
+
+/*
+setLoading(true)
+const token = await getItemAsync('access_token')
+const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/highlights?page=${pageNumber}`, {
+    headers: {
+        Authorization: 'Bearer ' + token
+    }
+})
+setData([
+    ...data,
+    ...response.data.array
+])
+setPage(pageNumber + 1)
+setLoading(false)
+*/
+
+//#endregion
