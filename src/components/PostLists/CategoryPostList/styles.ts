@@ -1,5 +1,7 @@
+import { FlatList } from 'react-native'
 import styled from 'styled-components/native'
 import { colors } from '../../../styles'
+import { PostItemProps } from '../../PostItem'
 
 export const ContainerView = styled.View``
 
@@ -11,4 +13,16 @@ export const TitleText = styled.Text`
     color: ${colors.livePurple};
     margin: 7px 0 10px 0;
     padding-left: 30px;
+`
+
+export const PostFlatList = styled(FlatList as new () => FlatList<PostItemProps>)`
+    flex: 1;
+    flex-direction: row;
+`
+
+export const EndFlatListActivityIndicator = styled.ActivityIndicator.attrs({
+    size: 'large',
+    color: '#999'
+})`
+    margin: 0 30px;
 `
