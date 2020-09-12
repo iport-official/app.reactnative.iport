@@ -35,7 +35,7 @@ export function* loadCategories({ payload }: LoadRequestAction) {
         const data = payload.shouldStart
             ? response.data
             : {
-                lenght: categories.lenght + response.data.lenght,
+                length: categories.length,
                 array: [
                     ...categories.array,
                     ...response.data.array

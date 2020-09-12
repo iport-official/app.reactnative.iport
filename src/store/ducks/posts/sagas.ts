@@ -15,6 +15,7 @@ import {
 
 import { PostProxy, PostsTypes } from "./types";
 import { ApplicationState } from "../..";
+import { CategoryProxy } from "../categories/types";
 
 interface LoadPostsHighlightsActions {
     type: typeof PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST
@@ -28,7 +29,7 @@ interface LoadPostsByCategoryAction {
     type: typeof PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST
     payload: {
         shouldStart: boolean
-        category: string
+        category: CategoryProxy
         pageNumber: number
     }
 }
@@ -50,13 +51,14 @@ export function* loadPostsHighlights({ payload }: LoadPostsHighlightsActions) {
         const data = payload.shouldStart
             ? response.data
             : {
-                lenght: highlights.lenght + response.data.lenght,
+                length: highlights.length,
                 array: [
                     ...highlights.array,
                     ...response.data.array
                 ]
             }
 
+        console.log('putting')
         yield put(loadPostsHighlightsSuccess(data))
     } catch (error) {
         yield put(loadPostsHighlightsFailure())
@@ -68,23 +70,24 @@ export function* loadPostsByCategory({ payload }: LoadPostsByCategoryAction) {
         const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<BaseArrayProxy<PostProxy>> = yield call(
             api.get,
-            `posts/categories?category=${payload.category}&page=${payload.pageNumber}`, {
+            `posts/categories?category=${payload.category.category}&page=${payload.pageNumber}`, {
             headers: {
-                Authorization: 'Bearer' + token
+                Authorization: 'Bearer ' + token
             }
         })
-
         const { categories }: ReturnType<typeof getPostsState> = yield select(getPostsState)
         const data = payload.shouldStart
             ? response.data
             : {
-                lenght: categories.lenght + response.data.lenght,
+                length: categories.length,
                 array: [
                     ...categories.array,
                     ...response.data.array
                 ]
             }
 
+        console.log(payload.category, payload.pageNumber, payload.shouldStart)
+        console.log(data.array.length)
         yield put(loadPostsByCategorySuccess(data))
     } catch (error) {
         yield put(loadPostsByCategoryFailure())
