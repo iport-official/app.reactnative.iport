@@ -3,14 +3,14 @@ import { PostsState, PostsTypes } from "./types";
 
 const INITIAL_STATE: PostsState = {
     categories: {
-        lenght: 0,
+        length: 0,
         array: []
     },
     loadingCategories: false,
     errorCategories: false,
 
     highlights: {
-        lenght: 0,
+        length: 0,
         array: []
     },
     loadingHighlights: false,
@@ -23,7 +23,11 @@ const reducer: Reducer<PostsState> = (state = INITIAL_STATE, action) => {
         case PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST:
             return {
                 ...state,
-                loadingCategories: true
+                loadingCategories: true,
+                categories: {
+                    length: 0,
+                    array: []
+                }
             }
         case PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST_SUCCESS:
             return {
@@ -40,7 +44,11 @@ const reducer: Reducer<PostsState> = (state = INITIAL_STATE, action) => {
         case PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST:
             return {
                 ...state,
-                loadingHighlights: true
+                loadingHighlights: true,
+                highlights: {
+                    length: 0,
+                    array: []
+                }
             }
         case PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST_SUCCESS:
             return {
