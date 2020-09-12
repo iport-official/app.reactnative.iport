@@ -4,9 +4,11 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './ducks/rootReducer'
 import { CategoriesState } from './ducks/categories/types'
 import rootSaga from './ducks/rootSaga'
+import { PostsState } from './ducks/posts/types'
 
 export interface ApplicationState {
     categories: CategoriesState
+    posts: PostsState
 }
 
 const sagaMiddleware = createSagaMiddleware()
