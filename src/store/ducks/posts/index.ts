@@ -29,7 +29,7 @@ const reducer: Reducer<PostsState> = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loadingCategories: false,
-                categories: action.payload.data
+                categories: action.payload.categories
             }
         case PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST_FAILURE:
             return {
@@ -46,7 +46,7 @@ const reducer: Reducer<PostsState> = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loadingHighlights: false,
-                highlights: action.payload.data
+                highlights: action.payload.highlights
             }
         case PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST_FAILURE:
             return {

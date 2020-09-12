@@ -10,16 +10,20 @@ export function loadPostsHighlights() {
     return action(PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST)
 }
 
-export function loadPostsByCategorySuccess(data: BaseArrayProxy<PostProxy>) {
-    return action(PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST_SUCCESS, { data })
+export function loadPostsByCategorySuccess(categories: BaseArrayProxy<PostProxy>) {
+    return action(PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST_SUCCESS, {
+        categories
+    })
 }
 
 export function loadPostsByCategoryFailure() {
     return action(PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST_FAILURE)
 }
 
-export function loadPostsHighlightsSuccess(data: BaseArrayProxy<PostProxy>) {
-    return action(PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST_SUCCESS, { data })
+export function loadPostsHighlightsSuccess(highlights: BaseArrayProxy<PostProxy>) {
+    return action(PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST_SUCCESS, {
+        highlights
+    })
 }
 
 export function loadPostsHighlightsFailure() {

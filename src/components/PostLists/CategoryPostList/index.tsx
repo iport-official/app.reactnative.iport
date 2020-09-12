@@ -23,14 +23,14 @@ interface CategoryPostListProps {
 
 const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 
-    const [page, setPage] = useState<number>(0)
-    const [loading, setLoading] = useState<boolean>(false)
-    const [data, setData] = useState<PostProxy[]>([])
+    const dispatch = useDispatch()
 
-    const category = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.select)
+    const selectedCategory = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.selectedCategory)
+    const categories = useSelector<ApplicationState, BaseArrayProxy<CategoryProxy>>(state => state.categories.categories)
+
+    const [page, setPage] = useState<number>(0)
 
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
-
     const handleOnViewableItemsChanged = useRef((viewableItems: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
@@ -38,40 +38,30 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
         // console.log(viewableItems)
     })
 
-    const dispatch = useDispatch()
-    const { array } = useSelector<ApplicationState, BaseArrayProxy<CategoryProxy>>(state => state.categories.data)
+    function loadCategoryTypes(pageNumber: number = page, shouldStart: boolean = false) {
+        dispatch({
+            type: CategoriesTypes.LOAD_REQUEST,
+            payload: {
+                pageNumber,
+                shouldStart
+            }
+        })
 
-    async function loadData(pageNumber: number = page) {
-        setLoading(true)
-        // const token = await getItemAsync('access_token')
-        // const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/categories?page=${pageNumber}`, {
-        //     headers: {
-        //         Authorization: 'Bearer ' + token
-        //     }
-        // })
-        // setData([
-        //     ...data,
-        //     ...response.data.array
-        // ])
         setPage(pageNumber + 1)
-        setLoading(false)
     }
 
-    useEffect(() => {
-        loadData()
-        dispatch({ type: CategoriesTypes.LOAD_REQUEST })
-    }, [])
+    useEffect(() => { loadCategoryTypes() }, [])
 
     return (
         //#region JSX
 
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <CategoryList categories={array} />
-            <PostFlatList
+            <CategoryList categories={categories.array} />
+            {/* <PostFlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={data}
+                data={categoriesPosts}
                 onEndReached={() => { loadData() }}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={(
@@ -97,7 +87,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
                 contentContainerStyle={{
                     alignItems: "center"
                 }}
-            />
+            /> */}
         </ContainerView>
 
         //#endregion
@@ -106,3 +96,16 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 }
 
 export default CategoryPostList
+
+//#region Old code
+// const token = await getItemAsync('access_token')
+// const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/categories?page=${pageNumber}`, {
+//     headers: {
+//         Authorization: 'Bearer ' + token
+//     }
+// })
+// setData([
+//     ...data,
+//     ...response.data.array
+// ])
+//#endregion
