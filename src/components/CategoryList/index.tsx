@@ -1,7 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { ApplicationState } from '../../store'
 import { CategoryProxy, CategoriesTypes } from '../../store/ducks/categories/types'
 
 import CategoryItem from './CategoryItem'
@@ -15,7 +14,6 @@ interface CategoryListProps {
 const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
 
     const dispatch = useDispatch()
-    const category = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.select)
 
     return (
         //#region JSX
