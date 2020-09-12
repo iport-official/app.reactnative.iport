@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { CategoryProxy, CategoriesTypes } from '../../store/ducks/categories/types'
-import { PostsTypes } from '../../store/ducks/posts/types'
 
 import CategoryItem from './CategoryItem'
 
