@@ -1,4 +1,4 @@
 export interface BaseArrayProxy<T> {
-    lenght: number
+    length: number
     array: T[]
 }

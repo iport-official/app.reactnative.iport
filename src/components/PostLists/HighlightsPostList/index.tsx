@@ -3,7 +3,7 @@ import React, {
     useEffect,
     useRef
 } from 'react'
-import { ViewToken } from 'react-native';
+import { Text, ViewToken } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import PostItem from '../../PostItem';
@@ -28,7 +28,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
     const dispatch = useDispatch()
     const highlightsLoading = useSelector<ApplicationState, boolean>(state => state.posts.loadingHighlights)
-    const highlights = useSelector<ApplicationState, BaseArrayProxy<PostProxy>>(state => state.posts.highlights)
+    const { array } = useSelector<ApplicationState, BaseArrayProxy<PostProxy>>(state => state.posts.highlights)
 
     const [page, setPage] = useState<number>(0)
 
@@ -41,7 +41,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
         // console.log(viewableItems)
     })
 
-    function loadData(pageNumber: number = page, shouldStart: boolean = false) {
+    function loadHighlightsPosts(pageNumber: number = page, shouldStart: boolean = false) {
         dispatch({
             type: PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST,
             payload: {
@@ -52,7 +52,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
         setPage(pageNumber + 1)
     }
 
-    useEffect(() => { loadData(0, true) }, [])
+    useEffect(() => { loadHighlightsPosts(0, true) }, [])
 
     return (
         //#region JSX
@@ -62,8 +62,8 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
             <PostFlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={highlights.array}
-                onEndReached={() => { loadData() }}
+                data={array}
+                onEndReached={() => { loadHighlightsPosts() }}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={(
                     <EndFlatListActivityIndicator
