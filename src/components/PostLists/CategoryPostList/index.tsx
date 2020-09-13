@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { BaseArrayProxy } from '../../../services/base-array-proxy'
-import { PostProxy } from '../../../services/Post/post.proxy'
+import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy'
 import { ApplicationState } from '../../../store'
+import { CategoriesPostsTypes, CategoryPostProxy } from '../../../store/ducks/categoriesPosts/types'
 import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types'
-import { PostsTypes } from '../../../store/ducks/posts/types'
 
 import CategoryList from '../../CategoryList'
 import PostItem from '../../PostItem'
@@ -13,7 +13,6 @@ import PostItem from '../../PostItem'
 import {
     ContainerView,
     TitleText,
-    PostFlatList,
     EndFlatListActivityIndicator
 } from './styles'
 
@@ -28,8 +27,8 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
     const selectedCategory = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.selectedCategory)
     const categoryArray = useSelector<ApplicationState, BaseArrayProxy<CategoryProxy>>(state => state.categories.categories)
 
-    const loadingPostsByCategory = useSelector<ApplicationState, boolean>(state => state.posts.loadingCategories)
-    const { array } = useSelector<ApplicationState, BaseArrayProxy<PostProxy>>(state => state.posts.categories)
+    const loadingPostsByCategory = useSelector<ApplicationState, boolean>(state => state.categoriesPosts.loadingCategoriesPosts)
+    const { array } = useSelector<ApplicationState, BaseArrayProxy<CategoryPostProxy>>(state => state.categoriesPosts.categoriesPosts)
 
     const [categoryListPage, setCategoryListPage] = useState<number>(0)
     const [categoryPostListPage, setCategoryPostListPage] = useState<number>(0)
@@ -57,7 +56,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
             return;
 
         dispatch({
-            type: PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST,
+            type: CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY,
             payload: {
                 pageNumber,
                 category: selectedCategory,
@@ -74,16 +73,20 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
         <ContainerView>
             <TitleText>{title}</TitleText>
             <CategoryList categories={categoryArray.array} />
-            <PostFlatList
+            <FlatList
+                style={{ flexDirection: 'row' }}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={array}
+                extraData={array}
                 onEndReached={() => { loadPostsByCategory() }}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={(
                     <EndFlatListActivityIndicator
                         style={{
-                            display: loadingPostsByCategory ? 'flex' : 'none'
+                            display: loadingPostsByCategory
+                                ? 'flex'
+                                : 'none'
                         }}
                     />
                 )}
@@ -98,9 +101,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
                         />
                     )
                 }}
-                contentContainerStyle={{
-                    alignItems: "center"
-                }}
+                contentContainerStyle={{ alignItems: "center" }}
             />
         </ContainerView>
 
@@ -110,16 +111,3 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 }
 
 export default CategoryPostList
-
-//#region Old code
-// const token = await getItemAsync('access_token')
-// const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/categories?page=${pageNumber}`, {
-//     headers: {
-//         Authorization: 'Bearer ' + token
-//     }
-// })
-// setData([
-//     ...data,
-//     ...response.data.array
-// ])
-//#endregion
