@@ -21,9 +21,9 @@ import {
     CoinsText
 } from './styles'
 
-import { PostProxy } from '../../services/Post/post.proxy';
 
 import { colors } from '../../styles'
+import { PostProxy } from '../../store/ducks/common/post-proxy';
 
 export interface PostItemProps extends PostProxy {
     isMain?: boolean

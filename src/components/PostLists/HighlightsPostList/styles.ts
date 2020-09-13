@@ -1,8 +1,6 @@
 import styled from 'styled-components/native'
 
 import { colors } from '../../../styles'
-import { FlatList } from 'react-native'
-import { PostItemProps } from '../../PostItem'
 
 export const ContainerView = styled.View``
 
@@ -21,9 +19,4 @@ export const EndFlatListActivityIndicator = styled.ActivityIndicator.attrs({
     color: '#999'
 })`
     margin: 0 30px;
-`
-
-export const PostFlatList = styled(FlatList as new () => FlatList<PostItemProps>)`
-    flex: 1;
-    flex-direction: row;
 `

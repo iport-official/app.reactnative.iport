@@ -1,4 +1,4 @@
-import { UserProxy } from "../User/user.proxy";
+import { UserProxy } from "../../../services/User/user.proxy";
 
 export interface PostProxy {
     id: string

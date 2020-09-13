@@ -3,7 +3,7 @@ import React, {
     useEffect,
     useRef
 } from 'react'
-import { Text, ViewToken } from 'react-native';
+import { FlatList, ViewToken } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import PostItem from '../../PostItem';
@@ -11,14 +11,13 @@ import PostItem from '../../PostItem';
 import {
     ContainerView,
     TitleText,
-    EndFlatListActivityIndicator,
-    PostFlatList
+    EndFlatListActivityIndicator
 } from './styles'
 
 import { ApplicationState } from '../../../store';
-import { PostProxy, PostsTypes } from '../../../store/ducks/posts/types';
 
-import { BaseArrayProxy } from '../../../services/base-array-proxy';
+import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy';
+import { HighlightPostProxy, HighlightsPostsTypes } from '../../../store/ducks/highlightsPosts/types';
 
 interface HighlightsPostListProps {
     title: string
@@ -27,10 +26,10 @@ interface HighlightsPostListProps {
 const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
     const dispatch = useDispatch()
-    const highlightsLoading = useSelector<ApplicationState, boolean>(state => state.posts.loadingHighlights)
-    const { array } = useSelector<ApplicationState, BaseArrayProxy<PostProxy>>(state => state.posts.highlights)
+    const highlightsLoading = useSelector<ApplicationState, boolean>(state => state.highlightsPosts.loadingHighlightsPosts)
+    const { array } = useSelector<ApplicationState, BaseArrayProxy<HighlightPostProxy>>(state => state.highlightsPosts.highlightsPosts)
 
-    const [page, setPage] = useState<number>(0)
+    const [page, setPage] = useState(0)
 
     const handleViewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 })
 
@@ -43,7 +42,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
     function loadHighlightsPosts(pageNumber: number = page, shouldStart: boolean = false) {
         dispatch({
-            type: PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST,
+            type: HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS,
             payload: {
                 pageNumber,
                 shouldStart
@@ -59,7 +58,8 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <PostFlatList
+            <FlatList
+                style={{ flexDirection: 'row' }}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={array}
@@ -87,9 +87,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
                 }}
                 onViewableItemsChanged={handleOnViewableItemsChanged.current}
                 viewabilityConfig={handleViewabilityConfig.current}
-                contentContainerStyle={{
-                    alignItems: "center"
-                }}
+                contentContainerStyle={{ alignItems: "center" }}
             />
         </ContainerView>
 
@@ -98,23 +96,3 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 }
 
 export default HighlightsPostList
-
-//#region Old code
-
-/*
-setLoading(true)
-const token = await getItemAsync('access_token')
-const response = await api.get<BaseArrayProxy<PostProxy>>(`posts/highlights?page=${pageNumber}`, {
-    headers: {
-        Authorization: 'Bearer ' + token
-    }
-})
-setData([
-    ...data,
-    ...response.data.array
-])
-setPage(pageNumber + 1)
-setLoading(false)
-*/
-
-//#endregion

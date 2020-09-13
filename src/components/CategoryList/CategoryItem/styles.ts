@@ -26,6 +26,3 @@ export const BorderBottomView = styled.View`
     border-bottom-width: 4px;
     border-bottom-color: ${colors.lighterVividPurple};
 `
-
-// Roboto_700Bold
-// Roboto_400Regular
