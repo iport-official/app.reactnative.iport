@@ -15,11 +15,6 @@ export const TitleText = styled.Text`
     padding-left: 30px;
 `
 
-export const PostFlatList = styled(FlatList as new () => FlatList<PostItemProps>)`
-    flex: 1;
-    flex-direction: row;
-`
-
 export const EndFlatListActivityIndicator = styled.ActivityIndicator.attrs({
     size: 'large',
     color: '#999'
