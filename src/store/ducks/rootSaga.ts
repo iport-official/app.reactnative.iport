@@ -1,14 +1,16 @@
-import { all, take, takeLatest } from 'redux-saga/effects'
+import { all, takeLatest } from 'redux-saga/effects'
 
 import { CategoriesTypes } from './categories/types'
 import { loadCategories } from './categories/sagas'
-import { PostsTypes } from './posts/types'
-import { loadPostsByCategory, loadPostsHighlights } from './posts/sagas'
+import { HighlightsPostsTypes } from './highlightsPosts/types'
+import { loadPostsHighlights } from './highlightsPosts/sagas'
+import { CategoriesPostsTypes } from './categoriesPosts/types'
+import { loadPostsByCategory } from './categoriesPosts/sagas'
 
 export default function* rootSaga() {
     return yield all([
         takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
-        takeLatest(PostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST, loadPostsByCategory),
-        takeLatest(PostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST, loadPostsHighlights)
+        takeLatest(HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS, loadPostsHighlights),
+        takeLatest(CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY, loadPostsByCategory)
     ])
 }
