@@ -1,4 +1,4 @@
-import { BaseArrayProxy } from "../../../services/base-array-proxy";
+import { BaseArrayProxy } from "../common/base-array-proxy";
 
 export enum CategoriesTypes {
     LOAD_REQUEST = '@categories/LOAD_REQUEST',

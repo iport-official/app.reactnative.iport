@@ -6,7 +6,7 @@ import { ApplicationState } from '../..'
 import { CategoriesTypes, CategoryProxy } from './types'
 import { loadSuccess, loadFailure } from './actions'
 
-import { BaseArrayProxy } from '../../../services/base-array-proxy'
+import { BaseArrayProxy } from '../common/base-array-proxy'
 
 import api from '../../../services/api'
 
