@@ -1,8 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    useRef
-} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FlatList, ViewToken } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 

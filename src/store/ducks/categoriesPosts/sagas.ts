@@ -1,12 +1,15 @@
 import { AxiosResponse } from "axios"
 import { getItemAsync } from "expo-secure-store"
 import { call, put, select } from "redux-saga/effects"
+
 import { ApplicationState } from "../.."
-import api from "../../../services/api"
-import { BaseArrayProxy } from "../common/base-array-proxy"
-import { CategoryProxy } from "../categories/types"
 import { loadPostsByCategoryFailure, loadPostsByCategorySuccess } from "./actions"
 import { CategoriesPostsTypes, CategoryPostProxy } from "./types"
+import { CategoryProxy } from "../categories/types"
+
+import { BaseArrayProxy } from "../common/base-array-proxy"
+
+import api from "../../../services/api"
 
 interface LoadPostsByCategoryAction {
     type: typeof CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY

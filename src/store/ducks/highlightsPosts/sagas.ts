@@ -1,11 +1,14 @@
 import { AxiosResponse } from "axios"
 import { getItemAsync } from "expo-secure-store"
 import { call, select, put } from "redux-saga/effects"
+
 import { ApplicationState } from "../.."
-import api from "../../../services/api"
-import { BaseArrayProxy } from "../common/base-array-proxy"
 import { loadPostsHighlightsFailure, loadPostsHighlightsSuccess } from "./actions"
 import { HighlightPostProxy, HighlightsPostsTypes } from "./types"
+
+import { BaseArrayProxy } from "../common/base-array-proxy"
+
+import api from "../../../services/api"
 
 interface LoadPostsHighlightsAction {
     type: typeof HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS
@@ -18,7 +21,6 @@ interface LoadPostsHighlightsAction {
 const getHighlightsPosts = (state: ApplicationState) => state.highlightsPosts
 
 export function* loadPostsHighlights({ payload }: LoadPostsHighlightsAction) {
-
     try {
         const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<BaseArrayProxy<HighlightPostProxy>> = yield call(
@@ -28,13 +30,11 @@ export function* loadPostsHighlights({ payload }: LoadPostsHighlightsAction) {
                 'Authorization': 'Bearer ' + token
             }
         })
-
         const { highlightsPosts }: ReturnType<typeof getHighlightsPosts> = yield select(getHighlightsPosts)
-
         const data = payload.shouldStart
             ? response.data
             : {
-                length: highlightsPosts.length,
+                length: response.data.length,
                 array: [
                     ...highlightsPosts.array,
                     ...response.data.array
