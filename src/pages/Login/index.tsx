@@ -97,64 +97,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     const [clearPassword, setClearPassword] = useState(false);
     const [clearEmail, setClearEmail] = useState(false);
 
-    //#region Old code
-
-    // const onLoginButtonPress = () => {
-    //     if (!isPasswordValid) {
-    //         setClearPassword(true);
-    //         setPassword('');
-    //         alert('Password: \nMin 6 characters with at least one capital letter, one lower case and one number');
-
-    //         setTimeout(() => setClearPassword(false), 10);
-
-    //         return;
-    //     }
-
-    //     const user = { email, password };
-
-    //     api.post(`/auth/login`, user)
-    //         .then(response => {
-    //             const resp = response.data;
-    //             const token = resp.access_token;
-    //             const status = response.status;
-
-    //             if (status == 201) {
-    //                 api.get(`users/profile`, {
-    //                     headers: {
-    //                         'Authorization': 'Bearer ' + token
-    //                     }
-    //                 })
-    //                     .then(res => {
-    //                         userModel.email = res.data.username;
-    //                         userModel.authToken = token;
-
-    //                         setClearEmail(true);
-    //                         setClearPassword(true);
-    //                         setPassword('');
-    //                         setEmail('');
-
-    //                         setTimeout(() => {
-    //                             setClearEmail(false);
-    //                             setClearPassword(false);
-    //                         }, 10);
-    //                         return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
-    //                     })
-    //                     .catch(error => {
-    //                         alert('Token ' + error);
-    //                     })
-    //             }
-    //         })
-    //         .catch(error => {
-    //             if (error.response.status == 400) {
-    //                 alert('Wrong credentials provided!');
-    //             } else {
-    //                 alert(error);
-    //             }
-    //         })
-    // }
-
-    //#endregion
-
     async function login() {
         try {
             const payload: LoginPayload = {
@@ -223,3 +165,61 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         </ContainerSafeAreaView>
     )
 }
+
+//#region Old code
+
+    // const onLoginButtonPress = () => {
+    //     if (!isPasswordValid) {
+    //         setClearPassword(true);
+    //         setPassword('');
+    //         alert('Password: \nMin 6 characters with at least one capital letter, one lower case and one number');
+
+    //         setTimeout(() => setClearPassword(false), 10);
+
+    //         return;
+    //     }
+
+    //     const user = { email, password };
+
+    //     api.post(`/auth/login`, user)
+    //         .then(response => {
+    //             const resp = response.data;
+    //             const token = resp.access_token;
+    //             const status = response.status;
+
+    //             if (status == 201) {
+    //                 api.get(`users/profile`, {
+    //                     headers: {
+    //                         'Authorization': 'Bearer ' + token
+    //                     }
+    //                 })
+    //                     .then(res => {
+    //                         userModel.email = res.data.username;
+    //                         userModel.authToken = token;
+
+    //                         setClearEmail(true);
+    //                         setClearPassword(true);
+    //                         setPassword('');
+    //                         setEmail('');
+
+    //                         setTimeout(() => {
+    //                             setClearEmail(false);
+    //                             setClearPassword(false);
+    //                         }, 10);
+    //                         return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
+    //                     })
+    //                     .catch(error => {
+    //                         alert('Token ' + error);
+    //                     })
+    //             }
+    //         })
+    //         .catch(error => {
+    //             if (error.response.status == 400) {
+    //                 alert('Wrong credentials provided!');
+    //             } else {
+    //                 alert(error);
+    //             }
+    //         })
+    // }
+
+    //#endregion
