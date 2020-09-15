@@ -4,6 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamsList } from '../../navigations/AppStack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import * as _ImagePicker from 'expo-image-picker';
 
 import {
     ButtonContainer,
@@ -24,7 +25,15 @@ import Checkbox from '../../components/Checkbox';
 import FormButton from '../../components/FormButton';
 import TextField from '../../components/TextField';
 import AuthSwitch from '../../components/AuthSwitch';
+import ImagePicker from '../../components/ImagePicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import * as SecureStore from 'expo-secure-store';
+import api from '../../services/api';
+import { RegisterPayload } from '../../services/User/register.payload';
+import { RegisterProxy } from '../../services/User/register.proxy';
+import { LoginPayload } from '../../services/User/login.payload';
+import { LoginProxy } from '../../services/User/login.proxy';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
@@ -34,15 +43,19 @@ type DefaultSignupPageProps = StackScreenProps<
 export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
     const [user, setUser] = useState({
+        profileImage: '',
         email: '',
         password: '',
-        name: '',
+        accountType: '',
+        username: '',
         cpf: '',
         cnpj: '',
         cep: '',
         phone: [],
         additionalEmails: []
     });
+
+    const [image, setImage] = useState('');
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -63,7 +76,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
         multEmails = [...user.additionalEmails];
         multPhones = [...user.phone];
-    });
+    }, []);
 
     const handleEmail = (text: string) => {
         setUser({ ...user, email: text });
@@ -77,8 +90,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         setConfirmPassword(text);
     }
 
-    const handleName = (text: string) => {
-        setUser({ ...user, name: text });
+    const handleUsername = (text: string) => {
+        setUser({ ...user, username: text });
     }
 
     const handleCpfCnpj = (text: string) => {
@@ -135,7 +148,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const isCpfValid = !!user.cpf && user.cpf.length === 11;
     const isCnpjValid = !!user.cnpj && user.cnpj.length === 14;
 
-    const signupButtonPress = () => {
+    const signupButtonPress = async () => {
         if (!isPasswordValid || !isPasswordSame) {
             setClearPassword(true);
             setUser({ ...user, password: '' });
@@ -151,17 +164,40 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             return;
         }
 
-        alert(
-            `
-            E-mail: ${user.email}
-            Password: ${user.password}
-            Name: ${user.name}
-            CPF/CNPJ: ${user.cpf || user.cnpj}
-            CEP: ${user.cep}
-            Phone: ${user.phone}
-            E-mail's: ${user.additionalEmails}
-            `
-        );
+        try {
+            const formdata = new FormData();
+            formdata.append('profileImage', image);
+            formdata.append('username', user.username);
+            formdata.append('email', user.email);
+            formdata.append('password', user.password);
+            formdata.append('accountType', user.accountType);
+
+            console.log('img: ', image);
+            const signupResponse = await api.post<RegisterProxy>('/users', formdata, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            if(signupResponse.status === 201) {
+                // const loginPayload: LoginPayload = {
+                //     email: user.email,
+                //     password: user.password
+                // }
+                // const loginResponse = await api.post<LoginProxy>('/users/login', loginPayload);
+                // if(loginResponse.status === 201) {
+                //     await SecureStore.setItemAsync('access_token', loginResponse.data.access_token);
+                //     navigation.navigate("Drawer", {
+                //         MainPage: undefined,
+                //         ProfilePage: undefined
+                //     });
+                //     return;
+                // }
+                alert('Ocorreu um erro! Por favor, dirija-se à página de Login e tente entrar em sua conta.');
+            }
+            else {
+                alert('Ocorreu um erro! Por favor, cheque suas credencias e tente novamente.');
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const animatedOpacity = useRef(new Animated.Value(0)).current;
@@ -172,12 +208,12 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             Animated.timing(animatedOpacity, {
                 toValue: 1,
                 delay: 300,
-                duration: 700,
+                duration: 400,
                 useNativeDriver: false
             }),
             Animated.timing(animatedExtra, {
                 toValue: 0,
-                duration: 1500,
+                duration: 1000,
                 useNativeDriver: false
             })
         ]).start();
@@ -223,6 +259,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             <StatusBar translucent backgroundColor='#612e96' />
             <AuthSwitch isSignup />
             <SignupContainer contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+                <ImagePicker onPick={(img: any) => setImage(img)} />
                 <TextField
                     clear={clearField}
                     label='E-mail'
@@ -230,12 +267,12 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     onTextChange={(text: string) => handleEmail(text)} />
                 <TextField
                     clear={clearPassword}
-                    label='Password'
+                    label='Senha'
                     fieldType='password'
                     onTextChange={(text: string) => handlePassword(text)} />
                 <TextField
                     clear={clearPassword}
-                    label='Confirm password'
+                    label='Confirmar senha'
                     fieldType='password'
                     onTextChange={(text: string) => handleConfirmPassword(text)} />
 
@@ -245,24 +282,24 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         setCompanyCheck(false);
 
                         if (!personalCheck) {
-                            setUser({ ...user, cpf: user.cnpj });
+                            setUser({ ...user, cpf: user.cnpj, cnpj: '', accountType: 'PERSONAL' });
                             if (!companyCheck) animateContainer();
                         }
                     }} >
                         <Checkbox checked={personalCheck} />
-                        <CheckboxText>Personal</CheckboxText>
+                        <CheckboxText>Pessoa</CheckboxText>
                     </CheckboxContainer>
                     <CheckboxContainer onTouchStart={() => {
                         setCompanyCheck(true);
                         setPersonalCheck(false);
 
                         if (!companyCheck) {
-                            setUser({ ...user, cnpj: user.cpf });
+                            setUser({ ...user, cnpj: user.cpf, cpf: '', accountType: 'COMPANY' });
                             if (!personalCheck) animateContainer();
                         }
                     }} >
                         <Checkbox checked={companyCheck} />
-                        <CheckboxText>Company</CheckboxText>
+                        <CheckboxText>Empresa</CheckboxText>
                     </CheckboxContainer>
                 </SignupChoice>
 
@@ -270,8 +307,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     ? <ExtraFieldsContainer style={{ opacity: animatedOpacity, top: animatedExtra }}>
                         <TextField
                             clear={clearField}
-                            label='Name'
-                            onTextChange={(text: string) => handleName(text)} />
+                            label='Nome'
+                            onTextChange={(text: string) => handleUsername(text)} />
                         <TextField
                             clear={clearField}
                             label={personalCheck ? 'CPF' : 'CNPJ'}
@@ -285,7 +322,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             length={8}
                             onTextChange={(text: string) => handleCep(text)} />
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%', justifyContent: 'space-between' }}>
-                            <ContactText>Phones</ContactText>
+                            <ContactText>Telefones</ContactText>
                             <TouchableOpacity
                                 activeOpacity={0.5}
                                 onPress={() => newPhone()}
@@ -298,7 +335,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             <View style={{ width: '100%', alignItems: 'center' }} key={i}>
                                 <TextField
                                     clear={clearField}
-                                    label='Phone'
+                                    label='Telefone'
                                     keyboard='phone-pad'
                                     textValue={multPhones[i]}
                                     onFieldBlur={(text: string) => handlePhone(text, i, true)}
@@ -340,7 +377,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         }
                     </ExtraFieldsContainer>
                     : <View />}
-                <ButtonContainer style={{ marginTop: personalCheck || companyCheck ? 0 : 100,
+                {(personalCheck || companyCheck) && <ButtonContainer style={{ marginTop: personalCheck || companyCheck ? 0 : 100,
                     marginBottom: personalCheck || companyCheck ? 80 : 0 }}>
                     <FormButton
                         label='Sign up'
@@ -350,12 +387,12 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         disable={
                             !isEmailValid ||
                             !user.password ||
-                            !user.name ||
-                            (personalCheck ? !isCpfValid : !isCnpjValid) ||
-                            !user.cep
+                            !user.username
+                            // (personalCheck ? !isCpfValid : !isCnpjValid) ||
+                            // !user.cep
                         }
                         onPress={signupButtonPress} />
-                </ButtonContainer>
+                </ButtonContainer>}
             </SignupContainer>
         </ContainerSafeAreaView>
     );
