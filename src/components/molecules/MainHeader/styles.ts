@@ -10,7 +10,8 @@ export const ContainerHeaderView = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding-right: 20px;
+    padding-left: 5px;
 `
 
 export const ContainerPortCoins = styled.View`
