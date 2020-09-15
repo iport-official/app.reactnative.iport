@@ -23,15 +23,15 @@ import {
     ForgotPassword
 } from './styles';
 
-import api from '../../services/api';
-
-import { LoginPayload } from '../../services/User/login.payload'
 import { LoginProxy } from '../../services/User/login.proxy';
 
 import { colors } from '../../styles';
 
 import { rules } from '../../utils';
 import AuthSwitch from '../../components/AuthSwitch';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserProxy, UserTypes } from '../../store/ducks/user/types';
+import { ApplicationState } from '../../store';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -39,9 +39,17 @@ type DefaultLoginPageProps = StackScreenProps<
 >
 
 export default function LoginPage({ navigation }: DefaultLoginPageProps) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [checked, setChecked] = useState(false);
+
+    const dispatch = useDispatch()
+
+    const loading = useSelector<ApplicationState, boolean>(state => state.user.loading)
+    const error = useSelector<ApplicationState, boolean>(state => state.user.error)
+    const login = useSelector<ApplicationState, LoginProxy | null>(state => state.user.login)
+    const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user)
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [checked, setChecked] = useState(false)
 
     //#region Keyboard
 
@@ -91,31 +99,43 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
 
     //#endregion
 
-    const isEmailValid = !!email && rules.emailRegex.test(email);
-    const isPasswordValid = !!password && rules.passwordRegex.test(password);
+    const isEmailValid = !!email && rules.emailRegex.test(email)
+    const isPasswordValid = !!password && rules.passwordRegex.test(password)
 
-    const [clearPassword, setClearPassword] = useState(false);
-    const [clearEmail, setClearEmail] = useState(false);
+    const [clearPassword, setClearPassword] = useState(false)
+    const [clearEmail, setClearEmail] = useState(false)
 
-    async function login() {
-        try {
-            const payload: LoginPayload = {
+    useEffect(() => {
+        if (login === null)
+            return
+
+        console.log(login)
+        dispatch({
+            type: UserTypes.GET_PROFILE_REQUEST,
+            payload: {
+                access_token: login?.access_token
+            }
+        })
+    }, [login])
+
+    useEffect(onWrongCredentials, [error])
+
+    useEffect(() => {
+        if (user !== null)
+            navigation.navigate("Drawer", {
+                MainPage: undefined,
+                ProfilePage: undefined
+            })
+    }, [user])
+
+    function performLogin(): void {
+        dispatch({
+            type: UserTypes.LOGIN_REQUEST,
+            payload: {
                 email,
                 password
             }
-            const response = await api.post<LoginProxy>('users/login', payload)
-            if (response.status == 201) {
-                await SecureStore.setItemAsync('access_token', response.data.access_token)
-                navigation.navigate("Drawer", {
-                    MainPage: undefined,
-                    ProfilePage: undefined
-                })
-                return;
-            }
-            onWrongCredentials()
-        } catch (error) {
-            console.log(error)
-        }
+        })
     }
 
     function onWrongCredentials() {
@@ -159,7 +179,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                     color={colors.grayPurple}
                     disableColor={colors.grayPurple + '88'}
                     ripple={colors.lightPurple}
-                    onPress={login}
+                    onPress={performLogin}
                 />
             </LoginContainer>
         </ContainerSafeAreaView>
@@ -220,6 +240,31 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     //                 alert(error);
     //             }
     //         })
+    // }
+
+    // async function login() {
+    //     try {
+    //         const payload: LoginPayload = {
+    //             email,
+    //             password
+    //         }
+    //         const response = await api.post<LoginProxy>('users/login', payload)
+    //         if (response.status == 201) {
+    //             await SecureStore.setItemAsync('access_token', response.data.access_token)
+    //             navigation.navigate("Drawer", {
+    //                 MainPage: undefined,
+    //                 ProfilePage: undefined
+    //             })
+    //             return;
+    //         }
+    //         onWrongCredentials()
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // function onWrongCredentials() {
+
     // }
 
     //#endregion
