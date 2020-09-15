@@ -27,10 +27,13 @@ export default function Drawer({ navigation }: DefaultLoginPageProps) {
 
         <Navigator
             initialRouteName="MainPage"
-            drawerContent={props => (<DrawerContent {...props} />)}
-            drawerStyle={{ width: "80%", backgroundColor: colors.vividPurple + 'dd' }}>
-                <Screen name="MainPage" component={MainPage} />
-                <Screen name="ProfilePage" component={ProfilePage} />
+            drawerContent={props => <DrawerContent {...props} />}
+            drawerStyle={{
+                width: "80%",
+                backgroundColor: colors.vividPurple + 'dd'
+            }}>
+            <Screen name="MainPage" component={MainPage} />
+            <Screen name="ProfilePage" component={ProfilePage} />
         </Navigator>
 
         //#endregion
