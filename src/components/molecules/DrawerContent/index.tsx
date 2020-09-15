@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     DrawerContentComponentProps,
     DrawerContentOptions,
@@ -19,9 +19,19 @@ import {
 
 import ProfilePhoto from '../../atoms/ProfilePhoto';
 
-import photo from '../../../assets/foto_example.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { ApplicationState } from '../../../store';
+import { UserProxy, UserTypes } from '../../../store/ducks/user/types';
 
-const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({navigation, ...props}) => {
+const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({ navigation, ...props }) => {
+
+    const dispatch = useDispatch()
+
+    const loading = useSelector<ApplicationState, boolean>(state => state.user.loading)
+    const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user)
+
+    useEffect(() => { dispatch({ type: UserTypes.GET_PROFILE_REQUEST }) }, [])
+
     return (
         //#region JSX
 
@@ -30,9 +40,9 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                 <ProfileView>
                     <ProfilePhoto
                         size={75}
-                        source={photo}
+                        source={{ uri: `data:image/gif;base64,${user?.profileImage}` }}
                     />
-                    <ProfileText>Scarlett Johansson</ProfileText>
+                    <ProfileText>{user?.username}</ProfileText>
                 </ProfileView>
                 <ContentView>
                     <DrawerItem
@@ -84,9 +94,11 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                     }
                     label="Sair"
                     labelStyle={{ color: "#fff" }}
-                    onPress={() => { navigation.dispatch(
-                        StackActions.replace('LoginPage')
-                    ) }}
+                    onPress={() => {
+                        navigation.dispatch(
+                            StackActions.replace('LoginPage')
+                        )
+                    }}
                 />
             </FooterView>
         </ContainerView>
