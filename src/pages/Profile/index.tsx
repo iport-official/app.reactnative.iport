@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
-import { DrawerScreenProps } from '@react-navigation/drawer'
-
-import { DrawerParamsList } from '../../navigations/MainDrawer'
-import MainHeader from '../../components/MainHeader'
+import React, { useEffect } from 'react';
+import { DrawerScreenProps } from '@react-navigation/drawer';
+import { setStatusBarStyle } from 'expo-status-bar';
 
 import {
     ContainerSafeAreaView,
     ContentView
-} from './styles'
-import MainFooter from '../../components/MainFooter'
-import { setStatusBarStyle } from 'expo-status-bar'
+} from './styles';
+
+import { DrawerParamsList } from '../../navigations/MainDrawer';
+import MainHeader from '../../components/molecules/MainHeader';
+import MainFooter from '../../components/organisms/MainFooter';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,

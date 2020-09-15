@@ -21,16 +21,15 @@ import {
 import { colors } from '../../styles';
 import { rules } from '../../utils';
 
-import Checkbox from '../../components/Checkbox';
-import FormButton from '../../components/FormButton';
-import TextField from '../../components/TextField';
-import AuthSwitch from '../../components/AuthSwitch';
-import ImagePicker from '../../components/ImagePicker';
+import Checkbox from '../../components/atoms/Checkbox';
+import FormButton from '../../components/atoms/FormButton';
+import TextField from '../../components/atoms/TextField';
+import AuthSwitch from '../../navigations/AuthSwitch';
+import ImagePicker from '../../components/atoms/ImagePicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import * as SecureStore from 'expo-secure-store';
 import api from '../../services/api';
-import { RegisterPayload } from '../../services/User/register.payload';
+import * as SecureStore from 'expo-secure-store';
 import { RegisterProxy } from '../../services/User/register.proxy';
 import { LoginPayload } from '../../services/User/login.payload';
 import { LoginProxy } from '../../services/User/login.proxy';
@@ -55,6 +54,16 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         additionalEmails: []
     });
 
+    useEffect(() => {
+        setStatusBarStyle('light');
+
+        setCantAddPhone(phones.length === 3);
+        setCantAddEmail(emails.length === 3);
+
+        multEmails = [...user.additionalEmails];
+        multPhones = [...user.phone];
+    }, []);
+
     const [image, setImage] = useState('');
 
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -68,42 +77,12 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     let multEmails: any = [];
     let multPhones: any = [];
 
-    useEffect(() => {
-        setStatusBarStyle('light');
-
-        setCantAddPhone(phones.length === 3);
-        setCantAddEmail(emails.length === 3);
-
-        multEmails = [...user.additionalEmails];
-        multPhones = [...user.phone];
-    }, []);
-
-    const handleEmail = (text: string) => {
-        setUser({ ...user, email: text });
-    }
-
-    const handlePassword = (text: string) => {
-        setUser({ ...user, password: text });
-    }
-
-    const handleConfirmPassword = (text: string) => {
-        setConfirmPassword(text);
-    }
-
-    const handleUsername = (text: string) => {
-        setUser({ ...user, username: text });
-    }
-
     const handleCpfCnpj = (text: string) => {
         if (personalCheck) {
             setUser({ ...user, cpf: text });
         } else {
             setUser({ ...user, cnpj: text });
         }
-    }
-
-    const handleCep = (text: string) => {
-        setUser({ ...user, cep: text });
     }
 
     const handlePhone = (text: string, index: number, action: boolean = false) => {
@@ -142,6 +121,41 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         }
     }
 
+    const [phones, setPhones]  = useState([ 0 ]);
+    const phoneArray: any = [];
+
+    const newPhone = () => {
+        phoneArray.push( ...phones, phones.length);
+        setPhones(phoneArray);
+    }
+
+    const removePhone = (index: number) => {
+        const toSave: any = user.phone.filter((p: string, i: number) => i !== index);
+        setUser({ ...user, phone: toSave });
+
+        const selectedPhones: any = phones.splice(index, 1);
+        setPhones(phones.filter((p: number) => p !== selectedPhones[0]));
+    }
+
+    const [cantAddPhone, setCantAddPhone] = useState(false);
+    const [cantAddEmail, setCantAddEmail] = useState(false);
+
+    const [emails, setEmails]  = useState([ 0 ]);
+    const emailArray: any = [];
+
+    const newEmail = () => {
+        emailArray.push( ...emails, emails.length);
+        setEmails(emailArray);
+    }
+
+    const removeEmail = (index: number) => {
+        const toSave: any = user.additionalEmails.filter((e: string, i: number) => i !== index);
+        setUser({ ...user, additionalEmails: toSave });
+
+        const selectedEmails: any = emails.splice(index, 1);
+        setEmails(emails.filter((e: number) => e !== selectedEmails[0]));
+    }
+
     const isEmailValid = !!user.email && rules.emailRegex.test(user.email);
     const isPasswordValid = !!user.password && rules.passwordRegex.test(user.password);
     const isPasswordSame = user.password === confirmPassword;
@@ -172,7 +186,6 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             formdata.append('password', user.password);
             formdata.append('accountType', user.accountType);
 
-            console.log('img: ', image);
             const signupResponse = await api.post<RegisterProxy>('/users', formdata, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
@@ -219,41 +232,6 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         ]).start();
     }
 
-    const [phones, setPhones]  = useState([ 0 ]);
-    const phoneArray: any = [];
-
-    const newPhone = () => {
-        phoneArray.push( ...phones, phones.length);
-        setPhones(phoneArray);
-    }
-
-    const removePhone = (index: number) => {
-        const toSave: any = user.phone.filter((p: string, i: number) => i !== index);
-        setUser({ ...user, phone: toSave });
-
-        const selectedPhones: any = phones.splice(index, 1);
-        setPhones(phones.filter((p: number) => p !== selectedPhones[0]));
-    }
-
-    const [cantAddPhone, setCantAddPhone] = useState(false);
-    const [cantAddEmail, setCantAddEmail] = useState(false);
-
-    const [emails, setEmails]  = useState([ 0 ]);
-    const emailArray: any = [];
-
-    const newEmail = () => {
-        emailArray.push( ...emails, emails.length);
-        setEmails(emailArray);
-    }
-
-    const removeEmail = (index: number) => {
-        const toSave: any = user.additionalEmails.filter((e: string, i: number) => i !== index);
-        setUser({ ...user, additionalEmails: toSave });
-
-        const selectedEmails: any = emails.splice(index, 1);
-        setEmails(emails.filter((e: number) => e !== selectedEmails[0]));
-    }
-
     return (
         <ContainerSafeAreaView>
             <StatusBar translucent backgroundColor='#612e96' />
@@ -264,17 +242,17 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     clear={clearField}
                     label='E-mail'
                     keyboard='email-address'
-                    onTextChange={(text: string) => handleEmail(text)} />
+                    onTextChange={(text: string) => setUser({ ...user, email: text })} />
                 <TextField
                     clear={clearPassword}
                     label='Senha'
                     fieldType='password'
-                    onTextChange={(text: string) => handlePassword(text)} />
+                    onTextChange={(text: string) => setUser({ ...user, password: text })} />
                 <TextField
                     clear={clearPassword}
                     label='Confirmar senha'
                     fieldType='password'
-                    onTextChange={(text: string) => handleConfirmPassword(text)} />
+                    onTextChange={setConfirmPassword} />
 
                 <SignupChoice>
                     <CheckboxContainer onTouchStart={() => {
@@ -308,7 +286,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         <TextField
                             clear={clearField}
                             label='Nome'
-                            onTextChange={(text: string) => handleUsername(text)} />
+                            onTextChange={(text: string) => setUser({ ...user, username: text })} />
                         <TextField
                             clear={clearField}
                             label={personalCheck ? 'CPF' : 'CNPJ'}
@@ -320,7 +298,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             label='CEP'
                             keyboard='number-pad'
                             length={8}
-                            onTextChange={(text: string) => handleCep(text)} />
+                            onTextChange={(text: string) => setUser({ ...user, cep: text })} />
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%', justifyContent: 'space-between' }}>
                             <ContactText>Telefones</ContactText>
                             <TouchableOpacity
@@ -387,7 +365,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         disable={
                             !isEmailValid ||
                             !user.password ||
-                            !user.username
+                            !user.username //||
                             // (personalCheck ? !isCpfValid : !isCnpjValid) ||
                             // !user.cep
                         }

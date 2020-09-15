@@ -6,12 +6,6 @@ import React, {
 import { Keyboard, Animated } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
-import * as SecureStore from 'expo-secure-store';
-
-import { AppStackParamsList } from '../../navigations/AppStack';
-import TextField from '../../components/TextField';
-import Checkbox from '../../components/Checkbox';
-import FormButton from '../../components/FormButton';
 
 import {
     ContainerSafeAreaView,
@@ -23,12 +17,15 @@ import {
     ForgotPassword
 } from './styles';
 
-import { LoginProxy } from '../../services/User/login.proxy';
-
 import { colors } from '../../styles';
 
-import { rules } from '../../utils';
-import AuthSwitch from '../../components/AuthSwitch';
+import { AppStackParamsList } from '../../navigations/AppStack';
+import TextField from '../../components/atoms/TextField';
+import Checkbox from '../../components/atoms/Checkbox';
+import FormButton from '../../components/atoms/FormButton';
+import AuthSwitch from '../../navigations/AuthSwitch';
+
+import { LoginProxy } from '../../services/User/login.proxy';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserProxy, UserTypes } from '../../store/ducks/user/types';
 import { ApplicationState } from '../../store';
@@ -99,9 +96,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
 
     //#endregion
 
-    const isEmailValid = !!email && rules.emailRegex.test(email)
-    const isPasswordValid = !!password && rules.passwordRegex.test(password)
-
     const [clearPassword, setClearPassword] = useState(false)
     const [clearEmail, setClearEmail] = useState(false)
 
@@ -139,7 +133,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }
 
     function onWrongCredentials() {
-
+        alert('E-mail ou senha incorreta! Por favor, tente novamente.');
     }
 
     return (
