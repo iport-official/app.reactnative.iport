@@ -19,7 +19,7 @@ import {
 
 import ProfilePhoto from '../../atoms/ProfilePhoto';
 
-import photo from '../../assets/foto_example.png';
+import photo from '../../../assets/foto_example.png';
 
 const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({navigation, ...props}) => {
     return (

@@ -12,7 +12,7 @@ import {
     TouchableArea
 } from './styles';
 
-import arrowImage from '../../assets/TriangleArrow.png';
+import arrowImage from '../../../assets/TriangleArrow.png';
 
 export default function MainFooter() {
 
