@@ -17,6 +17,11 @@ export interface LoginProxy {
 }
 
 export interface UserProxy {
+    profileImage: string
+    username: string
+}
+
+export interface UserProxy {
     id: string
     email: string
     username: string

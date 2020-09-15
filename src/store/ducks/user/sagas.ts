@@ -2,7 +2,7 @@ import { call, put } from "redux-saga/effects";
 import { AxiosResponse } from "axios";
 import { getItemAsync, setItemAsync } from "expo-secure-store";
 
-import { ApplicationState } from "@/store";
+import { ApplicationState } from "../..";
 import { getProfileFailure, getProfileSuccess, loginFailure, loginSuccess } from "./action";
 import { LoginProxy, UserProxy, UserTypes } from "./types";
 
