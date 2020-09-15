@@ -1,26 +1,48 @@
 import { AxiosResponse } from 'axios'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { getItemAsync } from 'expo-secure-store'
 
-import { CategoryProxy } from './types'
+import { ApplicationState } from '../..'
+import { CategoriesTypes, CategoryProxy } from './types'
 import { loadSuccess, loadFailure } from './actions'
 
-import api from '../../../services/api'
-import { BaseArrayProxy } from '../../../services/base-array-proxy'
+import { BaseArrayProxy } from '../common/base-array-proxy'
 
-export function* loadCategories(categoryPage: number) {
+import api from '../../../services/api'
+
+interface LoadRequestAction {
+    type: typeof CategoriesTypes.LOAD_REQUEST
+    payload: {
+        pageNumber: number,
+        shouldStart: boolean
+    }
+}
+
+const getCategoriesState = (state: ApplicationState) => state.categories
+
+export function* loadCategories({ payload }: LoadRequestAction) {
     try {
-        const token = yield getItemAsync('access_token')
+        const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<BaseArrayProxy<CategoryProxy>> = yield call(
             api.get,
-            `categories?page=${categoryPage}`,
-            {
-                headers: {
-                    Authorization: 'Bearer ' + token
-                }
-            })
+            `categories?page=${payload.pageNumber}`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
 
-        yield put(loadSuccess(response.data))
+        const { categories }: ReturnType<typeof getCategoriesState> = yield select(getCategoriesState)
+        const data = payload.shouldStart
+            ? response.data
+            : {
+                length: categories.length,
+                array: [
+                    ...categories.array,
+                    ...response.data.array
+                ]
+            }
+
+        yield put(loadSuccess(data))
     } catch (error) {
         yield put(loadFailure())
     }

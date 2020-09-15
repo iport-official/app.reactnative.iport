@@ -1,7 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { ApplicationState } from '../../store'
 import { CategoryProxy, CategoriesTypes } from '../../store/ducks/categories/types'
 
 import CategoryItem from './CategoryItem'
@@ -15,7 +14,17 @@ interface CategoryListProps {
 const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
 
     const dispatch = useDispatch()
-    const category = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.select)
+
+    function handleOnPress(value: boolean, categoryProxy: CategoryProxy) {
+        if (value) {
+            dispatch({
+                type: CategoriesTypes.SELECT,
+                payload: {
+                    selectedCategory: categoryProxy
+                }
+            })
+        }
+    }
 
     return (
         //#region JSX
@@ -29,23 +38,10 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             }}
             data={categories}
             renderItem={({ item }) => {
-                const {
-                    id,
-                    category,
-                    name
-                } = item
                 return <CategoryItem
-                    key={id}
-                    name={name}
-                    onPress={(active: boolean) => {
-                        if (active)
-                            dispatch({
-                                type: CategoriesTypes.SELECT,
-                                payload: {
-                                    select: item
-                                }
-                            })
-                    }}
+                    key={item.id}
+                    name={item.name}
+                    onPress={(active: boolean) => { handleOnPress(active, item) }}
                 />
             }}
             keyExtractor={(item) => item.id}

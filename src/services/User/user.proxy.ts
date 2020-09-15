@@ -1,8 +1,4 @@
-export interface UserProxyBasic {
+export interface UserProxy {
     profileImage: string
     username: string
-}
-
-export interface UserProxyComplete extends UserProxyBasic {
-
 }

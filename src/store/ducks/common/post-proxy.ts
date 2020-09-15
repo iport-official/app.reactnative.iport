@@ -1,4 +1,4 @@
-import { UserProxyBasic } from "../User/user.proxy";
+import { UserProxy } from "../../../services/User/user.proxy";
 
 export interface PostProxy {
     id: string
@@ -15,5 +15,5 @@ export interface PostProxy {
     experienceLevel: string
     vacancyDescription: string
     createAt: Date
-    user: UserProxyBasic
+    user: UserProxy
 }

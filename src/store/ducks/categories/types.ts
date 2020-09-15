@@ -1,4 +1,4 @@
-import { BaseArrayProxy } from "../../../services/base-array-proxy";
+import { BaseArrayProxy } from "../common/base-array-proxy";
 
 export enum CategoriesTypes {
     LOAD_REQUEST = '@categories/LOAD_REQUEST',
@@ -14,8 +14,8 @@ export interface CategoryProxy {
 }
 
 export interface CategoriesState {
-    readonly data: BaseArrayProxy<CategoryProxy>
+    readonly categories: BaseArrayProxy<CategoryProxy>
     readonly loading: boolean
     readonly error: boolean
-    readonly select: CategoryProxy | null
+    readonly selectedCategory: CategoryProxy | null
 }

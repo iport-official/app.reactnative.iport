@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { BaseArrayProxy } from '../../../services/base-array-proxy'
+import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy'
 import { ApplicationState } from '../../../store'
+import { CategoriesPostsTypes, CategoryPostProxy } from '../../../store/ducks/categoriesPosts/types'
 import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types'
 
 import CategoryList from '../../CategoryList'
+import PostItem from '../../PostItem'
 
 import {
     ContainerView,
-    TitleText
+    TitleText,
+    EndFlatListActivityIndicator
 } from './styles'
 
 interface CategoryPostListProps {
@@ -19,16 +23,86 @@ interface CategoryPostListProps {
 const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 
     const dispatch = useDispatch()
-    const { array } = useSelector<ApplicationState, BaseArrayProxy<CategoryProxy>>(state => state.categories.data)
 
-    useEffect(() => { dispatch({ type: CategoriesTypes.LOAD_REQUEST }) }, [])
+    const selectedCategory = useSelector<ApplicationState, CategoryProxy | null>(state => state.categories.selectedCategory)
+    const categoryArray = useSelector<ApplicationState, BaseArrayProxy<CategoryProxy>>(state => state.categories.categories)
+
+    const loadingPostsByCategory = useSelector<ApplicationState, boolean>(state => state.categoriesPosts.loadingCategoriesPosts)
+    const { array } = useSelector<ApplicationState, BaseArrayProxy<CategoryPostProxy>>(state => state.categoriesPosts.categoriesPosts)
+
+    const [categoryListPage, setCategoryListPage] = useState<number>(0)
+    const [categoryPostListPage, setCategoryPostListPage] = useState<number>(0)
+
+    useEffect(() => { loadCategoryList(true, 0) }, [])
+    useEffect(() => { loadPostsByCategory(true, 0) }, [selectedCategory])
+
+    function loadCategoryList(shouldStart: boolean = false, pageNumber: number = categoryListPage) {
+        dispatch({
+            type: CategoriesTypes.LOAD_REQUEST,
+            payload: {
+                pageNumber,
+                shouldStart
+            }
+        })
+
+        setCategoryListPage(pageNumber + 1)
+    }
+
+    function loadPostsByCategory(
+        shouldStart: boolean = false,
+        pageNumber: number = categoryPostListPage
+    ) {
+        if (selectedCategory === null)
+            return;
+
+        dispatch({
+            type: CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY,
+            payload: {
+                pageNumber,
+                category: selectedCategory,
+                shouldStart
+            }
+        })
+
+        setCategoryPostListPage(pageNumber + 1)
+    }
 
     return (
         //#region JSX
 
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <CategoryList categories={array} />
+            <CategoryList categories={categoryArray.array} />
+            <FlatList
+                style={{ flexDirection: 'row' }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={array}
+                extraData={array}
+                onEndReached={() => { loadPostsByCategory() }}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={(
+                    <EndFlatListActivityIndicator
+                        style={{
+                            display: loadingPostsByCategory
+                                ? 'flex'
+                                : 'none'
+                        }}
+                    />
+                )}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => {
+                    const { id, ...rest } = item
+                    return (
+                        <PostItem
+                            key={id}
+                            id={id}
+                            {...rest}
+                        />
+                    )
+                }}
+                contentContainerStyle={{ alignItems: "center" }}
+            />
         </ContainerView>
 
         //#endregion
@@ -37,33 +111,3 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
 }
 
 export default CategoryPostList
-
-//#region Old code
-
-    // const [categoryPage, setCategoryPage] = useState<number>(0)
-    // const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
-    // const [categoryData, setCategoryData] = useState<CategoryProxy[]>([])
-
-    // async function loadCategoryData(pageNumber: number = categoryPage) {
-
-    //     setLoadingCategories(true)
-
-    //     const token = await getItemAsync('access_token')
-    //     const response = await api.get<CategoryProxy[]>(`categories?page=${categoryPage}`, {
-    //         headers: {
-    //             Authorization: 'Bearer ' + token
-    //         }
-    //     })
-
-    //     setCategoryData([
-    //         ...categoryData,
-    //         ...response.data
-    //     ])
-    //     setCategoryPage(pageNumber + 1)
-
-    //     setLoadingCategories(false)
-
-    // }
-
-
-//#endregion
