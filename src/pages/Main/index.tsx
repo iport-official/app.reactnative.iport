@@ -1,17 +1,17 @@
 import React from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
-import { DrawerParamsList } from '../../navigations/MainDrawer';
-import MainHeader from '../../components/MainHeader';
-import MainFooter from '../../components/MainFooter';
-import HighlightsPostList from '../../components/PostLists/HighlightsPostList';
-import CategoryPostList from '../../components/PostLists/CategoryPostList';
-
 import {
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
     JobsScrollView
-} from './styles'
+} from './styles';
+
+import { DrawerParamsList } from '../../navigations/MainDrawer';
+import MainHeader from '../../components/molecules/MainHeader';
+import MainFooter from '../../components/organisms/MainFooter';
+import HighlightsPostList from '../../components/organisms/PostLists/HighlightsPostList';
+import CategoryPostList from '../../components/organisms/PostLists/CategoryPostList';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
