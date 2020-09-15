@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { ImageCircle, ImageViewCircle } from './styles';
 
 interface ImagePickerProps {
-    onPick(img: _ImagePicker.ImagePickerResult): void
+    onPick(img: any): void
 }
 
 const ImagePicker: React.FC<ImagePickerProps> = ({ onPick }) => {
@@ -18,12 +18,13 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onPick }) => {
             let result = await _ImagePicker.launchImageLibraryAsync({
                 mediaTypes: _ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
-                aspect: [4, 3],
-                quality: 1
+                aspect: [1, 1],
+                quality: 1,
+                base64: true
             });
             if(!result.cancelled) {
                 setImage(result.uri);
-                onPick(result);
+                onPick(result.base64);
             }
         } catch (error) {
             console.log(error);
