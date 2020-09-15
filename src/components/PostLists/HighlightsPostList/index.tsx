@@ -38,7 +38,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
     function loadHighlightsPosts(pageNumber: number = page, shouldStart: boolean = false) {
         dispatch({
-            type: HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS,
+            type: HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST,
             payload: {
                 pageNumber,
                 shouldStart

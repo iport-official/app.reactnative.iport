@@ -3,7 +3,7 @@ import { BaseArrayProxy } from "../common/base-array-proxy";
 import { HighlightPostProxy, HighlightsPostsTypes } from "./types";
 
 export function loadPostsHighlights() {
-    return action(HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS)
+    return action(HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST)
 }
 
 export function loadPostsHighlightsSuccess(highlights: BaseArrayProxy<HighlightPostProxy>) {

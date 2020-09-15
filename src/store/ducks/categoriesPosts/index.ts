@@ -13,7 +13,7 @@ const INITIAL_STATE: CategoriesPostsState = {
 const reducer: Reducer<CategoriesPostsState> = (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
-        case CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY:
+        case CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST:
             return {
                 ...state,
                 loadingCategoriesPosts: true,

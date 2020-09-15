@@ -3,7 +3,7 @@ import { BaseArrayProxy } from "../common/base-array-proxy"
 import { CategoriesPostsTypes, CategoryPostProxy } from "./types"
 
 export function loadPostsByCategory() {
-    return action(CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY)
+    return action(CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST)
 }
 
 export function loadPostsByCategorySuccess(categories: BaseArrayProxy<CategoryPostProxy>) {

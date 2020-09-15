@@ -11,7 +11,7 @@ import { BaseArrayProxy } from "../common/base-array-proxy"
 import api from "../../../services/api"
 
 interface LoadPostsHighlightsAction {
-    type: typeof HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS
+    type: typeof HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST
     payload: {
         shouldStart: boolean
         pageNumber: number
@@ -27,7 +27,7 @@ export function* loadPostsHighlights({ payload }: LoadPostsHighlightsAction) {
             api.get,
             `posts/highlights?page=${payload.pageNumber}`, {
             headers: {
-                'Authorization': 'Bearer ' + token
+                Authorization: 'Bearer ' + token
             }
         })
         const { highlightsPosts }: ReturnType<typeof getHighlightsPosts> = yield select(getHighlightsPosts)

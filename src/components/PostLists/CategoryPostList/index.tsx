@@ -56,7 +56,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
             return;
 
         dispatch({
-            type: CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY,
+            type: CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST,
             payload: {
                 pageNumber,
                 category: selectedCategory,
