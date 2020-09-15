@@ -1,10 +1,12 @@
-import { AxiosAdapter, AxiosResponse } from "axios";
-import { getItemAsync, setItemAsync } from "expo-secure-store";
 import { call, put } from "redux-saga/effects";
-import { ApplicationState } from "../..";
-import api from "../../../services/api";
+import { AxiosResponse } from "axios";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
+
+import { ApplicationState } from "@/store";
 import { getProfileFailure, getProfileSuccess, loginFailure, loginSuccess } from "./action";
 import { LoginProxy, UserProxy, UserTypes } from "./types";
+
+import api from "../../../services/api";
 
 interface LoginAction {
     type: typeof UserTypes.LOGIN_REQUEST

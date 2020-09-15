@@ -4,8 +4,9 @@ import React, {
     useEffect
 } from 'react';
 import { Keyboard, Animated } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import {
     ContainerSafeAreaView,
@@ -17,18 +18,17 @@ import {
     ForgotPassword
 } from './styles';
 
-import { colors } from '../../styles';
-
 import { AppStackParamsList } from '../../navigations/AppStack';
 import TextField from '../../components/atoms/TextField';
 import Checkbox from '../../components/atoms/Checkbox';
 import FormButton from '../../components/atoms/FormButton';
 import AuthSwitch from '../../navigations/AuthSwitch';
 
-import { LoginProxy } from '../../services/User/login.proxy';
-import { useDispatch, useSelector } from 'react-redux';
-import { UserProxy, UserTypes } from '../../store/ducks/user/types';
+import { colors } from '../../styles';
+
 import { ApplicationState } from '../../store';
+import { UserProxy, UserTypes } from '../../store/ducks/user/types';
+import { LoginProxy } from '../../services/User/login.proxy';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -181,86 +181,3 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         </ContainerSafeAreaView>
     )
 }
-
-//#region Old code
-
-    // const onLoginButtonPress = () => {
-    //     if (!isPasswordValid) {
-    //         setClearPassword(true);
-    //         setPassword('');
-    //         alert('Password: \nMin 6 characters with at least one capital letter, one lower case and one number');
-
-    //         setTimeout(() => setClearPassword(false), 10);
-
-    //         return;
-    //     }
-
-    //     const user = { email, password };
-
-    //     api.post(`/auth/login`, user)
-    //         .then(response => {
-    //             const resp = response.data;
-    //             const token = resp.access_token;
-    //             const status = response.status;
-
-    //             if (status == 201) {
-    //                 api.get(`users/profile`, {
-    //                     headers: {
-    //                         'Authorization': 'Bearer ' + token
-    //                     }
-    //                 })
-    //                     .then(res => {
-    //                         userModel.email = res.data.username;
-    //                         userModel.authToken = token;
-
-    //                         setClearEmail(true);
-    //                         setClearPassword(true);
-    //                         setPassword('');
-    //                         setEmail('');
-
-    //                         setTimeout(() => {
-    //                             setClearEmail(false);
-    //                             setClearPassword(false);
-    //                         }, 10);
-    //                         return navigation.navigate("Drawer", { MainPage: undefined, ProfilePage: undefined });
-    //                     })
-    //                     .catch(error => {
-    //                         alert('Token ' + error);
-    //                     })
-    //             }
-    //         })
-    //         .catch(error => {
-    //             if (error.response.status == 400) {
-    //                 alert('Wrong credentials provided!');
-    //             } else {
-    //                 alert(error);
-    //             }
-    //         })
-    // }
-
-    // async function login() {
-    //     try {
-    //         const payload: LoginPayload = {
-    //             email,
-    //             password
-    //         }
-    //         const response = await api.post<LoginProxy>('users/login', payload)
-    //         if (response.status == 201) {
-    //             await SecureStore.setItemAsync('access_token', response.data.access_token)
-    //             navigation.navigate("Drawer", {
-    //                 MainPage: undefined,
-    //                 ProfilePage: undefined
-    //             })
-    //             return;
-    //         }
-    //         onWrongCredentials()
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    // function onWrongCredentials() {
-
-    // }
-
-    //#endregion
