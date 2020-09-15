@@ -12,7 +12,7 @@ import { BaseArrayProxy } from "../common/base-array-proxy"
 import api from "../../../services/api"
 
 interface LoadPostsByCategoryAction {
-    type: typeof CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY
+    type: typeof CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST
     payload: {
         shouldStart: boolean
         category: CategoryProxy

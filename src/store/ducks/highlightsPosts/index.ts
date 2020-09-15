@@ -13,7 +13,7 @@ const INITIAL_STATE: HighlightsPostsState = {
 const reducer: Reducer<HighlightsPostsState> = (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
-        case HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS:
+        case HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST:
             return {
                 ...state,
                 loadingHighlightsPosts: true,
