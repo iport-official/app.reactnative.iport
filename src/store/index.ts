@@ -6,8 +6,10 @@ import { CategoriesState } from './ducks/categories/types'
 import rootSaga from './ducks/rootSaga'
 import { CategoriesPostsState } from './ducks/categoriesPosts/types'
 import { HighlightsPostsState } from './ducks/highlightsPosts/types'
+import { UserState } from './ducks/user/types'
 
 export interface ApplicationState {
+    user: UserState
     categories: CategoriesState
     categoriesPosts: CategoriesPostsState,
     highlightsPosts: HighlightsPostsState
