@@ -4,6 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamsList } from '../../navigations/AppStack';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import * as _ImagePicker from 'expo-image-picker';
 
 import {
     ButtonContainer,
@@ -54,7 +55,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         additionalEmails: []
     });
 
-    let image: any;
+    const [image, setImage] = useState('');
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -75,7 +76,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
         multEmails = [...user.additionalEmails];
         multPhones = [...user.phone];
-    });
+    }, []);
 
     const handleEmail = (text: string) => {
         setUser({ ...user, email: text });
@@ -164,46 +165,31 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         }
 
         try {
-            // const signupPayload: RegisterPayload = { ...user }
             const formdata = new FormData();
-
-            if(image) {
-                const uri = image.uri;
-                const fileName = uri.split('/').pop();
-                let match = /.(\w+)$/.exec(fileName);
-                let type = match ? `image/${match[1]}` : 'image';
-
-                formdata.append('profileImage', { uri, name: fileName, type });
-            }
+            formdata.append('profileImage', image);
             formdata.append('username', user.username);
             formdata.append('email', user.email);
             formdata.append('password', user.password);
+            formdata.append('accountType', user.accountType);
 
-            console.log(image);
-
-            // const signupPayload: RegisterPayload = {
-            //     profileImage: user.profileImage,
-            //     username: user.username,
-            //     email: user.email,
-            //     password: user.password
-            // }
+            console.log('img: ', image);
             const signupResponse = await api.post<RegisterProxy>('/users', formdata, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if(signupResponse.status === 201) {
-                const loginPayload: LoginPayload = {
-                    email: user.email,
-                    password: user.password
-                }
-                const loginResponse = await api.post<LoginProxy>('/users/login', loginPayload);
-                if(loginResponse.status === 201) {
-                    await SecureStore.setItemAsync('access_token', loginResponse.data.access_token);
-                    navigation.navigate("Drawer", {
-                        MainPage: undefined,
-                        ProfilePage: undefined
-                    });
-                    return;
-                }
+                // const loginPayload: LoginPayload = {
+                //     email: user.email,
+                //     password: user.password
+                // }
+                // const loginResponse = await api.post<LoginProxy>('/users/login', loginPayload);
+                // if(loginResponse.status === 201) {
+                //     await SecureStore.setItemAsync('access_token', loginResponse.data.access_token);
+                //     navigation.navigate("Drawer", {
+                //         MainPage: undefined,
+                //         ProfilePage: undefined
+                //     });
+                //     return;
+                // }
                 alert('Ocorreu um erro! Por favor, dirija-se à página de Login e tente entrar em sua conta.');
             }
             else {
@@ -273,7 +259,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             <StatusBar translucent backgroundColor='#612e96' />
             <AuthSwitch isSignup />
             <SignupContainer contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-                <ImagePicker onPick={img => image = img} />
+                <ImagePicker onPick={(img: any) => setImage(img)} />
                 <TextField
                     clear={clearField}
                     label='E-mail'
