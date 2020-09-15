@@ -103,7 +103,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         if (login === null)
             return
 
-        console.log(login)
         dispatch({
             type: UserTypes.GET_PROFILE_REQUEST,
             payload: {
@@ -112,7 +111,10 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         })
     }, [login])
 
-    useEffect(onWrongCredentials, [error])
+    useEffect(() => {
+        if (error)
+            onWrongCredentials()
+    }, [error])
 
     useEffect(() => {
         if (user !== null)
