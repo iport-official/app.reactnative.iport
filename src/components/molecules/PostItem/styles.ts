@@ -5,14 +5,10 @@ import { colors } from '../../../styles';
 const borderRadius = 50;
 const textShadow = `0px 0px 1px white`;
 
-const isNotMainBoxHeight = 210;
-const isNotMainBoxWidth = 300;
-
-const isMainBoxHeight = 300;
-
 interface DimensionsProps {
     width: any | string
     height: any | string
+    isMain: any | boolean
 }
 
 export const PostContainerView = styled.View`
@@ -21,7 +17,7 @@ export const PostContainerView = styled.View`
     border-radius: ${borderRadius}px;
     justify-content: space-between;
     margin: 0 10px;
-    margin-top: 0;
+    margin-top: ${(props: DimensionsProps) => props.isMain ? '20px' : '0'};
     margin-bottom: 20px;
 `
 
@@ -83,10 +79,9 @@ export const PublishingDateText = styled.Text`
 `
 
 export const TextsView = styled.View`
-    flex: 1;
     justify-content: center;
     margin: 0;
-    max-width: 300px;
+    width: ${(props: {isMain: boolean}) => props.isMain ? '90%' : '70%'};
 `
 
 export const TitleText = styled.Text`
@@ -94,7 +89,6 @@ export const TitleText = styled.Text`
     color: #fff;
     font-size: 18px;
     font-family: Roboto_700Bold;
-    width: 200px;
 `
 
 export const DescriptionText = styled.Text`
@@ -116,11 +110,12 @@ export const FooterView = styled.View`
 
 export const CoinsView = styled.View`
     flex-direction: row;
+    align-items: center;
 `
 
 export const CoinsText = styled.Text`
-    color: ${colors.darkGray};
-    font-size: 14px;
+    color: ${colors.strongPurple};
+    font-size: 15px;
     font-family: Poppins_600SemiBold;
     text-align: center;
     text-shadow: ${textShadow};
