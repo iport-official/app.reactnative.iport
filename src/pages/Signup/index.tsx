@@ -24,7 +24,6 @@ import { rules } from '../../utils';
 import Checkbox from '../../components/atoms/Checkbox';
 import FormButton from '../../components/atoms/FormButton';
 import TextField from '../../components/atoms/TextField';
-import AuthSwitch from '../../navigations/AuthSwitch';
 import ImagePicker from '../../components/atoms/ImagePicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -235,7 +234,6 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     return (
         <ContainerSafeAreaView>
             <StatusBar translucent backgroundColor='#612e96' />
-            <AuthSwitch isSignup />
             <SignupContainer contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                 <ImagePicker onPick={(img: any) => setImage(img)} />
                 <TextField

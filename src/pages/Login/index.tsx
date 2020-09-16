@@ -22,7 +22,6 @@ import { AppStackParamsList } from '../../navigations/AppStack';
 import TextField from '../../components/atoms/TextField';
 import Checkbox from '../../components/atoms/Checkbox';
 import FormButton from '../../components/atoms/FormButton';
-import AuthSwitch from '../../navigations/AuthSwitch';
 
 import { colors } from '../../styles';
 
@@ -144,7 +143,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                 translucent
                 backgroundColor='#612e96'
             />
-            <AuthSwitch />
             <LoginContainer style={{ top: animatedLogin }}>
                 <LoginLogo
                     source={require('../../assets/icon.png')}
