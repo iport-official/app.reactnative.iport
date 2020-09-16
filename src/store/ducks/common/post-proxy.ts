@@ -6,7 +6,7 @@ export interface PostProxy {
     title: string
     description?: string
     category: string
-    recomendation: number
+    recomendations: number
     contact: string
     salary: number
     post: string
