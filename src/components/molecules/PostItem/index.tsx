@@ -43,7 +43,6 @@ const PostItem: React.FC<PostItemProps> = ({
         //#region JSX
 
         <PostContainerView
-            isMain={isMain}
             style={{
                 shadowOffset: { width: 0, height: 3 },
                 shadowColor: '#000',
@@ -52,9 +51,8 @@ const PostItem: React.FC<PostItemProps> = ({
                 elevation: 7
             }}
         >
-            <PostShadow isMain={isMain} />
+            <PostShadow />
             <PostImage
-                isMain={isMain}
                 source={{ uri: `data:image/gif;base64,${image}` }}
             />
             <PostContentView>
@@ -67,8 +65,8 @@ const PostItem: React.FC<PostItemProps> = ({
                         <PublishingDateText>{createAt}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
-                <TextsView isMain={isMain} >
-                    <TitleText isMain={isMain} >{title}</TitleText>
+                <TextsView>
+                    <TitleText>{title}</TitleText>
                     {description && isMain && (
                         <DescriptionText>{description}</DescriptionText>
                     )}
