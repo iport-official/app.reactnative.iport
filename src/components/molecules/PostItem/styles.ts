@@ -10,9 +10,14 @@ const isNotMainBoxWidth = 300;
 
 const isMainBoxHeight = 300;
 
+interface DimensionsProps {
+    width: any | string
+    height: any | string
+}
+
 export const PostContainerView = styled.View`
-    width: ${isNotMainBoxWidth}px;
-    height: ${isNotMainBoxHeight}px;
+    width: ${(props: DimensionsProps) => props.width};
+    height: ${(props: DimensionsProps) => props.height};
     border-radius: ${borderRadius}px;
     justify-content: space-between;
     margin: 0 10px;
@@ -31,8 +36,8 @@ export const PostShadow = styled.View`
 
 export const PostImage = styled.Image`
     position: absolute;
-    width: ${isNotMainBoxWidth}px;
-    height: ${isNotMainBoxHeight}px;
+    width: 100%;
+    height: 100%;
     border-radius: ${borderRadius}px;
     overflow: hidden;
 `
@@ -81,6 +86,7 @@ export const TextsView = styled.View`
     flex: 1;
     justify-content: center;
     margin: 0;
+    max-width: 300px;
 `
 
 export const TitleText = styled.Text`
