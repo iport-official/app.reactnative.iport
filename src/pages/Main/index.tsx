@@ -26,18 +26,18 @@ type DefaultMainPageProps = DrawerScreenProps<
 
 export default function MainPage({ navigation }: DefaultMainPageProps) {
 
-    const [user, setUser] = useState<PostProxy | null>(null)
+    const [user, setUser] = useState<PostProxy | null>(null);
 
-    useEffect(() => { getMainPost() }, [])
+    useEffect(() => { getMainPost() }, []);
 
     async function getMainPost() {
-        const token = await getItemAsync("access_token")
+        const token = await getItemAsync("access_token");
         const response = await api.get<PostProxy>('posts/main',{
             headers: {
                 Authorization: 'Bearer ' + token
             }
         })
-        setUser(response.data)
+        setUser(response.data);
     }
 
     return (
@@ -45,12 +45,12 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
 
         <ContainerSafeAreaView>
             <ContainerKeyboardAvoidView>
+                <MainHeader onPress={() => { navigation.openDrawer() }} />
                 <JobsScrollView>
-                    <MainHeader onPress={() => { navigation.openDrawer() }} />
                     {user && <PostItem
                         showDescription
-                        height='375px'
-                        width='95%'
+                        height='300px'
+                        width='94.5%'
                         {...user}
                     />}
                     <HighlightsPostList
