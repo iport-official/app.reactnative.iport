@@ -8,5 +8,5 @@ export const ContainerFlatList = styled(FlatList as new () => FlatList<CategoryP
     height: 35px;
     border-radius: 23px;
     margin: 0 5px;
-    margin-top: 20px;
+    margin-bottom: 10px;
 `
