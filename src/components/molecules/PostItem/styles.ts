@@ -10,26 +10,24 @@ const isNotMainBoxWidth = 300;
 
 const isMainBoxHeight = 300;
 
+interface DimensionsProps {
+    width: any | string
+    height: any | string
+}
+
 export const PostContainerView = styled.View`
-    width: ${(props:  { isMain?: boolean }) => props.isMain
-        ? "94.5%"
-        : isNotMainBoxWidth + "px"};
-    height: ${(props:  { isMain?: boolean }) => props.isMain
-        ? isMainBoxHeight
-        : isNotMainBoxHeight}px;
+    width: ${(props: DimensionsProps) => props.width};
+    height: ${(props: DimensionsProps) => props.height};
     border-radius: ${borderRadius}px;
     justify-content: space-between;
     margin: 0 10px;
-    margin-top: ${(props: { isMain?: boolean }) => props.isMain
-        ? '20px' : '0' };
-    margin-bottom: ${(props: { isMain?: boolean }) => props.isMain
-        ? '0' : '20px' };
+    margin-top: 0;
+    margin-bottom: 20px;
 `
 
 export const PostShadow = styled.View`
     width: 101%;
-    height: ${(props: { isMain?: boolean }) => props.isMain
-        ? '101%' : '101.5%'};
+    height: 101%;
     background: #8883;
     border-radius: ${borderRadius}px;
     position: absolute;
@@ -38,12 +36,8 @@ export const PostShadow = styled.View`
 
 export const PostImage = styled.Image`
     position: absolute;
-    width: ${(props:  { isMain?: boolean }) => props.isMain
-        ? "100%"
-        : isNotMainBoxWidth + "px"};
-    height: ${(props:  { isMain?: boolean }) => props.isMain
-        ? isMainBoxHeight
-        : isNotMainBoxHeight}px;
+    width: 100%;
+    height: 100%;
     border-radius: ${borderRadius}px;
     overflow: hidden;
 `
@@ -91,21 +85,16 @@ export const PublishingDateText = styled.Text`
 export const TextsView = styled.View`
     flex: 1;
     justify-content: center;
-    margin: 0 ${(props: { isMain?: boolean }) => props.isMain
-        ? 50
-        : 0}px;
+    margin: 0;
+    max-width: 300px;
 `
 
 export const TitleText = styled.Text`
     text-shadow: ${textShadow};
     color: #fff;
-    font-size: ${(props: { isMain?: boolean }) => props.isMain
-        ? 25
-        : 18}px;
+    font-size: 18px;
     font-family: Roboto_700Bold;
-    width: ${(props: { isMain?: boolean }) => props.isMain
-        ? 300
-        : 200}px;
+    width: 200px;
 `
 
 export const DescriptionText = styled.Text`
@@ -137,7 +126,3 @@ export const CoinsText = styled.Text`
     text-shadow: ${textShadow};
     margin-left: 7px;
 `
-
-// Roboto_400Regular
-// Poppins_600SemiBold
-// Poppins_400Regular

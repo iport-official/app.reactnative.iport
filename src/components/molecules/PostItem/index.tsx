@@ -26,24 +26,27 @@ import HeartIcon from '../../atoms/Heart';
 import { PostProxy } from '../../../store/ducks/common/post-proxy';
 
 export interface PostItemProps extends PostProxy {
-    isMain?: boolean
+    width?: string
+    height?: string
+    showDescription: boolean
 }
 
 const PostItem: React.FC<PostItemProps> = ({
-    isMain,
     image,
     title,
     description,
     recomendation,
     createAt,
-    user
+    user,
+    showDescription,
+    width = '300px',
+    height = '210px'
 }) => {
 
     return (
         //#region JSX
 
         <PostContainerView
-            isMain={isMain}
             style={{
                 shadowOffset: { width: 0, height: 3 },
                 shadowColor: '#000',
@@ -51,10 +54,11 @@ const PostItem: React.FC<PostItemProps> = ({
                 shadowRadius: 4.65,
                 elevation: 7
             }}
+            width={width}
+            height={height}
         >
-            <PostShadow isMain={isMain} />
+            <PostShadow />
             <PostImage
-                isMain={isMain}
                 source={{ uri: `data:image/gif;base64,${image}` }}
             />
             <PostContentView>
@@ -67,9 +71,9 @@ const PostItem: React.FC<PostItemProps> = ({
                         <PublishingDateText>{createAt}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>
-                <TextsView isMain={isMain} >
-                    <TitleText isMain={isMain} >{title}</TitleText>
-                    {description && isMain && (
+                <TextsView>
+                    <TitleText>{title}</TitleText>
+                    {showDescription && (
                         <DescriptionText>{description}</DescriptionText>
                     )}
                 </TextsView>
