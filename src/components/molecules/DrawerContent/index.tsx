@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import {
     DrawerContentComponentProps,
     DrawerContentOptions,
     DrawerItem
-} from '@react-navigation/drawer';
-import { StackActions } from '@react-navigation/native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+} from '@react-navigation/drawer'
+import { useDispatch, useSelector } from 'react-redux'
+import { StackActions } from '@react-navigation/native'
+import { MaterialIcons } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 
 import {
     ContainerView,
@@ -15,13 +16,12 @@ import {
     ProfileText,
     ContentView,
     FooterView
-} from './styles';
+} from './styles'
 
-import ProfilePhoto from '../../atoms/ProfilePhoto';
+import ProfilePhoto from '../../atoms/ProfilePhoto'
 
-import { useDispatch, useSelector } from 'react-redux';
-import { ApplicationState } from '../../../store';
-import { UserProxy, UserTypes } from '../../../store/ducks/user/types';
+import { ApplicationState } from '../../../store'
+import { UserProxy, UserTypes } from '../../../store/ducks/user/types'
 
 const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({ navigation, ...props }) => {
 
