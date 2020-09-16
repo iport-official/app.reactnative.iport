@@ -1,33 +1,49 @@
 import React from 'react';
-import { ViewProps } from 'react-native';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import { View, ViewProps } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 import {
-    AuthSwitchContainer,
     AuthSwitchText
 } from './styles';
+
+import { colors } from '../../styles';
+
+import LoginPage from '../../pages/Login';
+import SignupPage from '../../pages/Signup';
 
 interface AuthSwitchProps extends ViewProps {
     isSignup?: boolean
 }
 
+const Tab = createMaterialTopTabNavigator();
+
 const AuthSwitch: React.FC<AuthSwitchProps> = ({ isSignup, ...rest }) => {
 
-    const navigation = useNavigation();
-
     return (
-        <AuthSwitchContainer { ...rest }>
-            <AuthSwitchText
-                onPress={() => {
-                    if(isSignup) navigation.dispatch(StackActions.replace('LoginPage'));
-                }}
-                isActive={!isSignup}>Login</AuthSwitchText>
-            <AuthSwitchText
-                onPress={() => {
-                    if(!isSignup) navigation.dispatch(StackActions.replace('SignupPage'));
-                }}
-                isActive={isSignup}>Sign Up</AuthSwitchText>
-        </AuthSwitchContainer>
+        <Tab.Navigator
+            initialRouteName='Login'
+            screenOptions={({ route }) => ({
+                tabBarLabel: ({ focused }) => {
+                    const text = route.name === 'Login' ? 'Login' : 'Sign Up';
+                    return <AuthSwitchText isActive={focused}>{ text }</AuthSwitchText>
+                }
+            })}
+            tabBarOptions={{
+                style: {
+                    marginTop: 24,
+                    justifyContent: 'center',
+                    height: 100,
+                    backgroundColor: colors.vividPurple
+                },
+                indicatorStyle: {
+                    backgroundColor: '#fff',
+                    height: 3
+                }
+            }}>
+            <Tab.Screen name='Login' component={LoginPage} />
+            <Tab.Screen name='SignUp' component={SignupPage} />
+        </Tab.Navigator>
     )
 }
 
