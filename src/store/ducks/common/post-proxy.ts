@@ -1,10 +1,10 @@
-import { UserProxy } from "../../../services/User/user.proxy";
+import { UserProxy } from "../user/types";
 
 export interface PostProxy {
     id: string
     image: string
     title: string
-    description: string
+    description?: string
     category: string
     recomendation: number
     contact: string
