@@ -28,10 +28,7 @@ import ImagePicker from '../../components/atoms/ImagePicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import api from '../../services/api';
-import * as SecureStore from 'expo-secure-store';
 import { RegisterProxy } from '../../services/User/register.proxy';
-import { LoginPayload } from '../../services/User/login.payload';
-import { LoginProxy } from '../../services/User/login.proxy';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
@@ -90,9 +87,9 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
         const toSet: any = phones[index];
 
-        if(action && text) {
+        if (action && text) {
             const userPhones: any = [...user.phone];
-            if(userPhones[index]) {
+            if (userPhones[index]) {
                 userPhones.splice(index, 1, toSet);
             } else {
                 userPhones.splice(index, 0, toSet);
@@ -109,9 +106,9 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
         const toSet: any = emails[index];
 
-        if(action && text) {
+        if (action && text) {
             const userEmails: any = [...user.additionalEmails];
-            if(userEmails[index]) {
+            if (userEmails[index]) {
                 userEmails.splice(index, 1, toSet);
             } else {
                 userEmails.splice(index, 0, toSet);
@@ -120,11 +117,11 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         }
     }
 
-    const [phones, setPhones]  = useState([ 0 ]);
+    const [phones, setPhones] = useState([0]);
     const phoneArray: any = [];
 
     const newPhone = () => {
-        phoneArray.push( ...phones, phones.length);
+        phoneArray.push(...phones, phones.length);
         setPhones(phoneArray);
     }
 
@@ -139,11 +136,11 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [cantAddPhone, setCantAddPhone] = useState(false);
     const [cantAddEmail, setCantAddEmail] = useState(false);
 
-    const [emails, setEmails]  = useState([ 0 ]);
+    const [emails, setEmails] = useState([0]);
     const emailArray: any = [];
 
     const newEmail = () => {
-        emailArray.push( ...emails, emails.length);
+        emailArray.push(...emails, emails.length);
         setEmails(emailArray);
     }
 
@@ -188,7 +185,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
             const signupResponse = await api.post<RegisterProxy>('/users', formdata, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            if(signupResponse.status === 201) {
+            if (signupResponse.status === 201) {
                 // const loginPayload: LoginPayload = {
                 //     email: user.email,
                 //     password: user.password
@@ -304,10 +301,10 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                 onPress={() => newPhone()}
                                 disabled={cantAddPhone}>
                                 <FontAwesome5 name="plus-circle" size={24} color={colors.vividPurple}
-                                    style={{ opacity: cantAddPhone ? 0.5 : 1 }}/>
+                                    style={{ opacity: cantAddPhone ? 0.5 : 1 }} />
                             </TouchableOpacity>
                         </View>
-                        { phones.map((p: any, i: number) =>
+                        {phones.map((p: any, i: number) =>
                             <View style={{ width: '100%', alignItems: 'center' }} key={i}>
                                 <TextField
                                     clear={clearField}
@@ -316,13 +313,13 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     textValue={multPhones[i]}
                                     onFieldBlur={(text: string) => handlePhone(text, i, true)}
                                     onTextChange={(text: string) => handlePhone(text, i)} />
-                                { i === phones.length - 1 && i !== 0 ?
+                                {i === phones.length - 1 && i !== 0 ?
                                     <MinusButton activeOpacity={1} onPress={() => removePhone(i)}>
                                         <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
-                                    </MinusButton> : <View/>
+                                    </MinusButton> : <View />
                                 }
                             </View>
-                            )
+                        )
                         }
                         <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', width: '80%', justifyContent: 'space-between' }}>
                             <ContactText>E-mail's</ContactText>
@@ -334,7 +331,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     style={{ opacity: cantAddEmail ? 0.5 : 1 }} />
                             </TouchableOpacity>
                         </View>
-                        { emails.map((e: any, i: number) =>
+                        {emails.map((e: any, i: number) =>
                             <View style={{ width: '100%', alignItems: 'center' }} key={i}>
                                 <TextField
                                     clear={clearField}
@@ -343,18 +340,20 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     textValue={multEmails[i]}
                                     onFieldBlur={(text: string) => handleAddEmail(text, i, true)}
                                     onTextChange={(text: string) => handleAddEmail(text, i)} />
-                                { i === emails.length - 1 && i !== 0 ?
+                                {i === emails.length - 1 && i !== 0 ?
                                     <MinusButton activeOpacity={1} onPress={() => removeEmail(i)}>
                                         <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
                                     </MinusButton> : <View />
                                 }
                             </View>
-                            )
+                        )
                         }
                     </ExtraFieldsContainer>
                     : <View />}
-                {(personalCheck || companyCheck) && <ButtonContainer style={{ marginTop: personalCheck || companyCheck ? 0 : 100,
-                    marginBottom: personalCheck || companyCheck ? 80 : 0 }}>
+                {(personalCheck || companyCheck) && <ButtonContainer style={{
+                    marginTop: personalCheck || companyCheck ? 0 : 100,
+                    marginBottom: personalCheck || companyCheck ? 80 : 0
+                }}>
                     <FormButton
                         label='Sign up'
                         color={colors.grayPurple}
