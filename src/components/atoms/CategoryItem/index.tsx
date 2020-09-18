@@ -11,44 +11,44 @@ import { colors } from '../../../styles';
 
 export interface CategoryItemProps {
     name: string
-    onPress?(value: boolean): void
+    selected: boolean
+    onPress(): void
 }
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ onPress, name }) => {
-
-    const [isActive, setIsActive] = useState(false);
-
-    function handleOnPress() {
-        setIsActive(!isActive);
-        if (onPress)
-            onPress(!isActive);
-    }
+const CategoryItem: React.FC<CategoryItemProps> = ({ onPress, selected, name }) => {
 
     return (
-        <TouchableWithoutFeedback onPress={handleOnPress}>
+        //#region JSX
+
+        <TouchableWithoutFeedback onPress={onPress}>
             <ContainerView>
-                <CategoryNameText style={{
-                    color: isActive
-                        ? colors.lighterVividPurple
-                        : '#fff',
-                    textShadowColor: colors.grayPurple,
-                    textShadowRadius: 15,
-                    textShadowOffset: isActive
-                        ? {
-                            width: 1,
-                            height: 1
-                        }
-                        : {
-                            width: 0,
-                            height: 0
-                        }
-                }}
-                >{name}</CategoryNameText>
-                {isActive && <BorderBottomView
+                <CategoryNameText
+                    style={{
+                        color: selected
+                            ? colors.lighterVividPurple
+                            : '#fff',
+                        textShadowColor: colors.grayPurple,
+                        textShadowRadius: 15,
+                        textShadowOffset: selected
+                            ? {
+                                width: 1,
+                                height: 1
+                            }
+                            : {
+                                width: 0,
+                                height: 0
+                            }
+                    }}
+                >
+                    {name}
+                </CategoryNameText>
+                {selected && <BorderBottomView
                     pointerEvents="none"
                 />}
             </ContainerView>
         </TouchableWithoutFeedback>
+
+        //#endregion
     )
 
 }

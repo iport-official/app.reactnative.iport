@@ -1,11 +1,12 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types';
 
 import { ContainerFlatList } from './styles'
 
 import CategoryItem from '../../atoms/CategoryItem'
+import { ApplicationState } from '../../../store';
 
 interface CategoryListProps {
     categories: CategoryProxy[]
@@ -14,16 +15,15 @@ interface CategoryListProps {
 const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
 
     const dispatch = useDispatch()
+    const category = useSelector<ApplicationState, string | undefined>(state => state.categories.selectedCategory?.category)
 
-    function handleOnPress(value: boolean, categoryProxy: CategoryProxy) {
-        if (value) {
-            dispatch({
-                type: CategoriesTypes.SELECT,
-                payload: {
-                    selectedCategory: categoryProxy
-                }
-            })
-        }
+    function handleOnPress(categoryProxy: CategoryProxy): void {
+        dispatch({
+            type: CategoriesTypes.SELECT,
+            payload: {
+                selectedCategory: categoryProxy
+            }
+        })
     }
 
     return (
@@ -39,9 +39,10 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             data={categories}
             renderItem={({ item }) => {
                 return <CategoryItem
+                    selected={category === item.category}
                     key={item.id}
                     name={item.name}
-                    onPress={(active: boolean) => { handleOnPress(active, item) }}
+                    onPress={() => { handleOnPress(item) }}
                 />
             }}
             keyExtractor={(item) => item.id}
