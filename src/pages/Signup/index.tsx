@@ -26,9 +26,8 @@ import TextField from '../../components/atoms/TextField';
 import ImagePicker from '../../components/atoms/ImagePicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { RegisterProxy } from '../../services/User/register.proxy';
-
-import api from '../../services/api';
+import { useDispatch } from 'react-redux';
+import { UserTypes } from '../../store/ducks/user/types';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
@@ -42,6 +41,8 @@ enum AccountType {
 
 export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
+    const dispatch = useDispatch()
+
     const [profileImage, setProfileImage] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -53,7 +54,6 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [cpf, setCpf] = useState('')
     const [cnpj, setCnpj] = useState('')
 
-    const [image, setImage] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [personalCheck, setPersonalCheck] = useState(false);
@@ -81,33 +81,17 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         setEmails(toSave)
     }
 
-    const signupButtonPress = async () => {
-        try {
-            const payload = {
-                profileImage: image,
+    const onSignupButtonPress = async () => {
+        dispatch({
+            type: UserTypes.REGISTER_REQUEST,
+            payload: {
+                profileImage,
                 username,
                 email,
                 password,
                 accountType
             }
-
-            const signupResponse = await api.post<RegisterProxy>(
-                '/users',
-                payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-
-            if (signupResponse.status === 201) {
-                alert('Ocorreu um erro! Por favor, dirija-se à página de Login e tente entrar em sua conta.');
-            }
-            else {
-                alert('Ocorreu um erro! Por favor, cheque suas credencias e tente novamente.');
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        })
     }
 
     const animatedOpacity = useRef(new Animated.Value(0)).current;
@@ -138,7 +122,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <ImagePicker onPick={setImage} />
+                <ImagePicker onPick={setProfileImage} />
                 <TextField
                     clear={clearField}
                     label='E-mail'
@@ -302,13 +286,14 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         disable={
                             !password
                             || !username}
-                        onPress={signupButtonPress} />
+                        onPress={onSignupButtonPress} />
                 </ButtonContainer>}
             </SignupContainer>
         </ContainerSafeAreaView>
 
         //#endregion
     )
+
 }
 
 //#region Old code
