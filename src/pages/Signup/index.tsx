@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { Animated, View } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { AppStackParamsList } from '../../navigations/AppStack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
-import { FontAwesome5 } from '@expo/vector-icons';
 import * as _ImagePicker from 'expo-image-picker';
+import { StackScreenProps } from '@react-navigation/stack';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+import { UserTypes } from '../../store/ducks/user/types';
 
 import {
     ButtonContainer,
@@ -18,16 +21,13 @@ import {
     SignupContainer
 } from './styles';
 
-import { colors } from '../../styles';
-
+import { AppStackParamsList } from '../../navigations/AppStack';
 import Checkbox from '../../components/atoms/Checkbox';
 import FormButton from '../../components/atoms/FormButton';
 import TextField from '../../components/atoms/TextField';
 import ImagePicker from '../../components/atoms/ImagePicker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { useDispatch } from 'react-redux';
-import { UserTypes } from '../../store/ducks/user/types';
+import { colors } from '../../styles';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
