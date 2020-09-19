@@ -4,6 +4,7 @@ import { UserState, UserTypes } from "./types";
 const INITIAL_STATE: UserState = {
     user: null,
     login: null,
+    register: null,
     loading: false,
     error: false
 }
@@ -40,6 +41,23 @@ const reducer: Reducer<UserState> = (state = INITIAL_STATE, action) => {
                 user: action.payload.user
             }
         case UserTypes.GET_PROFILE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: true
+            }
+        case UserTypes.REGISTER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case UserTypes.REGISTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                register: action.payload.register
+            }
+        case UserTypes.REGISTER_FAILURE:
             return {
                 ...state,
                 loading: false,

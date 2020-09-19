@@ -1,5 +1,5 @@
 import { action } from "typesafe-actions";
-import { LoginProxy, UserProxy, UserTypes } from "./types";
+import { LoginProxy, RegisterProxy, UserProxy, UserTypes } from "./types";
 
 export function login() {
     return action(UserTypes.LOGIN_REQUEST)
@@ -23,4 +23,16 @@ export function getProfileSuccess(user: UserProxy | null) {
 
 export function getProfileFailure() {
     return action(UserTypes.GET_PROFILE_FAILURE)
+}
+
+export function register() {
+    return action(UserTypes.REGISTER_REQUEST)
+}
+
+export function registerSuccess(register: RegisterProxy) {
+    return action(UserTypes.REGISTER_SUCCESS, { register })
+}
+
+export function registerFailure() {
+    return action(UserTypes.REGISTER_FAILURE)
 }
