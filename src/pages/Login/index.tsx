@@ -55,7 +55,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
         Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-        setStatusBarStyle('light');
 
         return () => {
             Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
@@ -141,6 +140,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         <ContainerSafeAreaView>
             <StatusBar
                 translucent
+                style="light"
                 backgroundColor='#612e96'
             />
             <LoginContainer style={{ top: animatedLogin }}>
