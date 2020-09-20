@@ -1,12 +1,12 @@
 import React from 'react'
-
-import TextField from '../../atoms/TextField'
-
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 import { ContainerView } from './styles'
+
+import TextField from '../../atoms/TextField'
+
 import { colors } from '../../../styles'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 interface ContactsListProps {
     placeholder: string
