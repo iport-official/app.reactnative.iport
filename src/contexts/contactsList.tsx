@@ -1,13 +1,16 @@
 import React, { useState, createContext } from 'react'
 
-import { Contact } from '../components/organisms/ContactsList'
+export interface Contact {
+    value: string
+    contactType: string
+}
 
 interface ContactsListContextData {
     contacts: Contact[]
     setContacts(contacts: Contact[]): void
 }
 
-const ContactsListContext = createContext<ContactsListContextData>({} as ContactsListContextData)
+export const ContactsListContext = createContext<ContactsListContextData>({} as ContactsListContextData)
 
 export const ContactsListProvider: React.FC = ({ children }) => {
 
