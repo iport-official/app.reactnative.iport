@@ -52,8 +52,6 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [clearField, setClearField] = useState(false);
     const [clearPassword, setClearPassword] = useState(false);
 
-    useEffect(() => { setStatusBarStyle('light'); }, []);
-
     async function onSignupButtonPress() {
         dispatch({
             type: UserTypes.REGISTER_REQUEST,
@@ -87,10 +85,10 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         }
     }
 
+    //#region Animations
+
     const animatedOpacity = useRef(new Animated.Value(0)).current;
     const animatedExtra = useRef(new Animated.Value(50)).current;
-
-    //#region Animations
 
     const animateContainer = () => {
         Animated.sequence([
@@ -116,6 +114,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         <ContainerSafeAreaView>
             <StatusBar
                 translucent
+                style="light"
                 backgroundColor='#612e96'
             />
             <SignupContainer
