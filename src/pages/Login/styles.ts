@@ -8,6 +8,7 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
     background-color: #fff;
     flex: 1;
     justify-content: center;
+    padding: 0 25px;
 `
 
 export const LoginContainer = styled(Animated.View)`
@@ -25,7 +26,7 @@ export const LoginLogo = styled(Animated.Image)`
 `
 
 export const LoginFooter = styled.View`
-    width: 75%;
+    width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

@@ -11,13 +11,13 @@ import {
 import { colors } from '../../../styles';
 
 interface TextFieldProperties extends TextInputProps {
-    label: string,
+    placeholder: string,
     keyboard?: string,
     fieldType?: string,
     textValue?: string,
     clear?: boolean,
     length?: number,
-    fieldWidth?: number,
+    fieldWidth?: string,
     onTextChange?(text: string): void,
     onFieldBlur?(text: string): void
 }
@@ -25,10 +25,10 @@ interface TextFieldProperties extends TextInputProps {
 const TextField: React.FC<TextFieldProperties> = ({
     onTextChange,
     onFieldBlur,
-    label,
+    placeholder: label,
     keyboard,
     fieldType,
-    fieldWidth,
+    fieldWidth = "100%",
     textValue,
     clear,
     length }) => {
@@ -38,9 +38,9 @@ const TextField: React.FC<TextFieldProperties> = ({
     const [secure, setSecure] = useState(true);
 
     useEffect(() => {
-        if(clear) setInputText('');
+        if (clear) setInputText('');
 
-        if(textValue) {
+        if (textValue) {
             setInputText(textValue);
         }
     }, []);
@@ -90,32 +90,38 @@ const TextField: React.FC<TextFieldProperties> = ({
     }
 
     return (
-        <TextFieldStyle style={{ width: fieldWidth || '80%' }}>
+        <TextFieldStyle width={fieldWidth}>
             { isPassword ?
                 <PasswordIcon
-                    name={ secure ? 'eye-off' : 'eye' }
+                    name={secure ? 'eye-off' : 'eye'}
                     size={24}
                     color={colors.grayPurple}
                     onPress={() => setSecure(!secure)} /> :
-                    <Text/>
+                <Text />
             }
-            <TextFieldPlaceholder style={{ fontSize: animatedTextSize, top: animatedLabelPosition }}
-                >{ label }</TextFieldPlaceholder>
+            <TextFieldPlaceholder
+                style={{
+                    fontSize: animatedTextSize,
+                    top: animatedLabelPosition
+                }}
+            >
+                {label}
+            </TextFieldPlaceholder>
             <TextFieldInputStyle
                 secureTextEntry={isPassword && secure}
                 keyboardType={keyboard}
                 value={inputText}
                 maxLength={length}
-                onChangeText={(text: string) => { setInputText(text); if(onTextChange) onTextChange(text); }}
+                onChangeText={(text: string) => { setInputText(text); if (onTextChange) onTextChange(text); }}
                 onFocus={() => {
-                    if(!inputText) animateOnFocus();
+                    if (!inputText) animateOnFocus();
                 }}
                 onBlur={() => {
-                    if(onFieldBlur) onFieldBlur(inputText);
-                    if(!inputText) animateOnBlur();
+                    if (onFieldBlur) onFieldBlur(inputText);
+                    if (!inputText) animateOnBlur();
                 }}
                 style={{ opacity: animatedInput, width: isPassword ? '82%' : '95%' }}
-                />
+            />
         </TextFieldStyle>
     )
 }

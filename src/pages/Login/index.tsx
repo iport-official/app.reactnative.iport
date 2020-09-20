@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 import { StackScreenProps } from '@react-navigation/stack';
 
+import { ApplicationState } from '../../store';
+import { LoginProxy, UserProxy, UserTypes } from '../../store/ducks/user/types';
+
 import {
     ContainerSafeAreaView,
     LoginContainer,
@@ -25,9 +28,6 @@ import FormButton from '../../components/atoms/FormButton';
 
 import { colors } from '../../styles';
 
-import { ApplicationState } from '../../store';
-import { UserProxy, UserTypes } from '../../store/ducks/user/types';
-import { LoginProxy } from '../../services/User/login.proxy';
 
 type DefaultLoginPageProps = StackScreenProps<
     AppStackParamsList,
@@ -55,7 +55,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
         Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
-        setStatusBarStyle('light');
 
         return () => {
             Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
@@ -141,6 +140,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         <ContainerSafeAreaView>
             <StatusBar
                 translucent
+                style="light"
                 backgroundColor='#612e96'
             />
             <LoginContainer style={{ top: animatedLogin }}>
@@ -149,13 +149,13 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
                     style={{ width: animatedLogo, height: animatedLogo }}
                 />
                 <TextField
-                    label='E-mail'
+                    placeholder='E-mail'
                     keyboard='email-address'
                     clear={clearEmail}
                     onTextChange={setEmail}
                 />
                 <TextField
-                    label='Senha'
+                    placeholder='Senha'
                     fieldType='password'
                     clear={clearPassword}
                     onTextChange={setPassword}
