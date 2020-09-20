@@ -22,6 +22,7 @@ import ImagePicker from '../../components/atoms/ImagePicker';
 
 import { colors } from '../../styles';
 import Checkmark from '../../components/atoms/Checkmark';
+import ContactsItem from '../../components/molecules/ContactsItem';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
@@ -138,17 +139,17 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 <ImagePicker onPick={setProfileImage} />
                 <TextField
                     clear={clearField}
-                    label='E-mail'
+                    placeholder='E-mail'
                     keyboard='email-address'
                     onTextChange={setEmail} />
                 <TextField
                     clear={clearPassword}
-                    label='Senha'
+                    placeholder='Senha'
                     fieldType='password'
                     onTextChange={setPassword} />
                 <TextField
                     clear={clearPassword}
-                    label='Confirmar senha'
+                    placeholder='Confirmar senha'
                     fieldType='password'
                     onTextChange={setConfirmPassword} />
                 <SignupChoice>
@@ -168,20 +169,31 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     ? <ExtraFieldsContainer style={{ opacity: animatedOpacity, top: animatedExtra }}>
                         <TextField
                             clear={clearField}
-                            label='Nome de usuário'
-                            onTextChange={setUsername} />
+                            placeholder='Nome de usuário'
+                            onTextChange={setUsername}
+                        />
                         <TextField
                             clear={clearField}
-                            label={personalCheck ? 'CPF' : 'CNPJ'}
+                            placeholder={personalCheck ? 'CPF' : 'CNPJ'}
                             keyboard='number-pad'
                             length={personalCheck ? 11 : 14}
-                            onTextChange={personalCheck ? setCpf : setCnpj} />
+                            onTextChange={personalCheck ? setCpf : setCnpj}
+                        />
                         <TextField
                             clear={clearField}
-                            label='CEP'
+                            placeholder='CEP'
                             keyboard='number-pad'
                             length={8}
-                            onTextChange={setCep} />
+                            onTextChange={setCep}
+                        />
+
+                        <ContactsItem
+                            placeholder="Telefone"
+                            contactTypes={[
+                                "Empresa",
+                                "Pessoal"
+                            ]}
+                        />
                         {/* <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',

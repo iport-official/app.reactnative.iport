@@ -11,13 +11,13 @@ import {
 import { colors } from '../../../styles';
 
 interface TextFieldProperties extends TextInputProps {
-    label: string,
+    placeholder: string,
     keyboard?: string,
     fieldType?: string,
     textValue?: string,
     clear?: boolean,
     length?: number,
-    fieldWidth?: number,
+    fieldWidth?: string,
     onTextChange?(text: string): void,
     onFieldBlur?(text: string): void
 }
@@ -25,7 +25,7 @@ interface TextFieldProperties extends TextInputProps {
 const TextField: React.FC<TextFieldProperties> = ({
     onTextChange,
     onFieldBlur,
-    label,
+    placeholder: label,
     keyboard,
     fieldType,
     fieldWidth,

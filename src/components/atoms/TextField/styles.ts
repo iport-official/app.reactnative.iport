@@ -7,14 +7,11 @@ import AnimatedTextInput from '../../animated/AnimatedTextInput';
 
 export const TextFieldStyle = styled.View`
     background-color: ${colors.transparent};
-    width: 80%;
     height: 54px;
-    border: 1px;
-    border-color: ${colors.lightPurple}80;
-    border-style: solid;
+    border: 1px solid ${colors.lightPurple}80;
     border-radius: 8px;
     padding: 0 10px;
-    margin-bottom: 15px;
+    margin: 7px 0;
     justify-content: center;
 `
 
@@ -31,7 +28,6 @@ export const TextFieldInputStyle = styled(AnimatedTextInput)`
     border-bottom-width: 3px;
     border-bottom-color: ${colors.grayPurple};
     border-style: solid;
-    width: 95%;
     padding-bottom: 5px;
     left: 16px;
     bottom: 0px;
