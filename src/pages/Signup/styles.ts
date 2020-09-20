@@ -6,6 +6,7 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
     background-color: #fff;
     flex: 1;
     justify-content: center;
+    padding: 0 20px;
 `
 
 export const SignupContainer = styled.ScrollView`
@@ -38,20 +39,5 @@ export const ExtraFieldsContainer = styled(Animated.View)`
     justify-content: center;
     align-items: center;
     width: 100%;
-
     margin-top: 5px;
 `
-
-// export const ContactText = styled.Text`
-//     font-family: Poppins_600SemiBold;
-//     color: ${colors.strongPurple};
-//     font-size: 24px;
-// `
-
-// export const MinusButton = styled.TouchableOpacity`
-//     position: absolute;
-//     bottom: 5px;
-//     left: 7%;
-
-//     background: #fff;
-// `
