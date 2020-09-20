@@ -23,6 +23,7 @@ import ImagePicker from '../../components/atoms/ImagePicker';
 import { colors } from '../../styles';
 import Checkmark from '../../components/atoms/Checkmark';
 import ContactsItem from '../../components/molecules/ContactsItem';
+import ContactsList from '../../components/organisms/ContactsList';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
@@ -187,101 +188,26 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             onTextChange={setCep}
                         />
 
-                        <ContactsItem
-                            placeholder="Telefone"
+                        <ContactsList
+                            title="Telefones"
                             contactTypes={[
-                                "Empresa",
-                                "Pessoal"
+                                "Pessoal",
+                                "Empresa"
                             ]}
+                            placeholder="Telefone"
+                            onUpdateContacts={(contacts) => { }}
                         />
-                        {/* <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: '80%',
-                            justifyContent: 'space-between'
-                        }}>
-                            <ContactText>Telefones</ContactText>
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                onPress={() => { setPhones([...phones, '']) }}
-                                disabled={cantAddPhone}>
-                                <FontAwesome5
-                                    name="plus-circle"
-                                    size={24}
-                                    color={colors.vividPurple}
-                                    style={{ opacity: cantAddPhone ? 0.5 : 1 }} />
-                            </TouchableOpacity>
-                        </View> */}
-                        {/* {phones.map((p: any, i: number) =>
-                            <View
-                                style={{
-                                    width: '100%',
-                                    alignItems: 'center'
-                                }}
-                                key={i}>
-                                <TextField
-                                    clear={clearField}
-                                    label='Telefone'
-                                    keyboard='phone-pad'
-                                    textValue={multPhones[i]}
-                                    onFieldBlur={(text: string) => handlePhone(text, i, true)}
-                                    onTextChange={(text: string) => handlePhone(text, i)} />
-                                {i === phones.length - 1 && i !== 0 ?
-                                    <MinusButton
-                                        activeOpacity={1}
-                                        onPress={() => removePhone(i)}
-                                    >
-                                        <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
-                                    </MinusButton> : <View />
-                                }
-                            </View>
-                        )
-                        } */}
-                        {/* <View style={{
-                            marginTop: 20,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: '80%',
-                            justifyContent: 'space-between'
-                        }}>
-                            <ContactText>E-mail's</ContactText>
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                onPress={() => { setEmails([...emails, '']) }}
-                                disabled={cantAddEmail}>
-                                <FontAwesome5
-                                    name="plus-circle"
-                                    size={24}
-                                    color={colors.vividPurple}
-                                    style={{ opacity: cantAddEmail ? 0.5 : 1 }} />
-                            </TouchableOpacity>
-                        </View> */}
-                        {/* {emails.map((e: any, i: number) =>
-                            <View style={{
-                                width: '100%',
-                                alignItems: 'center'
-                            }}
-                                key={i}>
-                                <TextField
-                                    clear={clearField}
-                                    label='E-mail'
-                                    keyboard='email-address'
-                                    textValue={multEmails[i]}
-                                    onFieldBlur={(text: string) => handleAddEmail(text, i, true)}
-                                    onTextChange={(text: string) => handleAddEmail(text, i)} />
-                                {i === emails.length - 1 && i !== 0 ?
-                                    <MinusButton
-                                        activeOpacity={1}
-                                        onPress={() => removeEmail(i)}>
-                                        <FontAwesome5
-                                            name="minus-circle"
-                                            size={24}
-                                            color={colors.vividPurple} />
-                                    </MinusButton> : <View />
-                                }
-                            </View>
-                        )
-                        } */}
+
+                        <ContactsList
+                            title="E-mails"
+                            contactTypes={[
+                                "Pessoal",
+                                "Empresa"
+                            ]}
+                            placeholder="Email"
+                            onUpdateContacts={(contacts) => { }}
+                        />
+
                     </ExtraFieldsContainer>
                     : <View />}
                 {(personalCheck || companyCheck) && 
@@ -342,5 +268,94 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     //         setUser({ ...user, additionalEmails: userEmails });
     //     }
     // }
+
+    {/* <View style={{
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    justifyContent: 'space-between'
+}}>
+    <ContactText>Telefones</ContactText>
+    <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => { setPhones([...phones, '']) }}
+        disabled={cantAddPhone}>
+        <FontAwesome5
+            name="plus-circle"
+            size={24}
+            color={colors.vividPurple}
+            style={{ opacity: cantAddPhone ? 0.5 : 1 }} />
+    </TouchableOpacity>
+</View>
+{phones.map((p: any, i: number) =>
+    <View
+        style={{
+            width: '100%',
+            alignItems: 'center'
+        }}
+        key={i}>
+        <TextField
+            clear={clearField}
+            label='Telefone'
+            keyboard='phone-pad'
+            textValue={multPhones[i]}
+            onFieldBlur={(text: string) => handlePhone(text, i, true)}
+            onTextChange={(text: string) => handlePhone(text, i)} />
+        {i === phones.length - 1 && i !== 0 ?
+            <MinusButton
+                activeOpacity={1}
+                onPress={() => removePhone(i)}
+            >
+                <FontAwesome5 name="minus-circle" size={24} color={colors.vividPurple} />
+            </MinusButton> : <View />
+        }
+    </View>
+)
+}
+<View style={{
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    justifyContent: 'space-between'
+}}>
+    <ContactText>E-mail's</ContactText>
+    <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => { setEmails([...emails, '']) }}
+        disabled={cantAddEmail}>
+        <FontAwesome5
+            name="plus-circle"
+            size={24}
+            color={colors.vividPurple}
+            style={{ opacity: cantAddEmail ? 0.5 : 1 }} />
+    </TouchableOpacity>
+</View>
+{emails.map((e: any, i: number) =>
+    <View style={{
+        width: '100%',
+        alignItems: 'center'
+    }}
+        key={i}>
+        <TextField
+            clear={clearField}
+            label='E-mail'
+            keyboard='email-address'
+            textValue={multEmails[i]}
+            onFieldBlur={(text: string) => handleAddEmail(text, i, true)}
+            onTextChange={(text: string) => handleAddEmail(text, i)} />
+        {i === emails.length - 1 && i !== 0 ?
+            <MinusButton
+                activeOpacity={1}
+                onPress={() => removeEmail(i)}>
+                <FontAwesome5
+                    name="minus-circle"
+                    size={24}
+                    color={colors.vividPurple} />
+            </MinusButton> : <View />
+        }
+    </View>
+)
+} */}
 
     //#endregion
