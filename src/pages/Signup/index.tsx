@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Animated, View } from 'react-native';
-import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import * as _ImagePicker from 'expo-image-picker';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -14,6 +14,8 @@ import {
     SignupChoice,
     SignupContainer
 } from './styles';
+
+import ContactsListProvider from '../../contexts/contactsList';
 
 import { AppStackParamsList } from '../../navigations/AppStack';
 import FormButton from '../../components/atoms/FormButton';
@@ -172,25 +174,29 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             onTextChange={setCep}
                         />
 
-                        <ContactsList
-                            title="Telefones"
-                            contactTypes={[
-                                "Pessoal",
-                                "Empresa"
-                            ]}
-                            placeholder="Telefone"
-                            onUpdateContacts={(contacts) => { }}
-                        />
+                        <ContactsListProvider>
+                            <ContactsList
+                                title="Telefones"
+                                contactTypes={[
+                                    "Pessoal",
+                                    "Empresa"
+                                ]}
+                                placeholder="Telefone"
+                                onUpdateContacts={(contacts) => { console.log(contacts); }}
+                            />
+                        </ContactsListProvider>
 
-                        <ContactsList
-                            title="E-mails"
-                            contactTypes={[
-                                "Pessoal",
-                                "Empresa"
-                            ]}
-                            placeholder="Email"
-                            onUpdateContacts={(contacts) => { }}
-                        />
+                        <ContactsListProvider>
+                            <ContactsList
+                                title="E-mails"
+                                contactTypes={[
+                                    "Pessoal",
+                                    "Empresa"
+                                ]}
+                                placeholder="Email"
+                                onUpdateContacts={(contacts) => { }}
+                            />
+                        </ContactsListProvider>
 
                     </ExtraFieldsContainer>
                     : <View />}
