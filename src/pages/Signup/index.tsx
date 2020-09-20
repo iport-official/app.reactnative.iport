@@ -39,8 +39,6 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [accountType, setAccountType] = useState(AccountType.PERSONAL)
     const [username, setUsername] = useState('')
     const [cep, setCep] = useState('')
-    const [phones, setPhones] = useState<string[]>([])
-    const [emails, setEmails] = useState<string[]>([])
     const [cpf, setCpf] = useState('')
     const [cnpj, setCnpj] = useState('')
 
