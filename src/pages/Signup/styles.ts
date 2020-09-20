@@ -23,7 +23,13 @@ export const SignupChoice = styled.View`
     padding-bottom: 10px;
 `
 
-export const ButtonContainer = styled.View`
+export const ButtonContainerView = styled.View`
+    margin-top: ${(props: {checked: boolean}) => props.checked
+        ? 0
+        : 100}px;
+    margin-bottom:${(props: {checked: boolean}) => props.checked
+        ? 80
+        : 0}px;
     width: 100%;
     align-items: center;
 `

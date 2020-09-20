@@ -8,7 +8,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { AccountType, UserTypes } from '../../store/ducks/user/types';
 
 import {
-    ButtonContainer,
+    ButtonContainerView,
     ContainerSafeAreaView,
     ExtraFieldsContainer,
     SignupChoice,
@@ -272,20 +272,19 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         } */}
                     </ExtraFieldsContainer>
                     : <View />}
-                {(personalCheck || companyCheck) && <ButtonContainer style={{
-                    marginTop: personalCheck || companyCheck ? 0 : 100,
-                    marginBottom: personalCheck || companyCheck ? 80 : 0
-                }}>
-                    <FormButton
-                        label='Sign up'
-                        color={colors.grayPurple}
-                        disableColor={colors.grayPurple + '88'}
-                        ripple={colors.lightPurple}
-                        disable={
-                            !password
-                            || !username}
-                        onPress={onSignupButtonPress} />
-                </ButtonContainer>}
+                {(personalCheck || companyCheck) && 
+                    <ButtonContainerView
+                        checked={personalCheck || companyCheck}>
+                        <FormButton
+                            label='Sign up'
+                            color={colors.grayPurple}
+                            disableColor={colors.grayPurple + '88'}
+                            ripple={colors.lightPurple}
+                            disable={
+                                !password
+                                || !username}
+                            onPress={onSignupButtonPress} />
+                </ButtonContainerView>}
             </SignupContainer>
         </ContainerSafeAreaView>
 
