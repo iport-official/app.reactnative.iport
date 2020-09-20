@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
+
+import { Contact } from '../../../contexts/contactsList';
 
 import { ContainerView } from './styles'
 
@@ -12,9 +14,29 @@ interface ContactsItemProps {
     placeholder: string
     contactTypes: string[]
     onPressMinusButton(): void
+    onContactChange(contact: Contact): void
 }
 
-const ContactsItem: React.FC<ContactsItemProps> = ({ placeholder, contactTypes, onPressMinusButton }) => {
+const ContactsItem: React.FC<ContactsItemProps> = ({
+    placeholder,
+    contactTypes,
+    onPressMinusButton,
+    onContactChange,
+}) => {
+
+    const [value, setValue] = useState('')
+    const [contactType, setContactType] = useState('')
+
+    function handleOnValueChange(value: string) {
+        setValue(value)
+        onContactChange({ value, contactType })
+    }
+
+    function hadleOnContactTypeChange(contactType: string) {
+        setContactType(contactType)
+        onContactChange({ value, contactType })
+    }
+
     return (
         //#region JSX
 
@@ -22,10 +44,12 @@ const ContactsItem: React.FC<ContactsItemProps> = ({ placeholder, contactTypes, 
             <TextField
                 fieldWidth="54%"
                 placeholder={placeholder}
+                onTextChange={handleOnValueChange}
             />
             <TextField
                 fieldWidth="35%"
                 placeholder="Tipo"
+                onTextChange={hadleOnContactTypeChange}
             />
             <TouchableWithoutFeedback onPress={onPressMinusButton}>
                 <FontAwesome

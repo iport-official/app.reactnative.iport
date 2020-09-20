@@ -18,5 +18,4 @@ export const TitleText = styled.Text`
     font-family: Poppins_600SemiBold;
     color: ${colors.strongPurple};
     font-size: 24px;
-
 `
