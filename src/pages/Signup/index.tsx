@@ -19,11 +19,10 @@ import { AppStackParamsList } from '../../navigations/AppStack';
 import FormButton from '../../components/atoms/FormButton';
 import TextField from '../../components/atoms/TextField';
 import ImagePicker from '../../components/atoms/ImagePicker';
+import Checkmark from '../../components/atoms/Checkmark';
+import ContactsList from '../../components/organisms/ContactsList';
 
 import { colors } from '../../styles';
-import Checkmark from '../../components/atoms/Checkmark';
-import ContactsItem from '../../components/molecules/ContactsItem';
-import ContactsList from '../../components/organisms/ContactsList';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
@@ -53,24 +52,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [clearField, setClearField] = useState(false);
     const [clearPassword, setClearPassword] = useState(false);
 
-    const [cantAddPhone, setCantAddPhone] = useState(false);
-    const [cantAddEmail, setCantAddEmail] = useState(false);
-
-    useEffect(() => {
-        setStatusBarStyle('light');
-        setCantAddPhone(phones.length === 3);
-        setCantAddEmail(emails.length === 3);
-    }, []);
-
-    const removePhone = (index: number) => {
-        const toSave = phones.filter((phone: string, i: number) => i !== index);
-        setPhones(toSave)
-    }
-
-    const removeEmail = (index: number) => {
-        const toSave = emails.filter((email: string, i: number) => i !== index);
-        setEmails(toSave)
-    }
+    useEffect(() => { setStatusBarStyle('light'); }, []);
 
     async function onSignupButtonPress() {
         dispatch({
@@ -108,6 +90,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const animatedOpacity = useRef(new Animated.Value(0)).current;
     const animatedExtra = useRef(new Animated.Value(50)).current;
 
+    //#region Animations
+
     const animateContainer = () => {
         Animated.sequence([
             Animated.timing(animatedOpacity, {
@@ -124,6 +108,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         ]).start();
     }
 
+    //#endregion
+
     return (
         //#region JSX
 
@@ -133,6 +119,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 backgroundColor='#612e96'
             />
             <SignupContainer
+                showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
                     justifyContent: 'center',
                     alignItems: 'center'
