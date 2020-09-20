@@ -1,43 +1,32 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Animated, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 import * as _ImagePicker from 'expo-image-picker';
 import { StackScreenProps } from '@react-navigation/stack';
-import { FontAwesome5 } from '@expo/vector-icons';
 
-import { UserTypes } from '../../store/ducks/user/types';
+import { AccountType, UserTypes } from '../../store/ducks/user/types';
 
 import {
     ButtonContainer,
-    CheckboxContainer,
-    CheckboxText,
-    ContactText,
     ContainerSafeAreaView,
     ExtraFieldsContainer,
-    MinusButton,
     SignupChoice,
     SignupContainer
 } from './styles';
 
 import { AppStackParamsList } from '../../navigations/AppStack';
-import Checkbox from '../../components/atoms/Checkbox';
 import FormButton from '../../components/atoms/FormButton';
 import TextField from '../../components/atoms/TextField';
 import ImagePicker from '../../components/atoms/ImagePicker';
 
 import { colors } from '../../styles';
+import Checkmark from '../../components/atoms/Checkmark';
 
 type DefaultSignupPageProps = StackScreenProps<
     AppStackParamsList,
     "SignupPage"
 >
-
-enum AccountType {
-    PERSONAL = 'PERSONAL',
-    COMPANY = 'COMPANY'
-}
 
 export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
@@ -81,7 +70,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         setEmails(toSave)
     }
 
-    const onSignupButtonPress = async () => {
+    async function onSignupButtonPress() {
         dispatch({
             type: UserTypes.REGISTER_REQUEST,
             payload: {
@@ -92,6 +81,26 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 accountType
             }
         })
+    }
+
+    function handleOnPersonalCheck() {
+        setPersonalCheck(true);
+        setCompanyCheck(false);
+        if (!personalCheck) {
+            setAccountType(AccountType.PERSONAL)
+            if (!personalCheck)
+                animateContainer();
+        }
+    }
+
+    function handlOnCompayCheck() {
+        setCompanyCheck(true);
+        setPersonalCheck(false);
+        if (!companyCheck) {
+            setAccountType(AccountType.COMPANY)
+            if (!personalCheck)
+                animateContainer();
+        }
     }
 
     const animatedOpacity = useRef(new Animated.Value(0)).current;
@@ -117,11 +126,15 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         //#region JSX
 
         <ContainerSafeAreaView>
-            <StatusBar translucent backgroundColor='#612e96' />
-            <SignupContainer contentContainerStyle={{
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
+            <StatusBar
+                translucent
+                backgroundColor='#612e96'
+            />
+            <SignupContainer
+                contentContainerStyle={{
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
                 <ImagePicker onPick={setProfileImage} />
                 <TextField
                     clear={clearField}
@@ -138,32 +151,17 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     label='Confirmar senha'
                     fieldType='password'
                     onTextChange={setConfirmPassword} />
-
                 <SignupChoice>
-                    <CheckboxContainer onTouchStart={() => {
-                        setPersonalCheck(true);
-                        setCompanyCheck(false);
-                        if (!personalCheck) {
-                            setAccountType(AccountType.PERSONAL)
-                            if (!companyCheck)
-                                animateContainer();
-                        }
-                    }} >
-                        <Checkbox checked={personalCheck} />
-                        <CheckboxText>Pessoa</CheckboxText>
-                    </CheckboxContainer>
-                    <CheckboxContainer onTouchStart={() => {
-                        setCompanyCheck(true);
-                        setPersonalCheck(false);
-                        if (!companyCheck) {
-                            setAccountType(AccountType.COMPANY)
-                            if (!personalCheck)
-                                animateContainer();
-                        }
-                    }} >
-                        <Checkbox checked={companyCheck} />
-                        <CheckboxText>Empresa</CheckboxText>
-                    </CheckboxContainer>
+                    <Checkmark
+                        checked={personalCheck}
+                        onCheck={handleOnPersonalCheck}
+                        title="Pessoa"
+                    />
+                    <Checkmark
+                        checked={companyCheck}
+                        onCheck={handlOnCompayCheck}
+                        title="Empresa"
+                    />
                 </SignupChoice>
 
                 {personalCheck || companyCheck
@@ -184,7 +182,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             keyboard='number-pad'
                             length={8}
                             onTextChange={setCep} />
-                        <View style={{
+                        {/* <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
                             width: '80%',
@@ -201,8 +199,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     color={colors.vividPurple}
                                     style={{ opacity: cantAddPhone ? 0.5 : 1 }} />
                             </TouchableOpacity>
-                        </View>
-                        {phones.map((p: any, i: number) =>
+                        </View> */}
+                        {/* {phones.map((p: any, i: number) =>
                             <View
                                 style={{
                                     width: '100%',
@@ -226,8 +224,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                 }
                             </View>
                         )
-                        }
-                        <View style={{
+                        } */}
+                        {/* <View style={{
                             marginTop: 20,
                             flexDirection: 'row',
                             alignItems: 'center',
@@ -245,8 +243,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     color={colors.vividPurple}
                                     style={{ opacity: cantAddEmail ? 0.5 : 1 }} />
                             </TouchableOpacity>
-                        </View>
-                        {emails.map((e: any, i: number) =>
+                        </View> */}
+                        {/* {emails.map((e: any, i: number) =>
                             <View style={{
                                 width: '100%',
                                 alignItems: 'center'
@@ -271,7 +269,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                 }
                             </View>
                         )
-                        }
+                        } */}
                     </ExtraFieldsContainer>
                     : <View />}
                 {(personalCheck || companyCheck) && <ButtonContainer style={{

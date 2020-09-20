@@ -2,9 +2,6 @@ import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Animated } from 'react-native';
 
-import { Poppins_600SemiBold } from '@expo-google-fonts/poppins';
-import { colors } from '../../styles';
-
 export const ContainerSafeAreaView = styled(SafeAreaView)`
     background-color: #fff;
     flex: 1;
@@ -26,19 +23,6 @@ export const SignupChoice = styled.View`
     padding-bottom: 10px;
 `
 
-export const CheckboxContainer = styled.View`
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 2px;
-`
-
-export const CheckboxText = styled.Text`
-    color: ${colors.grayPurple};
-    font-weight: bold;
-    margin-left: 5px;
-`
-
 export const ButtonContainer = styled.View`
     width: 100%;
     align-items: center;
@@ -52,16 +36,16 @@ export const ExtraFieldsContainer = styled(Animated.View)`
     margin-top: 5px;
 `
 
-export const ContactText = styled.Text`
-    font-family: Poppins_600SemiBold;
-    color: ${colors.strongPurple};
-    font-size: 24px;
-`
+// export const ContactText = styled.Text`
+//     font-family: Poppins_600SemiBold;
+//     color: ${colors.strongPurple};
+//     font-size: 24px;
+// `
 
-export const MinusButton = styled.TouchableOpacity`
-    position: absolute;
-    bottom: 5px;
-    left: 7%;
+// export const MinusButton = styled.TouchableOpacity`
+//     position: absolute;
+//     bottom: 5px;
+//     left: 7%;
 
-    background: #fff;
-`
+//     background: #fff;
+// `
