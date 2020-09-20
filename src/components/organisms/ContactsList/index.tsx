@@ -40,6 +40,12 @@ const ContactsList: React.FC<ContactsListProps> = ({
         setContacts(contacts.filter((_element, i) => i !== index))
     }
 
+    function replaceContactAt(index: number, newContact: Contact) {
+        setContacts(contacts.map((contact, i) => {
+            return i === index ? newContact : contact
+        }))
+    }
+
     return (
         //#region JSX
 
@@ -62,6 +68,7 @@ const ContactsList: React.FC<ContactsListProps> = ({
                         placeholder={placeholder}
                         contactTypes={contactTypes}
                         onPressMinusButton={() => { handleOnPressMinusButton(index) }}
+                        onContactChange={(contact) => { replaceContactAt(index, contact) }}
                     />
                 )
             })}
