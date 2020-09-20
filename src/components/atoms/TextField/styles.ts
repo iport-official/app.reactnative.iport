@@ -12,6 +12,7 @@ export const TextFieldStyle = styled.View`
     border-radius: 8px;
     padding: 0 10px;
     margin: 7px 0;
+    width: ${((props: {width: string}) => props.width)};
     justify-content: center;
 `
 

@@ -28,7 +28,7 @@ const TextField: React.FC<TextFieldProperties> = ({
     placeholder: label,
     keyboard,
     fieldType,
-    fieldWidth,
+    fieldWidth = "100%",
     textValue,
     clear,
     length }) => {
@@ -90,11 +90,7 @@ const TextField: React.FC<TextFieldProperties> = ({
     }
 
     return (
-        <TextFieldStyle
-            style={{
-                width: fieldWidth || '80%'
-            }}
-        >
+        <TextFieldStyle width={fieldWidth}>
             { isPassword ?
                 <PasswordIcon
                     name={secure ? 'eye-off' : 'eye'}
