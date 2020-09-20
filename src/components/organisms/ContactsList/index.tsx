@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -8,14 +8,11 @@ import {
     TitleText
 } from './styles'
 
+import { Contact, ContactsListContext } from '../../../contexts/contactsList';
+
 import ContactsItem from '../../molecules/ContactsItem'
 
 import { colors } from '../../../styles';
-
-export interface Contact {
-    value: string
-    contactType: string
-}
 
 interface ContactsListProps {
     title: string
@@ -31,10 +28,7 @@ const ContactsList: React.FC<ContactsListProps> = ({
     onUpdateContacts
 }) => {
 
-    const [contacts, setContacts] = useState<Contact[]>([{
-        value: "",
-        contactType: ""
-    }])
+    const { contacts, setContacts } = useContext(ContactsListContext)
 
     useEffect(() => { onUpdateContacts(contacts) }, [contacts])
 
