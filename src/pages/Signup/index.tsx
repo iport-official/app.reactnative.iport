@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Animated, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -15,7 +15,7 @@ import {
     SignupContainer
 } from './styles';
 
-import ContactsListProvider from '../../contexts/contactsList';
+import ContactsListProvider, { Contact } from '../../contexts/contactsList';
 
 import { AppStackParamsList } from '../../navigations/AppStack';
 import FormButton from '../../components/atoms/FormButton';
@@ -43,6 +43,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [cep, setCep] = useState('')
     const [cpf, setCpf] = useState('')
     const [cnpj, setCnpj] = useState('')
+    const [telephones, setTelephones] = useState<Contact[]>([])
+    const [emails, setEmails] = useState<Contact[]>([])
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -182,7 +184,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     "Empresa"
                                 ]}
                                 placeholder="Telefone"
-                                onUpdateContacts={(contacts) => { console.log(contacts); }}
+                                onUpdateContacts={setTelephones}
                             />
                         </ContactsListProvider>
 
@@ -194,7 +196,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     "Empresa"
                                 ]}
                                 placeholder="Email"
-                                onUpdateContacts={(contacts) => { }}
+                                onUpdateContacts={setEmails}
                             />
                         </ContactsListProvider>
 
@@ -211,7 +213,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             disable={
                                 !password
                                 || !username}
-                            onPress={onSignupButtonPress} />
+                            onPress={onSignupButtonPress}
+                    />
                 </ButtonContainerView>}
             </SignupContainer>
         </ContainerSafeAreaView>
