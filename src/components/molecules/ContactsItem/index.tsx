@@ -8,14 +8,16 @@ import TextField from '../../atoms/TextField'
 
 import { colors } from '../../../styles'
 
-interface ContactsListProps {
+interface ContactsItemProps {
     placeholder: string
     contactTypes: string[]
     onPressMinusButton(): void
 }
 
-const ContactsItem: React.FC<ContactsListProps> = ({ placeholder, contactTypes, onPressMinusButton }) => {
+const ContactsItem: React.FC<ContactsItemProps> = ({ placeholder, contactTypes, onPressMinusButton }) => {
     return (
+        //#region JSX
+
         <ContainerView>
             <TextField
                 fieldWidth="54%"
@@ -25,17 +27,16 @@ const ContactsItem: React.FC<ContactsListProps> = ({ placeholder, contactTypes, 
                 fieldWidth="35%"
                 placeholder="Tipo"
             />
-            <TouchableWithoutFeedback
-                onPress={onPressMinusButton}
-            >
+            <TouchableWithoutFeedback onPress={onPressMinusButton}>
                 <FontAwesome
                     name="minus-circle"
                     size={33}
                     color={colors.vividPurple}
                 />
             </TouchableWithoutFeedback>
-            
         </ContainerView>
+
+        //#endregion
     )
 }
 
