@@ -3,8 +3,8 @@ import styled from 'styled-components/native'
 import { colors } from '../../../styles'
 
 export const ContainerView = styled.View`
-    margin: 7px 0;
     flex: 1;
+    margin: 7px 0;
 `
 
 export const HeaderView = styled.View`
