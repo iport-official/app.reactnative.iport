@@ -34,8 +34,14 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onPick }) => {
     return (
         <ImageViewCircle>
             {!!image && <ImageCircle source={{ uri: image }} />}
-            <MaterialIcons name="edit" size={50} color="white" style={{ position: 'absolute', opacity: 0.8 }} />
-            <TouchableOpacity onPress={() => pickImage()} style={{ width: '100%', height: '100%', backgroundColor: '#0002' }}/>
+            <MaterialIcons
+                name="edit"
+                size={50}
+                color="white"
+                style={{ position: 'absolute', opacity: 0.8 }} />
+            <TouchableOpacity
+                onPress={() => pickImage()}
+                style={{ width: '100%', height: '100%', backgroundColor: '#0002' }}/>
         </ImageViewCircle>
     )
 }
