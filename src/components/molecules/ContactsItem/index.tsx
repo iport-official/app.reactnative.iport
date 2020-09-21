@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
-
-import { Contact } from '../../../contexts/contactsList';
 
 import { ContainerView } from './styles'
 
@@ -14,7 +12,7 @@ interface ContactsItemProps {
     placeholder: string
     contactTypes: string[]
     onPressMinusButton(): void
-    onContactChange(contact: Contact): void
+    onContactChange(contact: { value: string, contactType: string }): void
 }
 
 const ContactsItem: React.FC<ContactsItemProps> = ({
