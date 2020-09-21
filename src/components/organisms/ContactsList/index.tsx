@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
+import uuid from 'uuid-random';
 
 import {
     ContainerView,
@@ -28,21 +29,27 @@ const ContactsList: React.FC<ContactsListProps> = ({
     onUpdateContacts
 }) => {
 
+    const [keyId, setKeyId] = useState(0)
     const { contacts, setContacts } = useContext(ContactsListContext)
 
     useEffect(() => { onUpdateContacts(contacts) }, [contacts])
 
     function handleOnPressPlusButton() {
-        setContacts([...contacts, { value: "", contactType: "" }])
+        setContacts([...contacts, { id: uuid(), value: "", contactType: "" }])
     }
 
     function handleOnPressMinusButton(index: number) {
         setContacts(contacts.filter((_element, i) => i !== index))
     }
 
-    function replaceContactAt(index: number, newContact: Contact) {
+    function replaceContactAt(index: number, newContact: { value: string, contactType: string }) {
         setContacts(contacts.map((contact, i) => {
-            return i === index ? newContact : contact
+            return i !== index
+                ? contact
+                : {
+                    ...contact,
+                    ...newContact
+                }
         }))
     }
 
@@ -61,10 +68,10 @@ const ContactsList: React.FC<ContactsListProps> = ({
                 </TouchableWithoutFeedback>
             </HeaderView>
 
-            {contacts.map((_contact, index) => {
+            {contacts.map((contact, index) => {
                 return (
                     <ContactsItem
-                        key={index}
+                        key={contact.id}
                         placeholder={placeholder}
                         contactTypes={contactTypes}
                         onPressMinusButton={() => { handleOnPressMinusButton(index) }}
