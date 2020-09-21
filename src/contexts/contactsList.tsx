@@ -1,6 +1,7 @@
 import React, { useState, createContext } from 'react'
 
 export interface Contact {
+    id: string
     value: string
     contactType: string
 }
