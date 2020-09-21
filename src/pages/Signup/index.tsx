@@ -202,7 +202,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
                     </ExtraFieldsContainer>
                     : <View />}
-                {(personalCheck || companyCheck) && 
+                {(personalCheck || companyCheck) &&
                     <ButtonContainerView
                         checked={personalCheck || companyCheck}>
                         <FormButton
@@ -214,8 +214,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                 !password
                                 || !username}
                             onPress={onSignupButtonPress}
-                    />
-                </ButtonContainerView>}
+                        />
+                    </ButtonContainerView>}
             </SignupContainer>
         </ContainerSafeAreaView>
 
@@ -226,43 +226,43 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
 //#region Old code
 
-    // const handlePhone = (text: string, index: number, action: boolean = false) => {
-    //     const phones = [...additionalPhones];
-    //     phones.splice(index, 0, text);
+// const handlePhone = (text: string, index: number, action: boolean = false) => {
+//     const phones = [...additionalPhones];
+//     phones.splice(index, 0, text);
 
-    //     const toSet = phones[index];
+//     const toSet = phones[index];
 
-    //     if (action && text) {
-    //         const userPhones: any = [...user.phone];
-    //         if (userPhones[index]) {
-    //             userPhones.splice(index, 1, toSet);
-    //         } else {
-    //             userPhones.splice(index, 0, toSet);
-    //         }
-    //         setTimeout(() => {
-    //             setUser({ ...user, phone: userPhones });
-    //         }, 10);
-    //     }
-    // }
+//     if (action && text) {
+//         const userPhones: any = [...user.phone];
+//         if (userPhones[index]) {
+//             userPhones.splice(index, 1, toSet);
+//         } else {
+//             userPhones.splice(index, 0, toSet);
+//         }
+//         setTimeout(() => {
+//             setUser({ ...user, phone: userPhones });
+//         }, 10);
+//     }
+// }
 
-    // const handleAddEmail = (text: string, index: number, action: boolean = false) => {
-    //     const emails: any = [...user.additionalEmails];
-    //     emails.splice(index, 0, text);
+// const handleAddEmail = (text: string, index: number, action: boolean = false) => {
+//     const emails: any = [...user.additionalEmails];
+//     emails.splice(index, 0, text);
 
-    //     const toSet: any = emails[index];
+//     const toSet: any = emails[index];
 
-    //     if (action && text) {
-    //         const userEmails: any = [...user.additionalEmails];
-    //         if (userEmails[index]) {
-    //             userEmails.splice(index, 1, toSet);
-    //         } else {
-    //             userEmails.splice(index, 0, toSet);
-    //         }
-    //         setUser({ ...user, additionalEmails: userEmails });
-    //     }
-    // }
+//     if (action && text) {
+//         const userEmails: any = [...user.additionalEmails];
+//         if (userEmails[index]) {
+//             userEmails.splice(index, 1, toSet);
+//         } else {
+//             userEmails.splice(index, 0, toSet);
+//         }
+//         setUser({ ...user, additionalEmails: userEmails });
+//     }
+// }
 
-    {/* <View style={{
+{/* <View style={{
     flexDirection: 'row',
     alignItems: 'center',
     width: '80%',
