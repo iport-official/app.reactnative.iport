@@ -52,7 +52,7 @@ const ContactsItem: React.FC<ContactsItemProps> = ({
             <TouchableWithoutFeedback onPress={onPressMinusButton}>
                 <FontAwesome
                     name="minus-circle"
-                    size={33}
+                    size={28}
                     color={colors.vividPurple}
                 />
             </TouchableWithoutFeedback>

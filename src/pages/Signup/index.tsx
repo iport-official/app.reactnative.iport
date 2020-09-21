@@ -77,7 +77,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         }
     }
 
-    function handlOnCompayCheck() {
+    function handleOnCompanyCheck() {
         setCompanyCheck(true);
         setPersonalCheck(false);
         if (!companyCheck) {
@@ -149,7 +149,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     />
                     <Checkmark
                         checked={companyCheck}
-                        onCheck={handlOnCompayCheck}
+                        onCheck={handleOnCompanyCheck}
                         title="Empresa"
                     />
                 </SignupChoice>
