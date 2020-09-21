@@ -39,6 +39,4 @@ export const ExtraFieldsContainer = styled(Animated.View)`
     justify-content: center;
     align-items: center;
     width: 100%;
-
-    margin-top: 5px;
 `
