@@ -5,6 +5,7 @@ import { CategoriesTypes } from './categories/types'
 import { HighlightsPostsTypes } from './highlightsPosts/types'
 import { CategoriesPostsTypes } from './categoriesPosts/types'
 
+import { register } from './user/sagas'
 import { login } from './user/sagas'
 import { getProfile } from './user/sagas'
 import { loadCategories } from './categories/sagas'
@@ -16,6 +17,7 @@ export default function* rootSaga() {
         takeLatest(CategoriesTypes.LOAD_REQUEST, loadCategories),
         takeLatest(HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST, loadPostsHighlights),
         takeLatest(CategoriesPostsTypes.LOAD_POSTS_BY_CATEGORY_REQUEST, loadPostsByCategory),
+        takeLatest(UserTypes.REGISTER_REQUEST, register),
         takeLatest(UserTypes.LOGIN_REQUEST, login),
         takeLatest(UserTypes.GET_PROFILE_REQUEST, getProfile)
     ])
