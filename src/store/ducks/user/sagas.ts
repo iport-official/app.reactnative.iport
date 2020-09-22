@@ -21,16 +21,19 @@ import {
 
 import api from "../../../services/api";
 
-interface RegisterAction {
+export interface RegisterAction {
     type: typeof UserTypes.REGISTER_REQUEST
     payload: {
-        id: string
-        email: string
-        username: string
-        accountType: AccountType
-        createAt: Date
-        updateAt: Date
         profileImage: string
+        email: string
+        password: string
+        accountType: AccountType
+        username: string
+        cpf: string
+        cnpj: string
+        cep: string
+        telephones: string[]
+        emails: string[]
     }
 }
 
