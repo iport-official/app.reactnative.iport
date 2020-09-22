@@ -10,7 +10,7 @@ import { BaseArrayProxy } from '../common/base-array-proxy'
 
 import api from '../../../services/api'
 
-interface LoadRequestAction {
+export interface LoadCategoriesRequestAction {
     type: typeof CategoriesTypes.LOAD_REQUEST
     payload: {
         pageNumber: number,
@@ -20,7 +20,7 @@ interface LoadRequestAction {
 
 const getCategoriesState = (state: ApplicationState) => state.categories
 
-export function* loadCategories({ payload }: LoadRequestAction) {
+export function* loadCategories({ payload }: LoadCategoriesRequestAction) {
     try {
         const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<BaseArrayProxy<CategoryProxy>> = yield call(

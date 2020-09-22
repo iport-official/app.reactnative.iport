@@ -27,11 +27,12 @@ export default function MainFooter() {
     const animatedSearchInput = useRef(new Animated.Value(0)).current;
 
     const [isKeyboardShowed, setIsKeyboardShowed] = useState(false);
+
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
         Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
-        if(!isFooterShowed){
+        if (!isFooterShowed) {
             setIsSearchActivated(false);
             animatedSearchOff();
         }
@@ -161,39 +162,64 @@ export default function MainFooter() {
 
     return (
         //#region JSX
-        <FullScreenView>
-            <Overlay style={{ opacity: animatedOverlay }}
-                onTouchStart={() => hide()}
-                pointerEvents={ isFooterShowed ? 'box-only' : 'none' }  />
 
-            <ContainerFooterView style={{ height: animatedFooter }}>
+        <FullScreenView>
+            <Overlay
+                style={{
+                    opacity: animatedOverlay
+                }}
+                onTouchStart={() => hide()}
+                pointerEvents={isFooterShowed ? 'box-only' : 'none'} />
+
+            <ContainerFooterView
+                style={{
+                    height: animatedFooter
+                }}
+            >
                 <TouchableArea
                     activeOpacity={1}
                     onPress={() => {
-                        if(!isFooterShowed) show();
-                        else hide();
+                        if (!isFooterShowed)
+                            show();
+                        else
+                            hide();
                     }}>
-                    <ArrowIcon style={{ transform: [{ rotate: spin }] }} source={arrowImage} />
+                    <ArrowIcon
+                        style={{
+                            transform: [{ rotate: spin }]
+                        }}
+                        source={arrowImage}
+                    />
                 </TouchableArea>
                 <SearchBox
                     style={{ width: searchOpen, paddingHorizontal: isSearchActivated ? 5 : 0 }}
                     value={searchText}
                     onChangeText={(text: string) => setSearchText(text)}
                     onBlur={() => {
-                        if(searchText) {
+                        if (searchText) {
                             setIsSearchActivated(false);
                             animatedSearchOff();
                         }
                     }} />
                 <SearchIcon
-                    style={{ left: searchTransform, width: isSearchActivated ? 25 : '40%' }}
+                    style={{
+                        left: searchTransform,
+                        width: isSearchActivated
+                            ? 25
+                            : '40%'
+                    }}
                     onPress={() => {
                         animatedSearchOn();
                     }}>
-                    <FontAwesome name="search" size={24} color="white" />
+                    <FontAwesome
+                        name="search"
+                        size={24}
+                        color="white"
+                    />
                 </SearchIcon>
             </ContainerFooterView>
         </FullScreenView>
+
         //#endregion
     )
 }
