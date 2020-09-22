@@ -2,7 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FlatList, ViewToken } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import PostItem from '../../../molecules/PostItem';
+import { BaseArrayProxy } from '../../../../store/ducks/common/base-array-proxy';
+import { ApplicationState } from '../../../../store';
+import { LoadPostsHighlightsAction } from '../../../../store/ducks/highlightsPosts/sagas';
+import { HighlightPostProxy, HighlightsPostsTypes } from '../../../../store/ducks/highlightsPosts/types';
 
 import {
     ContainerView,
@@ -10,10 +13,7 @@ import {
     EndFlatListActivityIndicator
 } from './styles';
 
-import { ApplicationState } from '../../../../store';
-
-import { BaseArrayProxy } from '../../../../store/ducks/common/base-array-proxy';
-import { HighlightPostProxy, HighlightsPostsTypes } from '../../../../store/ducks/highlightsPosts/types';
+import PostItem from '../../../molecules/PostItem';
 
 interface HighlightsPostListProps {
     title: string
@@ -39,7 +39,7 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
     });
 
     function loadHighlightsPosts(pageNumber: number = page, shouldStart: boolean = false) {
-        dispatch({
+        dispatch<LoadPostsHighlightsAction>({
             type: HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST,
             payload: {
                 pageNumber,
