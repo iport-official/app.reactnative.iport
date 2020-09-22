@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
     DrawerContentComponentProps,
     DrawerContentOptions,
     DrawerItem
 } from '@react-navigation/drawer'
-import { useDispatch, useSelector } from 'react-redux'
 import { StackActions } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
+
+import { ApplicationState } from '../../../store'
+import { UserProxy, UserTypes } from '../../../store/ducks/user/types'
+import { GetProfileAction } from '../../../store/ducks/user/sagas'
 
 import {
     ContainerView,
@@ -20,9 +24,6 @@ import {
 
 import ProfilePhoto from '../../atoms/ProfilePhoto'
 
-import { ApplicationState } from '../../../store'
-import { UserProxy, UserTypes } from '../../../store/ducks/user/types'
-
 const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>> = ({ navigation, ...props }) => {
 
     const dispatch = useDispatch()
@@ -30,7 +31,11 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
     const loading = useSelector<ApplicationState, boolean>(state => state.user.loading)
     const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user)
 
-    useEffect(() => { dispatch({ type: UserTypes.GET_PROFILE_REQUEST }) }, [])
+    useEffect(() => {
+        dispatch<GetProfileAction>({
+            type: UserTypes.GET_PROFILE_REQUEST,
+        })
+    }, [])
 
     return (
         //#region JSX
