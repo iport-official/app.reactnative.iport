@@ -10,7 +10,7 @@ import { BaseArrayProxy } from "../common/base-array-proxy"
 
 import api from "../../../services/api"
 
-interface LoadPostsHighlightsAction {
+export interface LoadPostsHighlightsAction {
     type: typeof HighlightsPostsTypes.LOAD_POSTS_HIGHLIGHTS_REQUEST
     payload: {
         shouldStart: boolean

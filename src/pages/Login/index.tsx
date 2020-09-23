@@ -27,6 +27,7 @@ import Checkbox from '../../components/atoms/Checkbox';
 import FormButton from '../../components/atoms/FormButton';
 
 import { colors } from '../../styles';
+import { GetProfileAction, LoginAction } from '../../store/ducks/user/sagas';
 
 
 type DefaultLoginPageProps = StackScreenProps<
@@ -101,11 +102,8 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
         if (login === null)
             return
 
-        dispatch({
+        dispatch<GetProfileAction>({
             type: UserTypes.GET_PROFILE_REQUEST,
-            payload: {
-                access_token: login?.access_token
-            }
         })
     }, [login])
 
@@ -123,7 +121,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }, [user])
 
     function performLogin(): void {
-        dispatch({
+        dispatch<LoginAction>({
             type: UserTypes.LOGIN_REQUEST,
             payload: {
                 email,

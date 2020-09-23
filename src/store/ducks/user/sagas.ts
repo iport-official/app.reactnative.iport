@@ -2,7 +2,6 @@ import { call, put } from "redux-saga/effects";
 import { AxiosResponse } from "axios";
 import { getItemAsync, setItemAsync } from "expo-secure-store";
 
-import { ApplicationState } from "../..";
 import {
     getProfileFailure,
     getProfileSuccess,
@@ -21,37 +20,33 @@ import {
 
 import api from "../../../services/api";
 
-interface RegisterAction {
+export interface RegisterAction {
     type: typeof UserTypes.REGISTER_REQUEST
     payload: {
-        id: string
-        email: string
-        username: string
-        accountType: AccountType
-        createAt: Date
-        updateAt: Date
         profileImage: string
+        email: string
+        password: string
+        accountType: AccountType
+        username: string
+        cpf: string
+        cnpj: string
+        cep: string
+        telephones: string[]
+        emails: string[]
     }
 }
 
-interface LoginAction {
+export interface LoginAction {
     type: typeof UserTypes.LOGIN_REQUEST
     payload: {
         email: string
         password: string
-        access_token: string
     }
 }
 
-interface GetProfileAction {
+export interface GetProfileAction {
     type: typeof UserTypes.GET_PROFILE_REQUEST
-    payload: {
-        access_token: string
-        user: UserProxy | null
-    }
 }
-
-const user = (state: ApplicationState) => state.user
 
 export function* register({ payload }: RegisterAction) {
     try {
@@ -83,7 +78,7 @@ export function* login({ payload }: LoginAction) {
     }
 }
 
-export function* getProfile({ payload }: GetProfileAction) {
+export function* getProfile() {
     try {
         const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<UserProxy> = yield call(

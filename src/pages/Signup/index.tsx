@@ -6,6 +6,9 @@ import * as _ImagePicker from 'expo-image-picker';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { AccountType, UserTypes } from '../../store/ducks/user/types';
+import { RegisterAction } from '../../store/ducks/user/sagas';
+
+import ContactsListProvider, { Contact } from '../../contexts/contactsList';
 
 import {
     ButtonContainerView,
@@ -14,8 +17,6 @@ import {
     SignupChoice,
     SignupContainer
 } from './styles';
-
-import ContactsListProvider, { Contact } from '../../contexts/contactsList';
 
 import { AppStackParamsList } from '../../navigations/AppStack';
 import FormButton from '../../components/atoms/FormButton';
@@ -55,14 +56,19 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [clearPassword, setClearPassword] = useState(false);
 
     async function onSignupButtonPress() {
-        dispatch({
+        dispatch<RegisterAction>({
             type: UserTypes.REGISTER_REQUEST,
             payload: {
                 profileImage,
                 username,
                 email,
                 password,
-                accountType
+                accountType,
+                cpf,
+                cnpj,
+                cep,
+                telephones: telephones.map(telephone => telephone.value),
+                emails: emails.map(email => email.value)
             }
         })
     }
