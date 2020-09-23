@@ -144,7 +144,10 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             <LoginContainer style={{ top: animatedLogin }}>
                 <LoginLogo
                     source={require('../../assets/icon.png')}
-                    style={{ width: animatedLogo, height: animatedLogo }}
+                    style={{
+                        width: animatedLogo,
+                        height: animatedLogo
+                    }}
                 />
                 <TextField
                     placeholder='E-mail'
