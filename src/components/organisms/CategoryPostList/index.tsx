@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { BaseArrayProxy } from '../../../../store/ducks/common/base-array-proxy';
-import { ApplicationState } from '../../../../store';
-import { CategoriesPostsTypes, CategoryPostProxy } from '../../../../store/ducks/categoriesPosts/types';
-import { CategoryProxy, CategoriesTypes } from '../../../../store/ducks/categories/types';
-import { LoadCategoriesRequestAction } from '../../../../store/ducks/categories/sagas';
-import { LoadPostsByCategoryAction } from '../../../../store/ducks/categoriesPosts/sagas';
+import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy';
+import { ApplicationState } from '../../../store';
+import { CategoriesPostsTypes, CategoryPostProxy } from '../../../store/ducks/categoriesPosts/types';
+import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types';
+import { LoadCategoriesRequestAction } from '../../../store/ducks/categories/sagas';
+import { LoadPostsByCategoryAction } from '../../../store/ducks/categoriesPosts/sagas';
 
 import {
     ContainerView,
-    TitleText,
-    EndFlatListActivityIndicator
+    TitleText
 } from './styles';
 
-import CategoryList from '../../../molecules/CategoryList';
-import PostItem from '../../../molecules/PostItem';
+import CategoryList from '../../molecules/CategoryList';
+import PostItem from '../../molecules/PostItem';
+import PostList from '../../atoms/PostList';
 
 interface CategoryPostListProps {
     title: string
@@ -75,23 +74,10 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
         <ContainerView>
             <TitleText>{title}</TitleText>
             <CategoryList categories={categoryArray.array} />
-            <FlatList
-                style={{ flexDirection: 'row' }}
-                horizontal
-                showsHorizontalScrollIndicator={false}
+            <PostList
                 data={array}
-                extraData={array}
                 onEndReached={() => { loadPostsByCategory() }}
-                onEndReachedThreshold={0.1}
-                ListFooterComponent={(
-                    <EndFlatListActivityIndicator
-                        style={{
-                            display: loadingPostsByCategory
-                                ? 'flex'
-                                : 'none'
-                        }}
-                    />
-                )}
+                loadingPosts={loadingPostsByCategory}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => {
                     const { id, ...rest } = item
@@ -103,7 +89,6 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
                         />
                     )
                 }}
-                contentContainerStyle={{ alignItems: "center" }}
             />
         </ContainerView>
 
