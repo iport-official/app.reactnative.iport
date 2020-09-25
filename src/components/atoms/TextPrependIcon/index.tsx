@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextProps } from 'react-native';
+import { View, TextProps } from 'react-native';
 
 import {
     TextComponent,
@@ -18,7 +18,7 @@ const TextPrependIcon: React.FC<TextPrependIconProps> = ({
 }) => {
     return (
         <TextIconContainer>
-            { icon() }
+            <View style={{ width: 40, alignItems: 'center' }}>{ icon() }</View>
             <TextComponent { ...rest }>{ text }</TextComponent>
         </TextIconContainer>
     )
