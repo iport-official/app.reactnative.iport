@@ -7,15 +7,11 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
 
 export const ContainerKeyboardAvoidView = styled.View`
     flex: 1;
-    justify-content: space-between;
 `
 
-export const ContentView = styled.View`
+export const ContentView = styled.ScrollView`
     flex: 1;
-    justify-content: center;
-    align-items: center;
-
     background: #fff;
 
-    margin-bottom: 40px;
+    border: 5px #fff;
 `

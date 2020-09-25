@@ -24,8 +24,8 @@ const Checkbox: React.FC<CheckboxProperties> = ({ checked, ...rest }) => {
                         opacity: 1
                     }} />
                 : <Octicons
-                    name='check' s
-                    ize={18}
+                    name='check'
+                    size={18}
                     color={colors.grayPurple}
                     style={{
                         alignSelf: "center",
