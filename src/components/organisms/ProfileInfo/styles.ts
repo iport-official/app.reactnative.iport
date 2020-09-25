@@ -3,26 +3,26 @@ import { Roboto_700Bold } from '@expo-google-fonts/roboto';
 
 import { colors } from '../../../styles';
 
-const photoSize = 120;
+const photoSize = 180;
 
 export const ProfileInfoContainer = styled.View`
-    position: absolute;
     top: 0;
     left: 0;
 
-    padding-bottom: 10px;
+    z-index: 5;
     width: 100%;
     background: #fff;
 `
 
 export const ProfileInfoHeader = styled.View`
-    flex-direction: row;
+    align-items: center;
     top: 0;
     left: 0;
 
+    border-radius: 20px;
     background: ${colors.strongPurple};
 
-    height: 70px;
+    height: 150px;
     width: 100%;
 `
 
@@ -30,51 +30,56 @@ export const ProfilePhoto = styled.Image`
     height: ${photoSize}px;
     width: ${photoSize}px;
 
-    border-radius: 100px;
-    border-width: 2px;
-    border-color: ${colors.lighterVividPurple};
-
-    margin-left: 10px;
-    margin-top: 10px;
+    margin-top: 60px;
+    border-radius: 200px;
 `
 
-export const ProfileName = styled.Text`
-    color: #fff;
-    font-size: 20px;
-    font-family: Roboto_700Bold;
+export const ProfilePhotoBackground = styled.View`
+    position: absolute;
+    height: ${photoSize + 10}px;
+    width: ${photoSize + 10}px;
 
-    width: 100%;
+    margin-top: 55px;
+
+    border-radius: 200px;
+    border-width: 5px;
+    border-color: #fff;
 `
 
 export const InfoContainer = styled.View`
-    flex-direction: row;
+    align-items: center;
+    margin-top: 105px;
 `
 
-export const InfoContainerFirst = styled.View`
-    justify-content: space-between;
-
-    width: 32%;
-    margin: 70px 7px 0px 15px;
-`
-
-export const InfoContainerSecond = styled.View`
-    width: 60%;
+export const ProfileName = styled.Text`
+    color: #222;
+    font-size: 22px;
+    font-family: Roboto_700Bold;
 `
 
 export const ProfileStatus = styled.View`
-    width: 100%;
-    padding: 5px 7px;
-    margin-top: 3px;
+    width: 80%;
+    padding: 8px 10px;
+    margin-top: 15px;
 
     justify-content: center;
     align-items: center;
 
     border-radius: 20px;
-    background: ${colors.strongPurple};
+    border: 1px #8884;
 `
 
 export const StatusText = styled.Text`
-    color: #fff;
+    color: #222;
     font-family: Roboto_700Bold;
+    font-size: 16px;
     text-align: center;
+`
+
+export const InfoEndLine = styled.View`
+    height: 1px;
+    width: 100%;
+    background: #aaa2;
+
+    margin-top: 15px;
 `
