@@ -10,8 +10,8 @@ import {
 import { DrawerParamsList } from '../../navigations/MainDrawer';
 import MainHeader from '../../components/molecules/MainHeader';
 import MainFooter from '../../components/organisms/MainFooter';
-import HighlightsPostList from '../../components/organisms/PostLists/HighlightsPostList';
-import CategoryPostList from '../../components/organisms/PostLists/CategoryPostList';
+import HighlightsPostList from '../../components/organisms/HighlightsPostList';
+import CategoryPostList from '../../components/organisms/CategoryPostList';
 import PostItem from '../../components/molecules/PostItem';
 
 import { PostProxy } from '../../store/ducks/common/post-proxy';
@@ -32,7 +32,7 @@ export default function MainPage({ navigation }: DefaultMainPageProps) {
 
     async function getMainPost() {
         const token = await getItemAsync("access_token");
-        const response = await api.get<PostProxy>('posts/main',{
+        const response = await api.get<PostProxy>('posts/main', {
             headers: {
                 Authorization: 'Bearer ' + token
             }

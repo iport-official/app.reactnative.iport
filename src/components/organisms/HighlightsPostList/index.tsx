@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FlatList, ViewToken } from 'react-native';
+import { ViewToken } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BaseArrayProxy } from '../../../../store/ducks/common/base-array-proxy';
-import { ApplicationState } from '../../../../store';
-import { LoadPostsHighlightsAction } from '../../../../store/ducks/highlightsPosts/sagas';
-import { HighlightPostProxy, HighlightsPostsTypes } from '../../../../store/ducks/highlightsPosts/types';
+import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy';
+import { ApplicationState } from '../../../store';
+import { LoadPostsHighlightsAction } from '../../../store/ducks/highlightsPosts/sagas';
+import { HighlightPostProxy, HighlightsPostsTypes } from '../../../store/ducks/highlightsPosts/types';
 
 import {
     ContainerView,
-    TitleText,
-    EndFlatListActivityIndicator
+    TitleText
 } from './styles';
 
-import PostItem from '../../../molecules/PostItem';
+import PostItem from '../../molecules/PostItem';
+import PostList from '../../atoms/PostList';
 
 interface HighlightsPostListProps {
     title: string
@@ -54,22 +54,10 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
 
         <ContainerView>
             <TitleText>{title}</TitleText>
-            <FlatList
-                style={{ flexDirection: 'row' }}
-                horizontal
-                showsHorizontalScrollIndicator={false}
+            <PostList
                 data={array}
-                onEndReached={() => { loadHighlightsPosts() }}
-                onEndReachedThreshold={0.1}
-                ListFooterComponent={(
-                    <EndFlatListActivityIndicator
-                        style={{
-                            display: highlightsLoading
-                                ? 'flex'
-                                : 'none'
-                        }}
-                    />
-                )}
+                onEndReached={() => loadHighlightsPosts()}
+                loadingPosts={highlightsLoading}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => {
                     const { id, ...rest } = item
@@ -83,7 +71,6 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({ title }) => {
                 }}
                 onViewableItemsChanged={handleOnViewableItemsChanged.current}
                 viewabilityConfig={handleViewabilityConfig.current}
-                contentContainerStyle={{ alignItems: "center" }}
             />
         </ContainerView>
 
