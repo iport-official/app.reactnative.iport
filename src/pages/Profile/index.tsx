@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Text } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { setStatusBarStyle } from 'expo-status-bar';
+import { Feather } from '@expo/vector-icons';
 
 import {
     ContainerSafeAreaView,
@@ -11,13 +11,13 @@ import {
 
 import { DrawerParamsList } from '../../navigations/MainDrawer';
 import MainHeader from '../../components/molecules/MainHeader';
-import MainFooter from '../../components/organisms/MainFooter';
+import RoundButton from '../../components/atoms/RoundButton';
 import ProfileInfo from '../../components/organisms/ProfileInfo';
+import ProfileHightlights from '../../components/molecules/ProfileHighlights';
+
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../store';
 import { UserProxy } from '../../store/ducks/user/types';
-
-const profileImage = require('../../assets/foto_example.png');
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
@@ -28,7 +28,15 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
 
     const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user);
 
-    useEffect(() => { setStatusBarStyle("light") }, [])
+    useEffect(() => { setStatusBarStyle("light") }, []);
+
+    const moreButton = () => {
+        return <Feather name="more-horizontal" size={34} color="white" />
+    }
+
+    const handleButtonPress = () => {
+        alert('hey');
+    }
 
     return (
         //#region JSX
@@ -36,17 +44,22 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
         <ContainerSafeAreaView>
             <ContainerKeyboardAvoidView>
                 <MainHeader onPress={() => { navigation.openDrawer() }} />
-                <ContentView>
+                <ContentView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
                         profileImage={`data:image/gif;base64,${user?.profileImage}`}
                         name={user?.username}
+                        status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer' />
+                    <ProfileHightlights
+                        email={user?.email}
                         role='Estudante de Engenharia de Computação'
                         spotlight='Fluente em Inglês, Espanhol e Francês'
-                        status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer'
-                        local='Sorocaba - SP'
-                        recomendations={2270982} />
+                        local='Sorocaba - SP' />
                 </ContentView>
-                <MainFooter />
+                <RoundButton
+                    onPress={() => handleButtonPress()}
+                    icon={moreButton} />
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
 
