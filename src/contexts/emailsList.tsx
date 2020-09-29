@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 
-import { Contact } from '../components/organisms/ContactsList'
+import { Contact } from '../contexts/contactsList'
 
 interface EmailListContextData {
     contacts: Contact[]
