@@ -15,7 +15,14 @@ interface HeartIconsProps extends TouchableWithoutFeedbackProps {
     onActive?(value: boolean): void
 }
 
-const HeartIcon: React.FC<HeartIconsProps> = ({ onActive, size, color, right, onPress, ...rest }) => {
+const HeartIcon: React.FC<HeartIconsProps> = ({
+    onActive,
+    size,
+    color,
+    right = 50,
+    onPress,
+    ...rest
+}) => {
 
     const [active, setActive] = useState(false);
 
@@ -59,7 +66,7 @@ const HeartIcon: React.FC<HeartIconsProps> = ({ onActive, size, color, right, on
         <TouchableWithoutFeedback
             onPress={handleOnPress}
             {...rest}>
-            <View style={{ height: 50, width: 50, position: 'absolute', right: right !== undefined ? right : 50 }}>
+            <View style={{ height: 50, width: 50, position: 'absolute', right: right }}>
                 <LottieView
                     resizeMode='contain'
                     source={ require('../../../assets/lottie/heart.json') }
