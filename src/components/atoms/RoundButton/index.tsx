@@ -1,27 +1,33 @@
 import React from 'react';
-import { ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
 import { ButtonContainer } from './styles';
 
-import MoreButton from '../MoreButton';
-
 interface RoundButtonProps extends ViewProps {
     bgColor?: string;
-    icon(): any;
+    transform?: any;
+    opacity?: any;
+    spin?: any;
+    icon?(): any | null;
     onPress?(): any;
 }
 
 const RoundButton: React.FC<RoundButtonProps> = ({
     bgColor = '#46266c',
+    transform = 0,
+    opacity = 1,
+    spin = '0deg',
     icon,
-    onPress
+    onPress,
+    ...rest
 }) => {
 
     return (
         <ButtonContainer
-            style={{ backgroundColor: bgColor }}
+            { ...rest }
+            style={{ backgroundColor: bgColor, transform: [{ translateY: transform, rotate: spin }], opacity: opacity }}
             onTouchStart={() => { if(onPress) onPress() }} >
-            <MoreButton />
+            { icon ? icon() : <View /> }
         </ButtonContainer>
     )
 }

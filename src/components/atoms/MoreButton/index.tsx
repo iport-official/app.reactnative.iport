@@ -1,77 +1,129 @@
-import React, { useState, useRef } from 'react';
-import {
-    Animated,
-    Easing,
-    TouchableWithoutFeedback,
-    TouchableWithoutFeedbackProps,
-    View
-} from 'react-native';
-import LottieView from 'lottie-react-native';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Animated, View, ViewProps } from 'react-native';
 
-interface MoreButtonProps extends TouchableWithoutFeedbackProps {
-    size?: number
-    color?: string
-    right?: number
-    onActive?(value: boolean): void
+import { Rectangle } from './styles';
+
+import ActionButtonContext from '../../../contexts/actionButton';
+
+interface MoreButtonProps extends ViewProps {
+    startColor?: string;
+    endColor?: string;
 }
 
 const MoreButton: React.FC<MoreButtonProps> = ({
-    size = 80,
-    color = '#fff',
-    right,
-    onActive,
-    ...rest
+    startColor = '#fff',
+    endColor = '#46266c'
 }) => {
 
-    const [active, setActive] = useState(false);
+    const { isActive } = useContext(ActionButtonContext);
 
-    const animation = useRef(new Animated.Value(0.4)).current;
+    const animatedHeight = useRef(new Animated.Value(14)).current;
+    const animatedRotation = useRef(new Animated.Value(0)).current;
+    const animatedOpacity = useRef(new Animated.Value(1)).current;
 
-    function handleOnPress() {
-        setActive(!active);
-        if (onActive)
-            onActive(active);
+    const animateOpen = () => {
+        Animated.parallel([
+            Animated.sequence([
+                Animated.timing(animatedHeight, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true
+                }),
+                Animated.timing(animatedOpacity, {
+                    toValue: 0,
+                    duration: 100,
+                    useNativeDriver: true
+                }),
+                Animated.timing(animatedRotation, {
+                    delay: 200,
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true
+                })
+            ])
+        ]).start();
+    }
 
-        if(!active) {
-            buttonCliked();
+    const animateClose = () => {
+        Animated.parallel([
+            Animated.sequence([
+                Animated.timing(animatedRotation, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true
+                }),
+                Animated.timing(animatedOpacity, {
+                    toValue: 1,
+                    duration: 100,
+                    useNativeDriver: true
+                }),
+                Animated.timing(animatedHeight, {
+                    delay: 200,
+                    toValue: 14,
+                    duration: 500,
+                    useNativeDriver: true
+                })
+            ])
+        ]).start();
+    }
+
+    const moveDown = animatedHeight.interpolate({
+        inputRange: [0, 14],
+        outputRange: [-5, -15]
+    });
+
+    const moveUp = animatedHeight.interpolate({
+        inputRange: [0, 14],
+        outputRange: [5, 15]
+    });
+
+    const spinLeft = animatedRotation.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '45deg']
+    });
+
+    const spinRight = animatedRotation.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '-45deg']
+    });
+
+    const handlePress = () => {
+        if(isActive) {
+            animateOpen();
+        } else {
+            animateClose();
         }
-        else buttonClikedOff();
     }
 
-    const buttonCliked = () => {
-        Animated.parallel([
-            Animated.timing(animation, {
-                toValue: 1,
-                duration: 1500,
-                easing: Easing.linear,
-                useNativeDriver: false
-            })
-        ]).start();
-    }
-
-    const buttonClikedOff = () => {
-        Animated.parallel([
-            Animated.timing(animation, {
-                toValue: 0,
-                duration: 0,
-                useNativeDriver: false
-            })
-        ]).start();
-    }
+    useEffect(() => {
+        handlePress();
+    }, [isActive]);
 
     return (
-        <TouchableWithoutFeedback
-            onPress={handleOnPress}
-            {...rest}>
-            <View style={{ height: 50, width: 50, right: right !== undefined ? right : 0 }}>
-                {/* <LottieView
-                    resizeMode='contain'
-                    source={ require('../../../assets/lottie/moreClose.json') }
-                    style={{ height: size, position: "absolute", right: 0, bottom: 0 }}
-                    progress={animation}
-                    /> */}
-            </View>
-        </TouchableWithoutFeedback>
+        <View
+            style={{
+                width: 60,
+                height: 60,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#fff0'
+            }} >
+            <Rectangle
+                style={{
+                    backgroundColor: !isActive ? startColor : endColor,
+                    transform: [{ translateY: moveUp, rotate: spinLeft }]
+                }} />
+            <Rectangle
+                style={{
+                    backgroundColor: !isActive ? startColor : endColor,
+                    opacity: animatedOpacity
+                }} />
+            <Rectangle
+                style={{
+                    backgroundColor: !isActive ? startColor : endColor,
+                    transform: [{ translateY: moveDown, rotate: spinRight }]
+                }} />
+        </View>
     )
 }
 
