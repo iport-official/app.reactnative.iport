@@ -8,5 +8,5 @@ export const ContainerSafeAreaView = styled.SafeAreaView`
 
 export const TextInputsView = styled.View`
     justify-content: space-between;
-    height: 160px;
+    height: 300px;
 `

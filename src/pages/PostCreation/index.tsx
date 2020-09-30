@@ -14,9 +14,10 @@ export default function PostCreationPage() {
         <ContainerSafeAreaView>
             <TextInputsView>
                 <InputField
+                    multiline
                     description="100 - 300 palavras"
                     information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    placeholder="E-mail"
+                    placeholder="Descrição"
                 />
                 <InputField
                     placeholder="Nome"
