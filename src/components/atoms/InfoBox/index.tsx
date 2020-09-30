@@ -1,9 +1,10 @@
 import React from "react";
-import { Entypo } from "@expo/vector-icons";
+import { ViewProps } from "react-native";
+import { Octicons } from '@expo/vector-icons';
 
 import { ContainerView, ContainerText } from "./styles";
 
-interface InfoBoxProps {
+interface InfoBoxProps extends ViewProps {
     text: string;
     color: string;
     minHeight?: number;
@@ -19,11 +20,12 @@ const InfoBox: React.FC<InfoBoxProps> = ({
     maxHeight,
     minWidth,
     maxWidth,
+    style
 }) => {
     return (
         //#region JSX
 
-        <ContainerView>
+        <ContainerView style={style}>
             <ContainerText
                 style={{
                     minHeight,
@@ -35,10 +37,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({
             >
                 {text}
             </ContainerText>
-            <Entypo
-                style={{
-                    transform: [{ translateX: -15 }],
-                }}
+            <Octicons
                 name="triangle-right"
                 size={40}
                 color={color}
