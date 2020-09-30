@@ -41,7 +41,7 @@ export const ContainerTextInput = styled(AnimatedTextInput)`
     flex: 1;
     height: 100%;
     padding: 0;
-    padding-right: ${paddingHorizontal + 10}px;
+    padding-right: ${paddingHorizontal + 35}px;
     font-family: Roboto_400Regular;
 `
 
