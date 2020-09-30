@@ -2,7 +2,7 @@ import React from "react";
 import { ViewProps } from "react-native";
 import { Octicons } from '@expo/vector-icons';
 
-import { ContainerView, ContainerText } from "./styles";
+import { ContainerView, TextView, ContainerText } from "./styles";
 
 interface InfoBoxProps extends ViewProps {
     text: string;
@@ -26,7 +26,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({
         //#region JSX
 
         <ContainerView style={style}>
-            <ContainerText
+            <TextView
                 style={{
                     minHeight,
                     maxHeight,
@@ -35,13 +35,9 @@ const InfoBox: React.FC<InfoBoxProps> = ({
                     backgroundColor: color,
                 }}
             >
-                {text}
-            </ContainerText>
-            <Octicons
-                name="triangle-right"
-                size={40}
-                color={color}
-            />
+                <ContainerText>{text}</ContainerText>
+            </TextView>
+            <Octicons name="triangle-right" size={40} color={color} />
         </ContainerView>
 
         //#endregion

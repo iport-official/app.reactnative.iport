@@ -7,7 +7,8 @@ import {
     TouchableWithoutFeedback,
     TextInputProps,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import {
     ContainerView,
@@ -24,36 +25,39 @@ import InfoBox from "../../atoms/InfoBox";
 
 interface InputFieldProps extends TextInputProps {
     color: string;
-    wrongColor?: string;
+    validated: boolean;
+    unvalidatedColor?: string;
     multiline?: boolean;
     duration?: number;
     password?: boolean;
     placeholder?: string;
     description?: string;
     information?: string;
+    errorMessage?: string;
     style?: StyleProp<ViewStyle>;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
     color,
-    wrongColor = "#FF0000",
+    validated,
+    unvalidatedColor = "#FF0000",
     multiline,
     duration = 200,
     password = false,
     placeholder,
     description,
     information,
+    errorMessage,
     style,
     ...rest
 }) => {
     const input = createRef<TextInput>();
 
-    const [] = useState(0);
     const [focused, setFocused] = useState(false);
     const [hasText, setHasText] = useState(false);
 
     const [isShowingInformation, setIsShowingInformation] = useState(false);
-    const [wrong] = useState(false);
+    const [isShowingErrorMessage, setIsShowingErrorMessage] = useState(false);
 
     const textInputPositionAnimation = useRef(new Animated.Value(0)).current;
     const lineWidthAnimation = useRef(new Animated.Value(0)).current;
@@ -78,7 +82,17 @@ const InputField: React.FC<InputFieldProps> = ({
     }
 
     function handleOnPressInformationButton() {
+        if (isShowingErrorMessage)
+            setIsShowingErrorMessage(false)
+
         setIsShowingInformation(!isShowingInformation);
+    }
+
+    function handleOnPressErrorMessageButton() {
+        if (isShowingInformation)
+            setIsShowingInformation(false)
+
+        setIsShowingErrorMessage(!isShowingErrorMessage);
     }
 
     //#region Animations
@@ -149,12 +163,7 @@ const InputField: React.FC<InputFieldProps> = ({
         //#region JSX
 
         <ContainerView>
-            <TextInputView
-                style={{
-                    borderWidth: wrong ? 2 : 0,
-                    borderColor: wrong ? wrongColor : "#fff",
-                }}
-            >
+            <TextInputView>
                 <ContainerTextInput
                     ref={input}
                     multiline={multiline}
@@ -174,24 +183,62 @@ const InputField: React.FC<InputFieldProps> = ({
                         style={{
                             fontSize: placehodlerFontSizeAnimation,
                             opacity: placeholderOpacityAnimation,
-                            color: wrong ? wrongColor : color,
+                            color:
+                                !validated && !focused
+                                    ? unvalidatedColor
+                                    : color,
                         }}
                     >
                         {placeholder}
                     </PlaceholderText>
                 </PlaceholderView>
-                {!wrong && (
-                    <LineView
-                        pointerEvents="none"
-                        style={{
-                            width: lineWidthAnimation.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: ["0%", "100%"],
-                            }),
-                        }}
-                    />
-                )}
+                <LineView
+                    pointerEvents="none"
+                    style={{
+                        width: lineWidthAnimation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ["0%", "100%"],
+                        }),
+                        borderBottomColor:
+                            focused || !hasText
+                                ? color
+                                : validated
+                                ? color
+                                : unvalidatedColor,
+                    }}
+                />
                 <IconsView>
+                    {errorMessage && !focused && !validated && (
+                        <>
+                            <TouchableWithoutFeedback
+                                onPress={handleOnPressErrorMessageButton}
+                            >
+                                <MaterialIcons
+                                    name="error"
+                                    size={30}
+                                    color={
+                                        isShowingErrorMessage
+                                            ? unvalidatedColor
+                                            : unvalidatedColor + "65"
+                                    }
+                                />
+                            </TouchableWithoutFeedback>
+                            {isShowingErrorMessage && (
+                                <InfoBox
+                                    style={{
+                                        position: "absolute",
+                                        right: 62,
+                                        zIndex: 10,
+                                    }}
+                                    color={unvalidatedColor}
+                                    text={errorMessage}
+                                    minWidth={120}
+                                    minHeight={80}
+                                    maxWidth={200}
+                                />
+                            )}
+                        </>
+                    )}
                     {focused && (
                         <TouchableWithoutFeedback
                             onPress={() => {
@@ -199,10 +246,10 @@ const InputField: React.FC<InputFieldProps> = ({
                                 handleOnChangeText("");
                             }}
                         >
-                            <FontAwesome
+                            <MaterialIcons
                                 name="close"
                                 size={22}
-                                color="#B09AC7"
+                                color={color + "55"}
                             />
                         </TouchableWithoutFeedback>
                     )}
@@ -211,11 +258,8 @@ const InputField: React.FC<InputFieldProps> = ({
                             <TouchableWithoutFeedback
                                 onPress={handleOnPressInformationButton}
                             >
-                                <FontAwesome
-                                    style={{
-                                        marginLeft: 5
-                                    }}
-                                    name="info-circle"
+                                <MaterialCommunityIcons
+                                    name="information"
                                     size={30}
                                     color={
                                         isShowingInformation
@@ -234,6 +278,7 @@ const InputField: React.FC<InputFieldProps> = ({
                                     color={color}
                                     text={information}
                                     maxWidth={270}
+                                    minHeight={80}
                                 />
                             )}
                         </>
