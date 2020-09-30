@@ -1,6 +1,17 @@
-import React, { useRef, useState } from "react";
-import { Animated, StyleProp, TextInputProps, ViewStyle } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import React, {
+    createRef,
+    useRef,
+    useState,
+} from "react";
+import {
+    Animated,
+    StyleProp,
+    TextInput,
+    TextInputProps,
+    ViewStyle,
+    TouchableWithoutFeedback
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 import {
     ContainerView,
@@ -28,7 +39,9 @@ const InputField: React.FC<InputFieldProps> = ({
     information,
     style,
 }) => {
+    const input = createRef<TextInput>();
 
+    const [focused, setFocused] = useState(false);
     const [hasText, setHasText] = useState(false);
 
     const textInputPositionAnimation = useRef(new Animated.Value(0)).current;
@@ -39,18 +52,19 @@ const InputField: React.FC<InputFieldProps> = ({
     const placehodlerFontSizeAnimation = useRef(new Animated.Value(16)).current;
 
     function handleOnFocus() {
-        playAnimation(true)
+        setFocused(true);
+        playAnimation(true);
     }
 
     function handleOnBlur() {
-        if (hasText)
-            return;
+        setFocused(false);
+        if (hasText) return;
 
-        playAnimation(false)
+        playAnimation(false);
     }
 
     function handleOnChangeText(value: string) {
-        setHasText(value !== '')
+        setHasText(value.length !== 0)
     }
 
     //#region Animations
@@ -123,6 +137,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <ContainerView style={style}>
             <TextInputView>
                 <ContainerTextInput
+                    ref={input}
                     onFocus={handleOnFocus}
                     onBlur={handleOnBlur}
                     onChangeText={handleOnChangeText}
@@ -155,15 +170,34 @@ const InputField: React.FC<InputFieldProps> = ({
             </TextInputView>
 
             {information && (
-                <Ionicons
+                <FontAwesome
                     style={{
                         position: "absolute",
                         right: 20,
                     }}
-                    name="ios-information-circle-outline"
+                    name="info-circle"
                     size={30}
                     color="#B09AC7"
                 />
+            )}
+
+            {focused && (
+                <TouchableWithoutFeedback
+                    onPress={() => {
+                        input.current?.clear()
+                        handleOnChangeText('')
+                    }}
+                >
+                    <FontAwesome
+                        style={{
+                            position: "absolute",
+                            right: 53,
+                        }}
+                        name="close"
+                        size={22}
+                        color="#B09AC7"
+                    />
+                </TouchableWithoutFeedback>
             )}
 
             {description && <DescriptionText>{description}</DescriptionText>}
