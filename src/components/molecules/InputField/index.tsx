@@ -4,10 +4,8 @@ import {
     StyleProp,
     TextInput,
     ViewStyle,
-    NativeSyntheticEvent,
     TouchableWithoutFeedback,
-    TextInputContentSizeChangeEventData,
-    TextInputProps
+    TextInputProps,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -20,9 +18,12 @@ import {
     LineView,
     DescriptionText,
 } from "./styles";
-import { colors } from "../../../styles";
+
+import InfoBox from "../../atoms/InfoBox";
 
 interface InputFieldProps extends TextInputProps {
+    color: string;
+    wrongColor?: string
     multiline?: boolean;
     duration?: number;
     password?: boolean;
@@ -30,9 +31,11 @@ interface InputFieldProps extends TextInputProps {
     description?: string;
     information?: string;
     style?: StyleProp<ViewStyle>;
-};
+}
 
 const InputField: React.FC<InputFieldProps> = ({
+    color,
+    wrongColor = "#FF0000",
     multiline,
     duration = 200,
     password = false,
@@ -44,11 +47,12 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
     const input = createRef<TextInput>();
 
-    const [height, setHeight] = useState(0);
+    const [] = useState(0);
     const [focused, setFocused] = useState(false);
     const [hasText, setHasText] = useState(false);
 
-    const [wrong, setWrong] = useState(false);
+    const [isShowingInformation, setIsShowingInformation] = useState(false);
+    const [wrong] = useState(false);
 
     const textInputPositionAnimation = useRef(new Animated.Value(0)).current;
     const lineWidthAnimation = useRef(new Animated.Value(0)).current;
@@ -72,11 +76,8 @@ const InputField: React.FC<InputFieldProps> = ({
         setHasText(value.length !== 0);
     }
 
-    function handleOnContentSizeChange(
-        event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
-    ) {
-        setHeight(event.nativeEvent.contentSize.height / 14);
-        console.log(height);
+    function handleOnPressInformationButton() {
+        setIsShowingInformation(!isShowingInformation);
     }
 
     //#region Animations
@@ -150,7 +151,7 @@ const InputField: React.FC<InputFieldProps> = ({
             <TextInputView
                 style={{
                     borderWidth: wrong ? 2 : 0,
-                    borderColor: wrong ? "#FF0000" : "#fff",
+                    borderColor: wrong ? wrongColor : "#fff",
                 }}
             >
                 <ContainerTextInput
@@ -160,7 +161,7 @@ const InputField: React.FC<InputFieldProps> = ({
                     onBlur={handleOnBlur}
                     onChangeText={handleOnChangeText}
                     style={{
-                        transform: [{ translateY: textInputPositionAnimation }]
+                        transform: [{ translateY: textInputPositionAnimation }],
                     }}
                     {...rest}
                 />
@@ -172,7 +173,7 @@ const InputField: React.FC<InputFieldProps> = ({
                         style={{
                             fontSize: placehodlerFontSizeAnimation,
                             opacity: placeholderOpacityAnimation,
-                            color: wrong ? "#FF0000" : colors.livePurple,
+                            color: wrong ? wrongColor : color,
                         }}
                     >
                         {placeholder}
@@ -190,16 +191,38 @@ const InputField: React.FC<InputFieldProps> = ({
                     />
                 )}
                 {information && (
-                    <FontAwesome
-                        style={{
-                            position: "absolute",
-                            right: 18,
-                            bottom: 12,
-                        }}
-                        name="info-circle"
-                        size={30}
-                        color="#B09AC7"
-                    />
+                    <>
+                        <TouchableWithoutFeedback
+                            onPress={handleOnPressInformationButton}
+                        >
+                            <FontAwesome
+                                style={{
+                                    position: "absolute",
+                                    right: 18,
+                                    bottom: 12,
+                                }}
+                                name="info-circle"
+                                size={30}
+                                color={
+                                    isShowingInformation
+                                        ? color
+                                        : color + "55"
+                                }
+                            />
+                        </TouchableWithoutFeedback>
+                        {isShowingInformation && (
+                            <InfoBox
+                                style={{
+                                    position: "absolute",
+                                    right: 48,
+                                    zIndex: 10,
+                                }}
+                                color={color}
+                                text={information}
+                                maxWidth={270}
+                            />
+                        )}
+                    </>
                 )}
 
                 {focused && (
