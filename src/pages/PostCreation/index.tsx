@@ -6,6 +6,9 @@ import {
 } from './styles'
 
 import InputField from '../../components/atoms/InputField'
+import InfoBox from '../../components/atoms/InfoBox'
+
+import { colors } from '../../styles'
 
 export default function PostCreationPage() {
     return (
@@ -22,6 +25,11 @@ export default function PostCreationPage() {
                 <InputField
                     placeholder="Nome"
                     information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                />
+                <InfoBox
+                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    color={colors.livePurple}
+                    maxWidth={300}
                 />
             </TextInputsView>
         </ContainerSafeAreaView>
