@@ -7,8 +7,8 @@ import {
     TouchableWithoutFeedback,
     TextInputProps,
 } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import {
     ContainerView,
@@ -25,7 +25,7 @@ import InfoBox from "../../atoms/InfoBox";
 
 interface InputFieldProps extends TextInputProps {
     color: string;
-    validated: boolean
+    validated: boolean;
     unvalidatedColor?: string;
     multiline?: boolean;
     duration?: number;
@@ -33,6 +33,7 @@ interface InputFieldProps extends TextInputProps {
     placeholder?: string;
     description?: string;
     information?: string;
+    errorMessage?: string;
     style?: StyleProp<ViewStyle>;
 }
 
@@ -46,6 +47,7 @@ const InputField: React.FC<InputFieldProps> = ({
     placeholder,
     description,
     information,
+    errorMessage,
     style,
     ...rest
 }) => {
@@ -55,6 +57,7 @@ const InputField: React.FC<InputFieldProps> = ({
     const [hasText, setHasText] = useState(false);
 
     const [isShowingInformation, setIsShowingInformation] = useState(false);
+    const [isShowingErrorMessage, setIsShowingErrorMessage] = useState(false);
 
     const textInputPositionAnimation = useRef(new Animated.Value(0)).current;
     const lineWidthAnimation = useRef(new Animated.Value(0)).current;
@@ -79,7 +82,17 @@ const InputField: React.FC<InputFieldProps> = ({
     }
 
     function handleOnPressInformationButton() {
+        if (isShowingErrorMessage)
+            setIsShowingErrorMessage(false)
+
         setIsShowingInformation(!isShowingInformation);
+    }
+
+    function handleOnPressErrorMessageButton() {
+        if (isShowingInformation)
+            setIsShowingInformation(false)
+
+        setIsShowingErrorMessage(!isShowingErrorMessage);
     }
 
     //#region Animations
@@ -190,17 +203,41 @@ const InputField: React.FC<InputFieldProps> = ({
                             focused || !hasText
                                 ? color
                                 : validated
-                                    ? color
-                                    : unvalidatedColor,
+                                ? color
+                                : unvalidatedColor,
                     }}
                 />
                 <IconsView>
-                    {!focused && !validated && (
-                        <MaterialIcons
-                            name="error"
-                            size={30}
-                            color={unvalidatedColor + "65"}
-                        />
+                    {errorMessage && !focused && !validated && (
+                        <>
+                            <TouchableWithoutFeedback
+                                onPress={handleOnPressErrorMessageButton}
+                            >
+                                <MaterialIcons
+                                    name="error"
+                                    size={30}
+                                    color={
+                                        isShowingErrorMessage
+                                            ? unvalidatedColor
+                                            : unvalidatedColor + "65"
+                                    }
+                                />
+                            </TouchableWithoutFeedback>
+                            {isShowingErrorMessage && (
+                                <InfoBox
+                                    style={{
+                                        position: "absolute",
+                                        right: 62,
+                                        zIndex: 10,
+                                    }}
+                                    color={unvalidatedColor}
+                                    text={errorMessage}
+                                    minWidth={120}
+                                    minHeight={80}
+                                    maxWidth={200}
+                                />
+                            )}
+                        </>
                     )}
                     {focused && (
                         <TouchableWithoutFeedback
@@ -241,6 +278,7 @@ const InputField: React.FC<InputFieldProps> = ({
                                     color={color}
                                     text={information}
                                     maxWidth={270}
+                                    minHeight={80}
                                 />
                             )}
                         </>
