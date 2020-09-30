@@ -100,11 +100,11 @@ const InputField: React.FC<InputFieldProps> = ({
                     duration,
                     useNativeDriver: false,
                 }),
-                // Animated.timing(lineWidthAnimation, {
-                //     toValue: 1,
-                //     duration,
-                //     useNativeDriver: false,
-                // }),
+                Animated.timing(lineWidthAnimation, {
+                    toValue: 1,
+                    duration,
+                    useNativeDriver: false,
+                }),
             ]).start();
         } else {
             Animated.parallel([
@@ -128,11 +128,11 @@ const InputField: React.FC<InputFieldProps> = ({
                     duration,
                     useNativeDriver: false,
                 }),
-                // Animated.timing(lineWidthAnimation, {
-                //     toValue: 0,
-                //     duration,
-                //     useNativeDriver: false,
-                // }),
+                Animated.timing(lineWidthAnimation, {
+                    toValue: 0,
+                    duration,
+                    useNativeDriver: false,
+                }),
             ]).start();
         }
     }
@@ -169,18 +169,18 @@ const InputField: React.FC<InputFieldProps> = ({
                 </PlaceholderView>
                 <LineView
                     pointerEvents="none"
-                    // style={{
-                    //     width: lineWidthAnimation.interpolate({
-                    //         inputRange: [0, 1],
-                    //         outputRange: ["0%", "100%"],
-                    //     }),
-                    // }}
+                    style={{
+                        width: lineWidthAnimation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ["0%", "100%"],
+                        }),
+                    }}
                 />
-                {/* {information && (
+                {information && (
                     <FontAwesome
                         style={{
                             position: "absolute",
-                            right: 10,
+                            right: 18,
                             bottom: 12,
                         }}
                         name="info-circle"
@@ -199,18 +199,18 @@ const InputField: React.FC<InputFieldProps> = ({
                         <FontAwesome
                             style={{
                                 position: "absolute",
-                                right: 42,
-                                bottom: 16,
+                                right: 50,
+                                bottom: 17,
                             }}
                             name="close"
                             size={22}
                             color="#B09AC7"
                         />
                     </TouchableWithoutFeedback>
-                )} */}
+                )}
             </TextInputView>
 
-            {/* {description && <DescriptionText>{description}</DescriptionText>} */}
+            {description && <DescriptionText>{description}</DescriptionText>}
         </ContainerView>
 
         //#endregion

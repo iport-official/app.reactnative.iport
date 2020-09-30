@@ -5,7 +5,6 @@ import AnimatedTextInput from '../../animated/AnimatedTextInput'
 
 import { colors } from '../../../styles'
 
-const paddingTop = 15
 const paddingHorizontal = 20
 const height = 55
 const width = 350
@@ -37,24 +36,14 @@ export const PlaceholderText = styled(Animated.Text)`
 `
 
 export const ContainerTextInput = styled(AnimatedTextInput)`
-    background: #e0e0e0;
-    /* flex: 1;
-    background: gray;
-    height: 100%;
-    font-size: 14px; */
-    /* font-family: Roboto_400Regular; */
-    /* flex: 1;
-    background: gray;
-    height: 100%;
-    padding: 0;
-    padding-right: ${paddingHorizontal + 35}px;
+    padding-right: ${paddingHorizontal + 30}px;
     font-size: 14px;
-    font-family: Roboto_400Regular; */
+    font-family: Roboto_400Regular;
 `
 
 export const LineView = styled(Animated.View)`
     position: absolute;
-    width: auto;
+    width: 100%;
     bottom: 0;
     left: ${paddingHorizontal}px;
     right:  ${paddingHorizontal}px;
@@ -63,13 +52,8 @@ export const LineView = styled(Animated.View)`
 `
 
 export const DescriptionText = styled.Text`
-    /* top: ${height + 5}px;
-    left: ${paddingHorizontal - 10}px;
-    right: ${paddingHorizontal - 10}px;
+    margin: 10px 0 0 ${paddingHorizontal / 2}px;
     opacity: 0.3;
     color: ${colors.livePurple};
-    font-family: Roboto_400Regular; */
+    font-family: Roboto_400Regular;
 `
-
-// Roboto_400Regular
-// Roboto_700Bold
