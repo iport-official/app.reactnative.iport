@@ -33,7 +33,7 @@ export const PlaceholderText = styled(Animated.Text)`
 `
 
 export const ContainerTextInput = styled(AnimatedTextInput)`
-    padding-right: ${paddingHorizontal + 30}px;
+    padding-right: ${paddingHorizontal + 35}px;
     font-size: 14px;
     font-family: Roboto_400Regular;
 `
