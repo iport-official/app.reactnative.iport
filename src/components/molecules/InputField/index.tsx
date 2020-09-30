@@ -16,6 +16,7 @@ import {
     PlaceholderText,
     ContainerTextInput,
     LineView,
+    IconsView,
     DescriptionText,
 } from "./styles";
 
@@ -23,7 +24,7 @@ import InfoBox from "../../atoms/InfoBox";
 
 interface InputFieldProps extends TextInputProps {
     color: string;
-    wrongColor?: string
+    wrongColor?: string;
     multiline?: boolean;
     duration?: number;
     password?: boolean;
@@ -190,60 +191,54 @@ const InputField: React.FC<InputFieldProps> = ({
                         }}
                     />
                 )}
-                {information && (
-                    <>
+                <IconsView>
+                    {focused && (
                         <TouchableWithoutFeedback
-                            onPress={handleOnPressInformationButton}
+                            onPress={() => {
+                                input.current?.clear();
+                                handleOnChangeText("");
+                            }}
                         >
                             <FontAwesome
-                                style={{
-                                    position: "absolute",
-                                    right: 18,
-                                    bottom: 12,
-                                }}
-                                name="info-circle"
-                                size={30}
-                                color={
-                                    isShowingInformation
-                                        ? color
-                                        : color + "55"
-                                }
+                                name="close"
+                                size={22}
+                                color="#B09AC7"
                             />
                         </TouchableWithoutFeedback>
-                        {isShowingInformation && (
-                            <InfoBox
-                                style={{
-                                    position: "absolute",
-                                    right: 48,
-                                    zIndex: 10,
-                                }}
-                                color={color}
-                                text={information}
-                                maxWidth={270}
-                            />
-                        )}
-                    </>
-                )}
-
-                {focused && (
-                    <TouchableWithoutFeedback
-                        onPress={() => {
-                            input.current?.clear();
-                            handleOnChangeText("");
-                        }}
-                    >
-                        <FontAwesome
-                            style={{
-                                position: "absolute",
-                                right: 50,
-                                bottom: 17,
-                            }}
-                            name="close"
-                            size={22}
-                            color="#B09AC7"
-                        />
-                    </TouchableWithoutFeedback>
-                )}
+                    )}
+                    {information && (
+                        <>
+                            <TouchableWithoutFeedback
+                                onPress={handleOnPressInformationButton}
+                            >
+                                <FontAwesome
+                                    style={{
+                                        marginLeft: 5
+                                    }}
+                                    name="info-circle"
+                                    size={30}
+                                    color={
+                                        isShowingInformation
+                                            ? color
+                                            : color + "55"
+                                    }
+                                />
+                            </TouchableWithoutFeedback>
+                            {isShowingInformation && (
+                                <InfoBox
+                                    style={{
+                                        position: "absolute",
+                                        right: 32,
+                                        zIndex: 10,
+                                    }}
+                                    color={color}
+                                    text={information}
+                                    maxWidth={270}
+                                />
+                            )}
+                        </>
+                    )}
+                </IconsView>
             </TextInputView>
 
             {description && <DescriptionText>{description}</DescriptionText>}

@@ -48,6 +48,15 @@ export const LineView = styled(Animated.View)`
     border-bottom-color: ${colors.livePurple};
 `
 
+export const IconsView = styled.View`
+    position: absolute;
+    right: 19px;
+    bottom: 14px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+`
+
 export const DescriptionText = styled.Text`
     width: ${width}px;
     padding: 10px ${paddingHorizontal / 2}px;
