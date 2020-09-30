@@ -20,6 +20,7 @@ export default function PostCreationPage() {
                 />
                 <InputField
                     placeholder="Nome"
+                    information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 />
             </TextInputsView>
         </ContainerSafeAreaView>
