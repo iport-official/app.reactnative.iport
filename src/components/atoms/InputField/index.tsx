@@ -1,15 +1,13 @@
-import React, {
-    createRef,
-    useRef,
-    useState,
-} from "react";
+import React, { createRef, useRef, useState } from "react";
 import {
     Animated,
     StyleProp,
     TextInput,
     TextInputProps,
     ViewStyle,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    NativeSyntheticEvent,
+    TextInputContentSizeChangeEventData,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -24,6 +22,7 @@ import {
 } from "./styles";
 
 interface InputFieldProps extends TextInputProps {
+    multiline?: boolean;
     duration?: number;
     password?: boolean;
     description?: string;
@@ -32,6 +31,7 @@ interface InputFieldProps extends TextInputProps {
 }
 
 const InputField: React.FC<InputFieldProps> = ({
+    multiline,
     duration = 200,
     password = false,
     placeholder,
@@ -41,6 +41,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
     const input = createRef<TextInput>();
 
+    const [height, setHeight] = useState(0);
     const [focused, setFocused] = useState(false);
     const [hasText, setHasText] = useState(false);
 
@@ -64,7 +65,14 @@ const InputField: React.FC<InputFieldProps> = ({
     }
 
     function handleOnChangeText(value: string) {
-        setHasText(value.length !== 0)
+        setHasText(value.length !== 0);
+    }
+
+    function handleOnContentSizeChange(
+        event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+    ) {
+        setHeight(event.nativeEvent.contentSize.height / 14);
+        console.log(height);
     }
 
     //#region Animations
@@ -138,11 +146,13 @@ const InputField: React.FC<InputFieldProps> = ({
             <TextInputView>
                 <ContainerTextInput
                     ref={input}
+                    multiline={multiline}
                     onFocus={handleOnFocus}
                     onBlur={handleOnBlur}
                     onChangeText={handleOnChangeText}
                     style={{
                         transform: [{ translateY: textInputPositionAnimation }],
+                        maxHeight: 100,
                     }}
                 />
                 <PlaceholderView
@@ -167,38 +177,37 @@ const InputField: React.FC<InputFieldProps> = ({
                         }),
                     }}
                 />
-            </TextInputView>
-
-            {information && (
-                <FontAwesome
-                    style={{
-                        position: "absolute",
-                        right: 20,
-                    }}
-                    name="info-circle"
-                    size={30}
-                    color="#B09AC7"
-                />
-            )}
-
-            {focused && (
-                <TouchableWithoutFeedback
-                    onPress={() => {
-                        input.current?.clear()
-                        handleOnChangeText('')
-                    }}
-                >
+                {information && (
                     <FontAwesome
                         style={{
                             position: "absolute",
-                            right: 53,
+                            right: 0,
                         }}
-                        name="close"
-                        size={22}
+                        name="info-circle"
+                        size={30}
                         color="#B09AC7"
                     />
-                </TouchableWithoutFeedback>
-            )}
+                )}
+
+                {focused && (
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            input.current?.clear();
+                            handleOnChangeText("");
+                        }}
+                    >
+                        <FontAwesome
+                            style={{
+                                position: "absolute",
+                                right: 32,
+                            }}
+                            name="close"
+                            size={22}
+                            color="#B09AC7"
+                        />
+                    </TouchableWithoutFeedback>
+                )}
+            </TextInputView>
 
             {description && <DescriptionText>{description}</DescriptionText>}
         </ContainerView>

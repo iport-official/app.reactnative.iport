@@ -11,7 +11,7 @@ const width = 350
 
 export const ContainerView = styled.View`
     width: ${width}px;
-    height: ${height}px;
+    min-height: ${height}px;
     padding: 0 ${paddingHorizontal}px;
     border-radius: 8px;
     background: #fff;
@@ -24,6 +24,7 @@ export const TextInputView = styled.View`
     height: 100%;
     flex-direction: row;
     align-items: center;
+    margin: 12px 0;
 `
 
 export const PlaceholderView = styled(Animated.View)`
@@ -42,6 +43,7 @@ export const ContainerTextInput = styled(AnimatedTextInput)`
     height: 100%;
     padding: 0;
     padding-right: ${paddingHorizontal + 35}px;
+    font-size: 14px;
     font-family: Roboto_400Regular;
 `
 
@@ -54,7 +56,6 @@ export const LineView = styled(Animated.View)`
 `
 
 export const DescriptionText = styled.Text`
-    position: absolute;
     top: ${height + 5}px;
     left: ${paddingHorizontal - 10}px;
     right: ${paddingHorizontal - 10}px;
