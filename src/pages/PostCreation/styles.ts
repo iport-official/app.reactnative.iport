@@ -5,3 +5,8 @@ export const ContainerSafeAreaView = styled.SafeAreaView`
     justify-content: center;
     align-items: center;
 `
+
+export const TextInputsView = styled.View`
+    justify-content: space-between;
+    height: 160px;
+`
