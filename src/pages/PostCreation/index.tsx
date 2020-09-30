@@ -5,7 +5,7 @@ import {
     TextInputsView
 } from './styles'
 
-import InputField from '../../components/atoms/InputField'
+import InputField from '../../components/molecules/InputField'
 import InfoBox from '../../components/atoms/InfoBox'
 
 import { colors } from '../../styles'
@@ -17,19 +17,16 @@ export default function PostCreationPage() {
         <ContainerSafeAreaView>
             <TextInputsView>
                 <InputField
+                    color={colors.livePurple}
                     multiline
                     description="100 - 300 pala jakds "
-                    information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    information="A descrição deve falar sobre o que é essa tal vaga que você ta anunciando"
                     placeholder="Descrição"
                 />
                 <InputField
-                    placeholder="Nome"
-                    information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                />
-                <InfoBox
-                    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                     color={colors.livePurple}
-                    maxWidth={300}
+                    placeholder="Nome"
+                    information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 />
             </TextInputsView>
         </ContainerSafeAreaView>
