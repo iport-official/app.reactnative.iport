@@ -28,7 +28,8 @@ const InputField: React.FC<InputFieldProps> = ({
     information,
     style,
 }) => {
-    const [focused, setFocused] = useState(false);
+
+    const [hasText, setHasText] = useState(false);
 
     const textInputPositionAnimation = useRef(new Animated.Value(0)).current;
     const lineWidthAnimation = useRef(new Animated.Value(0)).current;
@@ -38,64 +39,83 @@ const InputField: React.FC<InputFieldProps> = ({
     const placehodlerFontSizeAnimation = useRef(new Animated.Value(16)).current;
 
     function handleOnFocus() {
-        Animated.parallel([
-            Animated.timing(placehodlerFontSizeAnimation, {
-                toValue: 12,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(placeholderTopAnimation, {
-                toValue: 0,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(textInputPositionAnimation, {
-                toValue: 4,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(placeholderOpacityAnimation, {
-                toValue: 1,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(lineWidthAnimation, {
-                toValue: 1,
-                duration,
-                useNativeDriver: false,
-            }),
-        ]).start();
+        playAnimation(true)
     }
 
     function handleOnBlur() {
-        Animated.parallel([
-            Animated.timing(placehodlerFontSizeAnimation, {
-                toValue: 16,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(placeholderTopAnimation, {
-                toValue: 16,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(textInputPositionAnimation, {
-                toValue: 0,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(placeholderOpacityAnimation, {
-                toValue: 0.3,
-                duration,
-                useNativeDriver: false,
-            }),
-            Animated.timing(lineWidthAnimation, {
-                toValue: 0,
-                duration,
-                useNativeDriver: false,
-            }),
-        ]).start();
+        if (hasText)
+            return;
+
+        playAnimation(false)
     }
+
+    function handleOnChangeText(value: string) {
+        setHasText(value !== '')
+    }
+
+    //#region Animations
+
+    function playAnimation(value: boolean) {
+        if (value) {
+            Animated.parallel([
+                Animated.timing(placehodlerFontSizeAnimation, {
+                    toValue: 12,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(placeholderTopAnimation, {
+                    toValue: 0,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(textInputPositionAnimation, {
+                    toValue: 4,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(placeholderOpacityAnimation, {
+                    toValue: 1,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(lineWidthAnimation, {
+                    toValue: 1,
+                    duration,
+                    useNativeDriver: false,
+                }),
+            ]).start();
+        } else {
+            Animated.parallel([
+                Animated.timing(placehodlerFontSizeAnimation, {
+                    toValue: 16,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(placeholderTopAnimation, {
+                    toValue: 16,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(textInputPositionAnimation, {
+                    toValue: 0,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(placeholderOpacityAnimation, {
+                    toValue: 0.3,
+                    duration,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(lineWidthAnimation, {
+                    toValue: 0,
+                    duration,
+                    useNativeDriver: false,
+                }),
+            ]).start();
+        }
+    }
+
+    //#endregion
 
     return (
         //#region JSX
@@ -105,6 +125,7 @@ const InputField: React.FC<InputFieldProps> = ({
                 <ContainerTextInput
                     onFocus={handleOnFocus}
                     onBlur={handleOnBlur}
+                    onChangeText={handleOnChangeText}
                     style={{
                         transform: [{ translateY: textInputPositionAnimation }],
                     }}
