@@ -15,7 +15,7 @@ export default function PostCreationPage() {
             <TextInputsView>
                 <InputField
                     multiline
-                    description="100 - 300 palavras"
+                    description="100 - 300 pala jakds "
                     information="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                     placeholder="Descrição"
                 />

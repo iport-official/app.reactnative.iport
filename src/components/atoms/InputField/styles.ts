@@ -9,9 +9,7 @@ const paddingHorizontal = 20
 const height = 55
 const width = 350
 
-export const ContainerView = styled.View`
-
-`
+export const ContainerView = styled.View``
 
 export const TextInputView = styled.View`
     width: ${width}px;
@@ -52,7 +50,8 @@ export const LineView = styled(Animated.View)`
 `
 
 export const DescriptionText = styled.Text`
-    margin: 10px 0 0 ${paddingHorizontal / 2}px;
+    width: ${width}px;
+    padding: 10px ${paddingHorizontal / 2}px;
     opacity: 0.3;
     color: ${colors.livePurple};
     font-family: Roboto_400Regular;
