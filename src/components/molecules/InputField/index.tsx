@@ -1,4 +1,4 @@
-import React, { createRef, useRef, useState } from "react";
+import React, { createRef, useRef, useState } from "react"
 import {
     Animated,
     StyleProp,
@@ -6,9 +6,9 @@ import {
     ViewStyle,
     TouchableWithoutFeedback,
     TextInputProps,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+} from "react-native"
+import { MaterialIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import {
     ContainerView,
@@ -19,22 +19,22 @@ import {
     LineView,
     IconsView,
     DescriptionText,
-} from "./styles";
+} from "./styles"
 
-import InfoBox from "../../atoms/InfoBox";
+import InfoBox from "../../atoms/InfoBox"
 
 interface InputFieldProps extends TextInputProps {
-    color: string;
-    validated: boolean;
-    unvalidatedColor?: string;
-    multiline?: boolean;
-    duration?: number;
-    password?: boolean;
-    placeholder?: string;
-    description?: string;
-    information?: string;
-    errorMessage?: string;
-    style?: StyleProp<ViewStyle>;
+    color: string
+    validated: boolean
+    unvalidatedColor?: string
+    multiline?: boolean
+    duration?: number
+    password?: boolean
+    placeholder?: string
+    description?: string
+    information?: string
+    errorMessage?: string
+    style?: StyleProp<ViewStyle>
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -51,49 +51,58 @@ const InputField: React.FC<InputFieldProps> = ({
     style,
     ...rest
 }) => {
-    const input = createRef<TextInput>();
 
-    const [focused, setFocused] = useState(false);
-    const [hasText, setHasText] = useState(false);
+    //#region States
 
-    const [isShowingInformation, setIsShowingInformation] = useState(false);
-    const [isShowingErrorMessage, setIsShowingErrorMessage] = useState(false);
+    const input = createRef<TextInput>()
 
-    const textInputPositionAnimation = useRef(new Animated.Value(0)).current;
-    const lineWidthAnimation = useRef(new Animated.Value(0)).current;
-    const placeholderOpacityAnimation = useRef(new Animated.Value(0.3)).current;
-    const placeholderTopAnimation = useRef(new Animated.Value(15)).current;
-    const placehodlerFontSizeAnimation = useRef(new Animated.Value(16)).current;
+    const [focused, setFocused] = useState(false)
+    const [hasText, setHasText] = useState(false)
+
+    const [isShowingInformation, setIsShowingInformation] = useState(false)
+    const [isShowingErrorMessage, setIsShowingErrorMessage] = useState(false)
+
+    const textInputPositionAnimation = useRef(new Animated.Value(0)).current
+    const lineWidthAnimation = useRef(new Animated.Value(0)).current
+    const placeholderOpacityAnimation = useRef(new Animated.Value(0.3)).current
+    const placeholderTopAnimation = useRef(new Animated.Value(15)).current
+    const placehodlerFontSizeAnimation = useRef(new Animated.Value(16)).current
+
+    //#endregion
+
+    //#region Functions
 
     function handleOnFocus() {
-        setFocused(true);
-        playAnimation(true);
+        setFocused(true)
+        playAnimation(true)
     }
 
     function handleOnBlur() {
-        setFocused(false);
-        if (hasText) return;
+        setFocused(false)
+        if (hasText) return
 
-        playAnimation(false);
+        playAnimation(false)
     }
 
     function handleOnChangeText(value: string) {
-        setHasText(value.length !== 0);
+        setHasText(value.length !== 0)
     }
 
     function handleOnPressInformationButton() {
         if (isShowingErrorMessage)
             setIsShowingErrorMessage(false)
 
-        setIsShowingInformation(!isShowingInformation);
+        setIsShowingInformation(!isShowingInformation)
     }
 
     function handleOnPressErrorMessageButton() {
         if (isShowingInformation)
             setIsShowingInformation(false)
 
-        setIsShowingErrorMessage(!isShowingErrorMessage);
+        setIsShowingErrorMessage(!isShowingErrorMessage)
     }
+
+    //#endregion
 
     //#region Animations
 
@@ -125,7 +134,7 @@ const InputField: React.FC<InputFieldProps> = ({
                     duration,
                     useNativeDriver: false,
                 }),
-            ]).start();
+            ]).start()
         } else {
             Animated.parallel([
                 Animated.timing(placehodlerFontSizeAnimation, {
@@ -153,7 +162,7 @@ const InputField: React.FC<InputFieldProps> = ({
                     duration,
                     useNativeDriver: false,
                 }),
-            ]).start();
+            ]).start()
         }
     }
 
@@ -203,8 +212,8 @@ const InputField: React.FC<InputFieldProps> = ({
                             focused || !hasText
                                 ? color
                                 : validated
-                                ? color
-                                : unvalidatedColor,
+                                    ? color
+                                    : unvalidatedColor,
                     }}
                 />
                 <IconsView>
@@ -242,8 +251,8 @@ const InputField: React.FC<InputFieldProps> = ({
                     {focused && (
                         <TouchableWithoutFeedback
                             onPress={() => {
-                                input.current?.clear();
-                                handleOnChangeText("");
+                                input.current?.clear()
+                                handleOnChangeText("")
                             }}
                         >
                             <MaterialIcons
@@ -290,7 +299,7 @@ const InputField: React.FC<InputFieldProps> = ({
         </ContainerView>
 
         //#endregion
-    );
-};
+    )
+}
 
-export default InputField;
+export default InputField
