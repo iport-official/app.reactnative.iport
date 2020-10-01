@@ -18,6 +18,7 @@ export const TextInputView = styled.View`
     min-height: ${height}px;
     max-height: 150px;
     justify-content: center;
+    flex-direction: row;
     padding: 15px ${paddingHorizontal}px;
 `
 
@@ -33,9 +34,9 @@ export const PlaceholderText = styled(Animated.Text)`
 `
 
 export const ContainerTextInput = styled(AnimatedTextInput)`
-    padding-right: ${paddingHorizontal + 35}px;
+    padding: 0;
     font-size: 14px;
-    background: gray;
+    flex: 1;
     font-family: Roboto_400Regular;
 `
 
@@ -50,12 +51,8 @@ export const LineView = styled(Animated.View)`
 `
 
 export const IconsView = styled.View`
-    position: absolute;
-    right: 19px;
-    bottom: 14px;
     flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    align-items: flex-end;
 `
 
 export const DescriptionText = styled.Text`
