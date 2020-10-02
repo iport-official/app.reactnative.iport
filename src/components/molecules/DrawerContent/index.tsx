@@ -74,6 +74,18 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                         labelStyle={{ color: "#fff" }}
                         onPress={() => { navigation.navigate("ProfilePage") }}
                     />
+                    <DrawerItem
+                        icon={({ size }) =>
+                            <MaterialIcons
+                                name="person"
+                                size={size}
+                                color="#fff"
+                            />
+                        }
+                        label="Criar Post"
+                        labelStyle={{ color: "#fff" }}
+                        onPress={() => { navigation.navigate("PostCreationPage") }}
+                    />
                 </ContentView>
             </ContentDrawerContentScrollView>
             <FooterView>
