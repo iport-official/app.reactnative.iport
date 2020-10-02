@@ -1,7 +1,10 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { DrawerScreenProps } from "@react-navigation/drawer";
+
 import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import {
     ContainerSafeAreaView,
@@ -15,7 +18,10 @@ import {
 
 import MainHeader from "../../components/molecules/MainHeader";
 import { DrawerParamsList } from "../../navigations/MainDrawer";
+import ActionButton from "../../components/molecules/ActionButton";
+
 import { colors } from "../../styles";
+import RoundButton from "../../components/atoms/RoundButton";
 
 type DefaultPostCreationPageProps = DrawerScreenProps<
     DrawerParamsList,
@@ -43,10 +49,7 @@ export default function PostCreationPage({
                 />
                 <TitleText>Crie seu Post</TitleText>
             </HeaderView>
-            <ContainerKeyboardAvoidView
-                enabled
-                keyboardVerticalOffset={200}
-            >
+            <ContainerKeyboardAvoidView enabled keyboardVerticalOffset={200}>
                 <ContainerScrollView
                     keyboardShouldPersistTaps="handled"
                     contentContainerStyle={{
@@ -110,6 +113,62 @@ export default function PostCreationPage({
                         description="A Descrição da vaga não deverá conter mais do que 100 caracteres"
                     />
                 </ContainerScrollView>
+                <ActionButton
+                    onPress={() => {}}
+                    color="#612E96"
+                    icon={() => (
+                        <Feather
+                            name="more-horizontal"
+                            size={24}
+                            color="white"
+                        />
+                    )}
+                >
+                    <>
+                        <RoundButton
+                            label="Confirmar"
+                            transform={140}
+                            spin={"180deg"}
+                            bgColor="#279D25"
+                            icon={() => (
+                                <AntDesign
+                                    name="check"
+                                    size={24}
+                                    color="white"
+                                />
+                            )}
+                            onPress={() => {}}
+                        />
+                        <RoundButton
+                            label="Visualizar"
+                            transform={70}
+                            spin={"180deg"}
+                            bgColor="#612E96"
+                            icon={() => (
+                                <MaterialIcons
+                                    name="publish"
+                                    size={24}
+                                    color="white"
+                                />
+                            )}
+                            onPress={() => {}}
+                        />
+                        <RoundButton
+                            label="Cancelar"
+                            transform={70}
+                            spin={"180deg"}
+                            bgColor="#CC2F2F"
+                            icon={() => (
+                                <AntDesign
+                                    name="close"
+                                    size={24}
+                                    color="white"
+                                />
+                            )}
+                            onPress={() => {}}
+                        />
+                    </>
+                </ActionButton>
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
 
