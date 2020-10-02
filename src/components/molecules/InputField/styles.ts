@@ -13,7 +13,7 @@ export const ContainerView = styled.View``
 
 export const TextInputView = styled.View`
     width: ${width}px;
-    background: #fff;
+    background: #eee;
     border-radius: 8px;
     min-height: ${height}px;
     max-height: 150px;
