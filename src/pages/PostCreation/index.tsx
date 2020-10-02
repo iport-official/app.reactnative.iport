@@ -48,6 +48,7 @@ export default function PostCreationPage({
                 keyboardVerticalOffset={200}
             >
                 <ContainerScrollView
+                    keyboardShouldPersistTaps="handled"
                     contentContainerStyle={{
                         alignSelf: "center",
                     }}
@@ -59,12 +60,14 @@ export default function PostCreationPage({
                         color={colors.livePurple}
                         placeholder="Título"
                         information="O título que irá aparecer no seu post"
+                        description="O Título não deverá conter mais do que 30 caracteres"
                     />
                     <InputFieldStyled
                         validated
                         multiline
                         color={colors.livePurple}
                         placeholder="Descrição"
+                        description="A Descrição não deverá conter mais do que 100 caracteres"
                     />
                     <InputFieldStyled
                         validated
@@ -77,6 +80,35 @@ export default function PostCreationPage({
                         color={colors.livePurple}
                         placeholder="Salário"
                     />
+                    <InputFieldStyled
+                        validated
+                        color={colors.livePurple}
+                        placeholder="Função"
+                    />
+                    <InputFieldStyled
+                        validated
+                        color={colors.livePurple}
+                        placeholder="Local"
+                    />
+                    <InputFieldStyled
+                        validated
+                        multiline
+                        color={colors.livePurple}
+                        placeholder="Requisitos"
+                        description="Os Requisitos não deveram conter mais do que 100 caracteres"
+                    />
+                    <InputFieldStyled
+                        validated
+                        color={colors.livePurple}
+                        placeholder="Nível de experiência"
+                    />
+                    <InputFieldStyled
+                        validated
+                        multiline
+                        color={colors.livePurple}
+                        placeholder="Descrição da vaga"
+                        description="A Descrição da vaga não deverá conter mais do que 100 caracteres"
+                    />
                 </ContainerScrollView>
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
@@ -84,25 +116,3 @@ export default function PostCreationPage({
         //#endregion
     );
 }
-
-/*
-
-<TextInputsView>
-    <InputField
-        color={colors.livePurple}
-        multiline
-        validated={false}
-        description="100 - 300 palavras "
-        information="A descrição deve falar sobre o que é essa tal vaga que você ta anunciando"
-        errorMessage="Quantidade de caracteres excedida"
-        placeholder="Descrição"
-    />
-    <InputField
-        validated
-        color={colors.livePurple}
-        placeholder="Nome"
-        information="Lorem ipsum"
-    />
-</TextInputsView>
-
-*/

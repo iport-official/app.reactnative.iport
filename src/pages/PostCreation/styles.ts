@@ -1,4 +1,3 @@
-import { Roboto_400Regular } from '@expo-google-fonts/roboto'
 import { KeyboardAvoidingView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
@@ -27,7 +26,8 @@ export const TitleText = styled.Text`
 `
 
 export const ContainerScrollView = styled.ScrollView`
-    /* flex: 1; */
+    flex: 1;
+    margin-bottom: 20px;
 `
 
 export const ImagePickerView = styled.View`
