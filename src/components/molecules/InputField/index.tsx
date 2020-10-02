@@ -168,7 +168,7 @@ const InputField: React.FC<InputFieldProps> = ({
     return (
         //#region JSX
 
-        <ContainerView>
+        <ContainerView style={style}>
             <TextInputView>
                 <PlaceholderView
                     pointerEvents="none"
@@ -239,7 +239,7 @@ const InputField: React.FC<InputFieldProps> = ({
                         >
                             <MaterialIcons
                                 style={{
-                                    marginBottom: 3
+                                    marginBottom: 3,
                                 }}
                                 name="close"
                                 size={22}
