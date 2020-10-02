@@ -238,6 +238,9 @@ const InputField: React.FC<InputFieldProps> = ({
                             }}
                         >
                             <MaterialIcons
+                                style={{
+                                    marginBottom: 3
+                                }}
                                 name="close"
                                 size={22}
                                 color={color + "55"}
