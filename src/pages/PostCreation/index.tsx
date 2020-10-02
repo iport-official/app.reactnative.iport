@@ -1,17 +1,20 @@
 import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { DrawerScreenProps } from "@react-navigation/drawer";
 import { AntDesign } from "@expo/vector-icons";
 
 import {
     ContainerSafeAreaView,
+    ContainerKeyboardAvoidView,
     HeaderView,
     TitleText,
     ContainerScrollView,
+    ImagePickerView,
+    InputFieldStyled,
 } from "./styles";
 
 import MainHeader from "../../components/molecules/MainHeader";
-import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerParamsList } from "../../navigations/MainDrawer";
-import { StatusBar } from "expo-status-bar";
 import { colors } from "../../styles";
 
 type DefaultPostCreationPageProps = DrawerScreenProps<
@@ -40,7 +43,42 @@ export default function PostCreationPage({
                 />
                 <TitleText>Crie seu Post</TitleText>
             </HeaderView>
-            <ContainerScrollView></ContainerScrollView>
+            <ContainerKeyboardAvoidView
+                enabled
+                keyboardVerticalOffset={200}
+            >
+                <ContainerScrollView
+                    contentContainerStyle={{
+                        alignSelf: "center",
+                    }}
+                >
+                    <ImagePickerView />
+                    <InputFieldStyled
+                        validated
+                        multiline
+                        color={colors.livePurple}
+                        placeholder="Título"
+                        information="O título que irá aparecer no seu post"
+                    />
+                    <InputFieldStyled
+                        validated
+                        multiline
+                        color={colors.livePurple}
+                        placeholder="Descrição"
+                    />
+                    <InputFieldStyled
+                        validated
+                        color={colors.livePurple}
+                        placeholder="Categoria"
+                    />
+                    <InputFieldStyled
+                        validated
+                        keyboardType="decimal-pad"
+                        color={colors.livePurple}
+                        placeholder="Salário"
+                    />
+                </ContainerScrollView>
+            </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
 
         //#endregion
