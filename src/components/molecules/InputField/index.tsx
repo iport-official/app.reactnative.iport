@@ -267,6 +267,7 @@ const InputField: React.FC<InputFieldProps> = ({
                                     style={{
                                         position: "absolute",
                                         right: 32,
+                                        bottom: -24,
                                         zIndex: 10,
                                     }}
                                     color={color}
