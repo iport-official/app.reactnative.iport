@@ -34,10 +34,14 @@ export const PlaceholderText = styled(Animated.Text)`
 `
 
 export const ContainerTextInput = styled(AnimatedTextInput)`
-    padding: 0;
-    font-size: 14px;
     flex: 1;
+    font-size: 14px;
     font-family: Roboto_400Regular;
+`
+
+export const IconsView = styled.View`
+    flex-direction: row;
+    align-items: flex-end;
 `
 
 export const LineView = styled(Animated.View)`
@@ -48,11 +52,6 @@ export const LineView = styled(Animated.View)`
     right:  ${paddingHorizontal}px;
     border-bottom-width: 3px;
     border-bottom-color: ${colors.livePurple};
-`
-
-export const IconsView = styled.View`
-    flex-direction: row;
-    align-items: flex-end;
 `
 
 export const DescriptionText = styled.Text`
