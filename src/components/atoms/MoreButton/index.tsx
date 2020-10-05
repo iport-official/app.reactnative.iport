@@ -26,18 +26,18 @@ const MoreButton: React.FC<MoreButtonProps> = ({
             Animated.sequence([
                 Animated.timing(animatedHeight, {
                     toValue: 0,
-                    duration: 500,
+                    duration: 300,
                     useNativeDriver: true
                 }),
                 Animated.timing(animatedOpacity, {
                     toValue: 0,
-                    duration: 100,
+                    duration: 50,
                     useNativeDriver: true
                 }),
                 Animated.timing(animatedRotation, {
-                    delay: 200,
+                    delay: 100,
                     toValue: 1,
-                    duration: 500,
+                    duration: 300,
                     useNativeDriver: true
                 })
             ])
@@ -49,18 +49,18 @@ const MoreButton: React.FC<MoreButtonProps> = ({
             Animated.sequence([
                 Animated.timing(animatedRotation, {
                     toValue: 0,
-                    duration: 500,
+                    duration: 300,
                     useNativeDriver: true
                 }),
                 Animated.timing(animatedOpacity, {
                     toValue: 1,
-                    duration: 100,
+                    duration: 50,
                     useNativeDriver: true
                 }),
                 Animated.timing(animatedHeight, {
-                    delay: 200,
+                    delay: 100,
                     toValue: 14,
-                    duration: 500,
+                    duration: 300,
                     useNativeDriver: true
                 })
             ])
