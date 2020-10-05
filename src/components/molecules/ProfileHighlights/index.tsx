@@ -34,8 +34,8 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     const highlightTitleColor = textColor;
     const highlightIconColor = '#fff';
 
-    const highlightIconSizeMCI = 82;
-    const highlightIconSizeFA = 60;
+    const highlightIconSizeMCI = 110;
+    const highlightIconSizeFA = 80;
 
     const roleIcon = () => {
         return <FontAwesome name="briefcase" size={22} color={iconColor} />
@@ -65,16 +65,8 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
         return <FontAwesome name="gears" size={highlightIconSizeFA} color={highlightIconColor} />
     }
 
-    const certificatesIcon = () => {
-        return <MaterialCommunityIcons name="certificate" size={highlightIconSizeMCI} color={highlightIconColor} />
-    }
-
     const achievementsIcon = () => {
         return <FontAwesome5 name="medal" size={highlightIconSizeFA} color={highlightIconColor} />
-    }
-
-    const contactsIcon = () => {
-        return <MaterialCommunityIcons name="phone" size={highlightIconSizeMCI} color={highlightIconColor} />
     }
 
     return (
@@ -111,17 +103,9 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                     titleColor={highlightTitleColor}
                     icon={skillsIcon} />
                 <HighlightItem
-                    title='Certificados'
-                    titleColor={highlightTitleColor}
-                    icon={certificatesIcon} />
-                <HighlightItem
                     title='Conquistas'
                     titleColor={highlightTitleColor}
                     icon={achievementsIcon} />
-                <HighlightItem
-                    title='Contatos'
-                    titleColor={highlightTitleColor}
-                    icon={contactsIcon} />
             </HighlightItemsContainer>
         </ProfileHighlightsContainer>
     )
