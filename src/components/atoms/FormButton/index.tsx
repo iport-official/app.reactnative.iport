@@ -4,13 +4,14 @@ import { RectButtonProperties } from 'react-native-gesture-handler';
 import { ButtonStyle, ButtonText } from './styles';
 
 interface ButtonProperties extends RectButtonProperties {
-    label: string,
-    color: string,
-    disableColor: string,
-    ripple: string,
-    disable?: boolean,
-    buttonWidth?: number,
-    buttonHeight?: number
+    label: string;
+    color: string;
+    disableColor: string;
+    ripple: string;
+    disable?: boolean;
+    buttonWidth?: number;
+    buttonHeight?: number;
+    buttonBorderRadius?: number;
 }
 
 const FormButton: React.FC<ButtonProperties> = ({
@@ -19,14 +20,15 @@ const FormButton: React.FC<ButtonProperties> = ({
     disableColor,
     ripple,
     disable,
-    buttonWidth,
-    buttonHeight,
+    buttonWidth = 220,
+    buttonHeight = 50,
+    buttonBorderRadius = 8,
     ...rest }) => {
     return (
         <ButtonStyle
             enabled={!disable}
             style={{ backgroundColor: disable ?  disableColor : color,
-                width: buttonWidth || 220, height: buttonHeight || 50 }}
+                width: buttonWidth, height: buttonHeight, borderRadius: buttonBorderRadius }}
             rippleColor={ripple} { ...rest } >
             <ButtonText>{ label }</ButtonText>
         </ButtonStyle>

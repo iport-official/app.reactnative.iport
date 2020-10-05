@@ -3,11 +3,13 @@ import { Roboto_700Bold } from '@expo-google-fonts/roboto';
 
 import { colors } from '../../../styles';
 
+const size = 140;
+
 export const HighlightItemContainer = styled.View`
     align-items: center;
 
-    height: 130px;
-    width: 100px;
+    height: ${size + 30}px;
+    width: ${size}px;
     margin-bottom: 20px;
 `
 
@@ -25,7 +27,7 @@ export const HighlightTitle = styled.Text`
     width: 130%;
     text-align: center;
     font-family: Roboto_700Bold;
-    font-size: 16px;
+    font-size: 18px;
 `
 
 export const HighlightContentContainer = styled.View`
@@ -36,6 +38,6 @@ export const HighlightContentContainer = styled.View`
     border-radius: 15px;
     background: #888;
 
-    height: 100px;
-    width: 100px;
+    height: ${size}px;
+    width: ${size}px;
 `
