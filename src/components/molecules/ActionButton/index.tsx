@@ -38,12 +38,12 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         Animated.sequence([
             Animated.timing(animatedPop, {
                 toValue: -10,
-                duration: 400,
+                duration: 200,
                 useNativeDriver: true
             }),
             Animated.timing(animatedPop, {
                 toValue: 0,
-                duration: 400,
+                duration: 200,
                 useNativeDriver: true
             })
         ]).start();
