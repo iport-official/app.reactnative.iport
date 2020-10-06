@@ -4,6 +4,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { setStatusBarStyle } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import uuid from 'uuid-random';
 
 import {
     ContactItem,
@@ -153,8 +154,14 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
     });
 
     // TODO - remove template arrays
-    const phones: String[] = ["988776655", "988776655", "988776655"];
-    const emails: String[] = ["michell@gmail.com", "michell.algarra@gmail.com", "nest.js@gmail.com"];
+    const phones = [
+        { id: uuid(), phone: "988776655" },
+        { id: uuid(), phone: "988776655" },
+        { id: uuid(), phone: "988776655" }];
+    const emails = [
+        { id: uuid(), email: "michell@gmail.com" },
+        { id: uuid(), email: "michell.algarra@gmail.com"},
+        { id: uuid(), email: "nest.js@gmail.com" }];
 
     return (
         //#region JSX
@@ -172,15 +179,15 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
                     <ModalContent>
                         { emails.length > 0 ? <ContactTitle>E-mails</ContactTitle> : <View /> }
                         { emails.map(e => {
-                            return <ContactItem>{ e }</ContactItem>
+                            return <ContactItem key={e.id}>{ e.email }</ContactItem>
                         }) }
                         { phones.length > 0 ? <ContactTitle style={{ marginTop: 20 }}>Telefones</ContactTitle> : <View /> }
                         { phones.map(p => {
-                            return <ContactItem>{ p }</ContactItem>
+                            return <ContactItem key={p.id}>{ p.phone }</ContactItem>
                         }) }
                         { emails.length === 0 && phones.length === 0
                             ? <ContactTitle style={{ textAlign: 'center', marginTop: 20 }}
-                                >Este usuário não adicionou nenhum contato adicional</ContactTitle>
+                                >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
                     </ModalContent>
                 </Modal>
