@@ -1,10 +1,11 @@
 import styled from 'styled-components/native';
 
-const size = 50;
-
 export const EditContainer = styled.TouchableOpacity`
-    height: ${size}px;
-    width: ${size}px;
+    height: ${(props: {size: number}) => props.size}px;
+    width: ${(props: {size: number}) => props.size}px;
 
-    border-radius: ${size * 2}px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: ${(props: {size: number}) => props.size * 2}px;
 `

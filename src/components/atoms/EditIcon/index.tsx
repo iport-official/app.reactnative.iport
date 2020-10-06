@@ -5,22 +5,26 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { EditContainer } from './styles';
 
 interface EditIconProps extends TouchableOpacityProps {
-    color?: string
+    color?: string;
+    size?: number;
+    iconSize?: number;
 }
 
 const EditIcon: React.FC<EditIconProps> = ({
     color = '#46266c',
+    size = 50,
+    iconSize = 32,
     ...rest
 }) => {
     return (
         <EditContainer
             style={{
-                backgroundColor: color,
-                justifyContent: 'center',
-                alignItems: 'center'
+                backgroundColor: color
             }}
+            activeOpacity={0.8}
+            size={size}
             { ...rest } >
-            <MaterialCommunityIcons name="pencil" size={32} color="white" />
+            <MaterialCommunityIcons name="pencil" size={iconSize} color="white" />
         </EditContainer>
     )
 }
