@@ -39,14 +39,19 @@ export const ModalContent = styled.View`
     background: #fff;
 `
 
+export const ModalContentItem = styled.View`
+    width: 100%;
+
+    padding: 0 7.5%;
+    border-radius: 10px;
+    background-color: ${(props: {isCurrent: boolean}) => props.isCurrent ? '#0002' : '#0000' };
+`
+
 export const ContactItem = styled.Text`
-    width: 83%;
-    margin: 2px 0;
+    margin: 2px;
 `
 
 export const ContactTitle = styled.Text`
-    width: 85%;
-
     font-family: Roboto_700Bold;
     font-size: 18px;
     color: #46266c;

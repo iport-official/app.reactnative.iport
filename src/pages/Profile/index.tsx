@@ -13,7 +13,8 @@ import {
     ContainerKeyboardAvoidView,
     ContentView,
     ModalContainer,
-    ModalContent
+    ModalContent,
+    ModalContentItem
 } from './styles';
 
 import { DrawerParamsList } from '../../navigations/MainDrawer';
@@ -23,6 +24,7 @@ import ProfileHightlights from '../../components/molecules/ProfileHighlights';
 import RoundButton from '../../components/atoms/RoundButton';
 import ActionButton from '../../components/molecules/ActionButton';
 import MoreButton from '../../components/atoms/MoreButton';
+import EditIcon from '../../components/atoms/EditIcon';
 
 import ActionButtonContext from '../../contexts/actionButton';
 import { useSelector } from 'react-redux';
@@ -154,14 +156,16 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
     });
 
     // TODO - remove template arrays
-    const phones = [
+    const phones: any[] = [
         { id: uuid(), phone: "988776655" },
         { id: uuid(), phone: "988776655" },
         { id: uuid(), phone: "988776655" }];
-    const emails = [
+    const emails: any[] = [
         { id: uuid(), email: "michell@gmail.com" },
         { id: uuid(), email: "michell.algarra@gmail.com"},
         { id: uuid(), email: "nest.js@gmail.com" }];
+
+    const isCurrent = false;
 
     return (
         //#region JSX
@@ -177,15 +181,56 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
                         onPress={() => setModalVisible(false)}
                         activeOpacity={1} />
                     <ModalContent>
-                        { emails.length > 0 ? <ContactTitle>E-mails</ContactTitle> : <View /> }
-                        { emails.map(e => {
-                            return <ContactItem key={e.id}>{ e.email }</ContactItem>
-                        }) }
-                        { phones.length > 0 ? <ContactTitle style={{ marginTop: 20 }}>Telefones</ContactTitle> : <View /> }
-                        { phones.map(p => {
-                            return <ContactItem key={p.id}>{ p.phone }</ContactItem>
-                        }) }
-                        { emails.length === 0 && phones.length === 0
+                        <ModalContentItem
+                            isCurrent={isCurrent}
+                            style={{
+                                paddingTop: isCurrent ? 5 : 0
+                            }} >
+                            { isCurrent
+                                ? <EditIcon
+                                size={30}
+                                iconSize={20}
+                                style={{
+                                    backgroundColor: '#46266c',
+                                    position: 'absolute',
+                                    top: -15,
+                                    left: '53%'
+                                }} />
+                                : <View />
+                            }
+                            { emails.length > 0 || isCurrent
+                                ? <ContactTitle>E-mails</ContactTitle>
+                                : <View /> }
+                            { emails.map(e => {
+                                return <ContactItem key={e.id}>{ e.email }</ContactItem>
+                            }) }
+                        </ModalContentItem>
+                        <ModalContentItem
+                            isCurrent={isCurrent}
+                            style={{
+                                marginTop: emails.length !== 0 || isCurrent ? 20 : 0,
+                                paddingTop: isCurrent ? 5 : 0
+                            }} >
+                            { isCurrent
+                                ? <EditIcon
+                                size={30}
+                                iconSize={20}
+                                style={{
+                                    backgroundColor: '#46266c',
+                                    position: 'absolute',
+                                    top: -15,
+                                    left: '53%'
+                                }} />
+                                : <View />
+                            }
+                            { phones.length > 0 || isCurrent
+                                ? <ContactTitle>Telefones</ContactTitle>
+                                : <View /> }
+                            { phones.map(p => {
+                                return <ContactItem key={p.id}>{ p.phone }</ContactItem>
+                            }) }
+                        </ModalContentItem>
+                        { emails.length === 0 && phones.length === 0 && !isCurrent
                             ? <ContactTitle style={{ textAlign: 'center', marginTop: 20 }}
                                 >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
@@ -198,37 +243,56 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
                     <ProfileInfo
                         profileImage={`data:image/gif;base64,${user?.profileImage}`}
                         name={user?.username}
-                        status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer' />
+                        status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer'
+                        isCurrent={isCurrent}
+                        onStatusChange={(status: string) => {}}
+                        onNameChange={(name: string) => {}}
+                        onImageChange={(image: string) => {}} />
                     <ProfileHightlights
-                        email={user?.email}
                         role='Estudante de Engenharia de Computação'
                         spotlight='Fluente em Inglês, Espanhol e Francês'
-                        local='Sorocaba - SP' />
+                        email={user?.email}
+                        local='Sorocaba - SP'
+                        isCurrent={isCurrent}
+                        onRoleChange={(role: string) => {}}
+                        onSpotlightChange={(spotlight: string) => {}}
+                        onEmailChange={(email: string) => {}}
+                        onLocalChange={(local: string) => {}} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>
                     <ActionButton
                         onPress={() => toggleActionButton()}
                         icon={moreButtonAnimated}>
-                        { first == 0 ? <View /> : <View>
-                            <RoundButton
-                                transform={first == 0 ? buttonPosC : animatedPopC }
-                                spin={first == 0 ? '180deg' : spin}
-                                bgColor='#46266c'
-                                icon={checkButton}
-                                onPress={() => handleApplyPress()}  />
-                            <RoundButton
-                                transform={first == 0 ? buttonPosB : animatedPopB}
-                                spin={first == 0 ? '180deg' : spin}
-                                bgColor='#cc4195'
-                                icon={liked ? likeButtonFilled : likeButton}
-                                onPress={() => handleLikePress()} />
-                            <RoundButton
-                                transform={first == 0 ? buttonPosA : animatedPopA}
-                                spin={first == 0 ? '180deg' : spin}
-                                bgColor='#850085'
-                                icon={contactsButton}
-                                onPress={() => handleContactsPress()} />
-                            </View>
+                        { first == 0
+                            ? <View />
+                            : ( !isCurrent
+                                ? <View>
+                                    <RoundButton
+                                        transform={first == 0 ? buttonPosC : animatedPopC }
+                                        spin={first == 0 ? '180deg' : spin}
+                                        bgColor='#46266c'
+                                        icon={checkButton}
+                                        onPress={() => handleApplyPress()} />
+                                    <RoundButton
+                                        transform={first == 0 ? buttonPosB : animatedPopB}
+                                        spin={first == 0 ? '180deg' : spin}
+                                        bgColor='#cc4195'
+                                        icon={liked ? likeButtonFilled : likeButton}
+                                        onPress={() => handleLikePress()} />
+                                    <RoundButton
+                                        transform={first == 0 ? buttonPosA : animatedPopA}
+                                        spin={first == 0 ? '180deg' : spin}
+                                        bgColor='#850085'
+                                        icon={contactsButton}
+                                        onPress={() => handleContactsPress()} />
+                                </View>
+                                : <RoundButton
+                                    transform={first == 0 ? buttonPosA : animatedPopA}
+                                    spin={first == 0 ? '180deg' : spin}
+                                    bgColor='#850085'
+                                    icon={contactsButton}
+                                    onPress={() => handleContactsPress()} />
+                            )
                         }
                     </ActionButton>
                 </ActionButtonContext.Provider>
