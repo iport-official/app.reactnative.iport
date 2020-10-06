@@ -1,32 +1,45 @@
-import React from 'react';
-import { ViewProps } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, View, ViewProps } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
     HighlightItemsContainer,
+    ModalContainer,
+    ModalContent,
     ProfileHighlightsContainer,
     ProfilePersonalInfoContainer
 } from './styles';
 
-import { colors } from '../../../styles';
-
 import HighlightItem from '../../atoms/HighlightItem';
 import TextPrependIcon from '../../atoms/TextPrependIcon';
+import EditIcon from '../../atoms/EditIcon';
+import TextField from '../../atoms/TextField';
+import InputField from '../../molecules/InputField';
 
 interface ProfileHighlightsProps extends ViewProps {
     role?: string;
     spotlight?: string;
     local?: string;
     email?: string;
+    isCurrent?: boolean;
+    onRoleChange?(role: string): void;
+    onSpotlightChange?(spotlight: string): void;
+    onEmailChange?(email: string): void;
+    onLocalChange?(local: string): void;
 }
 
 const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
+    onRoleChange,
+    onSpotlightChange,
+    onEmailChange,
+    onLocalChange,
     role = 'Role',
     spotlight = 'Spotlight',
     local = 'Local',
-    email = 'E-mail'
+    email = 'E-mail',
+    isCurrent = false
 }) => {
 
     const textColor = '#222222';
@@ -69,9 +82,44 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
         return <FontAwesome5 name="medal" size={highlightIconSizeFA} color={highlightIconColor} />
     }
 
+    const [modalVisible, setModalVisible] = useState(false);
+
     return (
         <ProfileHighlightsContainer>
-            <ProfilePersonalInfoContainer>
+            <ProfilePersonalInfoContainer
+                style={{
+                    backgroundColor: isCurrent ? '#0002' : '#0000',
+                    paddingTop: isCurrent ? 15 : 0
+                }}>
+                <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(false)} >
+                    <ModalContainer
+                        onPress={() => setModalVisible(false)}
+                        activeOpacity={1} />
+                    <ModalContent>
+                        <TextField
+                            placeholder='Cargo'
+                            textValue={role}
+                            onTextChange={(role: string) => { if(onRoleChange) onRoleChange(role); }} />
+                        <TextField
+                            placeholder='Destaque'
+                            textValue={spotlight}
+                            onTextChange={(spotlight: string) => { if(onSpotlightChange) onSpotlightChange(spotlight); }} />
+                        <TextField
+                            placeholder='E-mail Principal'
+                            textValue={email}
+                            keyboard='email-address'
+                            length={50}
+                            onTextChange={(email: string) => { if(onEmailChange) onEmailChange(email); }} />
+                        <TextField
+                            placeholder='Cidade - Estado'
+                            textValue={local}
+                            onTextChange={(local: string) => { if(onLocalChange) onLocalChange(local); }} />
+                    </ModalContent>
+                </Modal>
                 <TextPrependIcon
                     style={{ color: textColor }}
                     icon={roleIcon}
@@ -88,6 +136,18 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                     style={{ color: textColor }}
                     icon={localIcon}
                     text={local} />
+                { isCurrent
+                    ? <EditIcon
+                        size={30}
+                        iconSize={20}
+                        style={{
+                            backgroundColor: '#46266c',
+                            position: 'absolute',
+                            top: -15,
+                            left: '45%'
+                        }}
+                        onPress={() => setModalVisible(true)} />
+                    : <View /> }
             </ProfilePersonalInfoContainer>
             <HighlightItemsContainer>
                 <HighlightItem
