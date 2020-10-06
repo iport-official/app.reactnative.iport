@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ViewProps } from 'react-native';
 import * as _ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { ImageCircle, ImageViewCircle } from './styles';
 
-interface ImagePickerProps {
-    onPick(img: any): void
+interface ImagePickerProps extends ViewProps {
+    size?: number;
+    imageProp?: string;
+    onPick(img: any): void;
 }
 
-const ImagePicker: React.FC<ImagePickerProps> = ({ onPick }) => {
+const ImagePicker: React.FC<ImagePickerProps> = ({
+    size = 150,
+    imageProp = '',
+    onPick,
+    ...rest
+}) => {
 
     const [image, setImage] = useState('');
 
@@ -31,13 +38,19 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onPick }) => {
         }
     }
 
+    useState(() => {
+        if(imageProp) {
+            setImage(imageProp);
+        }
+    });
+
     return (
-        <ImageViewCircle>
+        <ImageViewCircle size={size} { ...rest } >
             {!!image && <ImageCircle source={{ uri: image }} />}
             <MaterialIcons
                 name="edit"
                 size={50}
-                color="white"
+                color="#ddd"
                 style={{ position: 'absolute', opacity: 0.8 }} />
             <TouchableOpacity
                 onPress={() => pickImage()}

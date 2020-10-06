@@ -1,18 +1,16 @@
 import styled from 'styled-components/native';
 
-const size = 150;
-
 export const ImageViewCircle = styled.View`
     position: relative;
     justify-content: center;
     align-items: center;
 
-    height: ${size}px;
-    width: ${size}px;
+    height: ${(props: {size: number}) => props.size}px;
+    width: ${(props: {size: number}) => props.size}px;
     margin-bottom: 20px;
 
     background-color: #612e9680;
-    border-radius: 80px;
+    border-radius: ${(props: {size: number}) => props.size * 2}px;
     overflow: hidden;
 `
 
