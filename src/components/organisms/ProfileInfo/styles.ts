@@ -26,12 +26,22 @@ export const ProfileInfoHeader = styled.View`
     width: 100%;
 `
 
+export const ProfilePhotoContainer = styled.View`
+    position: absolute;
+    top: 60px;
+
+    align-items: center;
+
+    width: 100%;
+`
+
 export const ProfilePhoto = styled.Image`
     height: ${photoSize}px;
     width: ${photoSize}px;
 
-    margin-top: 60px;
-    border-radius: 200px;
+    margin-bottom: 20px;
+
+    border-radius: ${photoSize * 2}px;
 `
 
 export const ProfilePhotoBackground = styled.View`
@@ -39,7 +49,7 @@ export const ProfilePhotoBackground = styled.View`
     height: ${photoSize + 10}px;
     width: ${photoSize + 10}px;
 
-    margin-top: 55px;
+    bottom: 15px;
 
     border-radius: 200px;
     border-width: 10px;
@@ -74,6 +84,28 @@ export const StatusText = styled.Text`
     font-family: Roboto_700Bold;
     font-size: 16px;
     text-align: center;
+`
+
+export const ModalContainer = styled.TouchableOpacity`
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background: #0002;
+`
+
+export const ModalContent = styled.View`
+    top: 50%;
+    left: 10%;
+
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+
+    padding: 10px 15px;
+    border-radius: 20px;
+
+    background: #fff;
 `
 
 export const InfoEndLine = styled.View`
