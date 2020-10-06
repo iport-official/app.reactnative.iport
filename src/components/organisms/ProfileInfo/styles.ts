@@ -42,7 +42,7 @@ export const ProfilePhotoBackground = styled.View`
     margin-top: 55px;
 
     border-radius: 200px;
-    border-width: 5px;
+    border-width: 10px;
     border-color: #fff;
 `
 
