@@ -72,7 +72,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOptions>>
                         }
                         label="Perfil"
                         labelStyle={{ color: "#fff" }}
-                        onPress={() => { navigation.navigate("ProfilePage") }}
+                        onPress={() => { navigation.navigate("ProfileStack") }}
                     />
                     <DrawerItem
                         icon={({ size }) =>
