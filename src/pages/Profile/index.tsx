@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, Text, View } from 'react-native';
-import { DrawerScreenProps } from '@react-navigation/drawer';
+import { StackScreenProps } from '@react-navigation/stack';
+import { StackActions } from '@react-navigation/native';
 import { setStatusBarStyle } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,7 +18,7 @@ import {
     ModalContentItem
 } from './styles';
 
-import { DrawerParamsList } from '../../navigations/MainDrawer';
+import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 import MainHeader from '../../components/molecules/MainHeader';
 import ProfileInfo from '../../components/organisms/ProfileInfo';
 import ProfileHightlights from '../../components/molecules/ProfileHighlights';
@@ -31,12 +32,12 @@ import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../store';
 import { UserProxy } from '../../store/ducks/user/types';
 
-type DefaultMainPageProps = DrawerScreenProps<
-    DrawerParamsList,
-    "ProfilePage"
+type DefaultProfilePageProps = StackScreenProps<
+    ProfileStackParamsList,
+    'ProfilePage'
 >
 
-export default function ProfilePage({ navigation }: DefaultMainPageProps) {
+export default function ProfilePage({ navigation }: DefaultProfilePageProps) {
 
     const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user);
 
@@ -165,7 +166,7 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
         { id: uuid(), email: "michell.algarra@gmail.com"},
         { id: uuid(), email: "nest.js@gmail.com" }];
 
-    const isCurrent = false;
+    const isCurrent = true;
 
     return (
         //#region JSX
@@ -236,7 +237,7 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
                             : <View /> }
                     </ModalContent>
                 </Modal>
-                <MainHeader onPress={() => { navigation.openDrawer() }} />
+                {/* <MainHeader onPress={() => { navigation.openDrawer() }} /> */}
                 <ContentView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -257,7 +258,8 @@ export default function ProfilePage({ navigation }: DefaultMainPageProps) {
                         onRoleChange={(role: string) => {}}
                         onSpotlightChange={(spotlight: string) => {}}
                         onEmailChange={(email: string) => {}}
-                        onLocalChange={(local: string) => {}} />
+                        onLocalChange={(local: string) => {}}
+                        onHighlightPress={(highlight: string) => navigation.navigate('ProfileHighlight', { highlight })} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>
                     <ActionButton

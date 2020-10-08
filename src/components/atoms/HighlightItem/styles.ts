@@ -30,7 +30,7 @@ export const HighlightTitle = styled.Text`
     font-size: 18px;
 `
 
-export const HighlightContentContainer = styled.View`
+export const HighlightContentContainer = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     overflow: hidden;

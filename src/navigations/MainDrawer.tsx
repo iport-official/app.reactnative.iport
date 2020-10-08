@@ -2,17 +2,17 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StackScreenProps } from "@react-navigation/stack";
 
+import { colors } from "../styles";
+
 import { AppStackParamsList } from "./AppStack";
+import ProfileStack from './ProfileStack';
 import MainPage from "../pages/Main";
-import ProfilePage from "../pages/Profile";
 import PostCreationPage from "../pages/PostCreation";
 import DrawerContent from "../components/molecules/DrawerContent";
 
-import { colors } from "../styles";
-
 export type DrawerParamsList = {
     MainPage: undefined;
-    ProfilePage: undefined;
+    ProfileStack: undefined;
     PostCreationPage: undefined;
 };
 
@@ -34,7 +34,7 @@ export default function Drawer({ navigation }: DefaultLoginPageProps) {
         >
             <Screen name="MainPage" component={MainPage} />
             <Screen name="PostCreationPage" component={PostCreationPage} />
-            <Screen name="ProfilePage" component={ProfilePage} />
+            <Screen name="ProfileStack" component={ProfileStack} />
         </Navigator>
 
         //#endregion

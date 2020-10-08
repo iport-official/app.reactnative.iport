@@ -29,19 +29,19 @@ const TextField: React.FC<TextFieldProperties> = ({
     keyboard,
     fieldType,
     fieldWidth = "100%",
-    textValue,
-    clear,
+    textValue = '',
+    clear = false,
     length }) => {
 
-    const [inputText, setInputText] = useState('');
+    const [inputText, setInputText] = useState(textValue);
     const [isPassword, setIsPassword] = useState(fieldType === 'password' ? true : false);
     const [secure, setSecure] = useState(true);
 
     useEffect(() => {
         if (clear) setInputText('');
 
-        if (textValue) {
-            setInputText(textValue);
+        if(textValue) {
+            animateOnFocus();
         }
     }, []);
 
@@ -110,8 +110,8 @@ const TextField: React.FC<TextFieldProperties> = ({
             <TextFieldInputStyle
                 secureTextEntry={isPassword && secure}
                 keyboardType={keyboard}
-                value={inputText}
                 maxLength={length}
+                value={inputText}
                 onChangeText={(text: string) => { setInputText(text); if (onTextChange) onTextChange(text); }}
                 onFocus={() => {
                     if (!inputText) animateOnFocus();

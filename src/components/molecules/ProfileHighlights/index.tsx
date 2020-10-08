@@ -28,6 +28,7 @@ interface ProfileHighlightsProps extends ViewProps {
     onSpotlightChange?(spotlight: string): void;
     onEmailChange?(email: string): void;
     onLocalChange?(local: string): void;
+    onHighlightPress?(highlight: string): void;
 }
 
 const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
@@ -35,6 +36,7 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     onSpotlightChange,
     onEmailChange,
     onLocalChange,
+    onHighlightPress,
     role = 'Role',
     spotlight = 'Spotlight',
     local = 'Local',
@@ -153,19 +155,23 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                 <HighlightItem
                     title='Projetos'
                     titleColor={highlightTitleColor}
-                    icon={projectsIcon} />
+                    icon={projectsIcon}
+                    onPress={() => { if(onHighlightPress) onHighlightPress('projects') }} />
                 <HighlightItem
                     title='Experiências'
                     titleColor={highlightTitleColor}
-                    icon={experiencesIcon} />
+                    icon={experiencesIcon}
+                    onPress={() => { if(onHighlightPress) onHighlightPress('experiences') }} />
                 <HighlightItem
                     title='Competências'
                     titleColor={highlightTitleColor}
-                    icon={skillsIcon} />
+                    icon={skillsIcon}
+                    onPress={() => { if(onHighlightPress) onHighlightPress('skills') }} />
                 <HighlightItem
                     title='Conquistas'
                     titleColor={highlightTitleColor}
-                    icon={achievementsIcon} />
+                    icon={achievementsIcon}
+                    onPress={() => { if(onHighlightPress) onHighlightPress('achievements') }} />
             </HighlightItemsContainer>
         </ProfileHighlightsContainer>
     )
