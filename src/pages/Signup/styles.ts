@@ -12,8 +12,6 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
 export const SignupContainer = styled.ScrollView`
     background: #fff;
     flex: 1;
-    padding-top: 40px;
-    padding-bottom: 40px;
 `
 
 export const SignupChoice = styled.View`

@@ -9,6 +9,7 @@ import { AccountType, UserTypes } from '../../store/ducks/user/types';
 import { RegisterAction } from '../../store/ducks/user/sagas';
 
 import ContactsListProvider, { Contact } from '../../contexts/contactsList';
+import { CompanyContent, PersonalContent } from '../../store/ducks/user/sagas';
 
 import {
     ButtonContainerView,
@@ -28,24 +29,27 @@ import ContactsList from '../../components/organisms/ContactsList';
 import { colors } from '../../styles';
 
 type DefaultSignupPageProps = StackScreenProps<
-    AppStackParamsList,
-    "SignupPage"
+    AppStackParamsList
 >
 
 export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const [profileImage, setProfileImage] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [accountType, setAccountType] = useState(AccountType.PERSONAL)
-    const [username, setUsername] = useState('')
-    const [cep, setCep] = useState('')
-    const [cpf, setCpf] = useState('')
-    const [cnpj, setCnpj] = useState('')
-    const [telephones, setTelephones] = useState<Contact[]>([])
-    const [emails, setEmails] = useState<Contact[]>([])
+    const [profileImage, setProfileImage] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [accountType, setAccountType] = useState(AccountType.PERSONAL);
+    const [username, setUsername] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [street, setStreet] = useState('');
+    const [number, setNumber] = useState(0);
+    const [cep, setCep] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [cnpj, setCnpj] = useState('');
+    const [telephones, setTelephones] = useState<Contact[]>([]);
+    const [emails, setEmails] = useState<Contact[]>([]);
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -64,9 +68,16 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 email,
                 password,
                 accountType,
-                cpf,
-                cnpj,
-                cep,
+                city,
+                state,
+                content: personalCheck ? {
+                    cpf
+                } : {
+                    street,
+                    number,
+                    cep,
+                    cnpj
+                },
                 telephones: telephones.map(telephone => telephone.value),
                 emails: emails.map(email => email.value)
             }
@@ -134,8 +145,14 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 <ImagePicker onPick={setProfileImage} />
                 <TextField
                     clear={clearField}
+                    placeholder='Nome de usuário'
+                    onTextChange={setUsername}
+                />
+                <TextField
+                    clear={clearField}
                     placeholder='E-mail'
                     keyboard='email-address'
+                    length={50}
                     onTextChange={setEmail} />
                 <TextField
                     clear={clearPassword}
@@ -147,7 +164,16 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     placeholder='Confirmar senha'
                     fieldType='password'
                     onTextChange={setConfirmPassword} />
-                <SignupChoice>
+                <TextField
+                    clear={clearField}
+                    placeholder='Cidade'
+                    onTextChange={setCity} />
+                <TextField
+                    clear={clearField}
+                    placeholder='Estado'
+                    onTextChange={setState} />
+                <SignupChoice
+                    style={{ marginBottom: !(personalCheck || companyCheck) ? 190 : 7 }}>
                     <Checkmark
                         checked={personalCheck}
                         onCheck={handleOnPersonalCheck}
@@ -164,23 +190,34 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     ? <ExtraFieldsContainer style={{ opacity: animatedOpacity, top: animatedExtra }}>
                         <TextField
                             clear={clearField}
-                            placeholder='Nome de usuário'
-                            onTextChange={setUsername}
-                        />
-                        <TextField
-                            clear={clearField}
                             placeholder={personalCheck ? 'CPF' : 'CNPJ'}
                             keyboard='number-pad'
                             length={personalCheck ? 11 : 14}
                             onTextChange={personalCheck ? setCpf : setCnpj}
                         />
-                        <TextField
-                            clear={clearField}
-                            placeholder='CEP'
-                            keyboard='number-pad'
-                            length={8}
-                            onTextChange={setCep}
-                        />
+                        { personalCheck
+                            ? <></>
+                            : <>
+                                <TextField
+                                    clear={clearField}
+                                    placeholder='Rua'
+                                    onTextChange={setStreet}
+                                />
+                                <TextField
+                                    clear={clearField}
+                                    placeholder='Número'
+                                    keyboard='number-pad'
+                                    onTextChange={(n: string) => setNumber(parseInt(n))}
+                                />
+                                <TextField
+                                    clear={clearField}
+                                    placeholder='CEP'
+                                    keyboard='number-pad'
+                                    length={8}
+                                    onTextChange={setCep}
+                                />
+                            </>
+                        }
 
                         <ContactsListProvider>
                             <ContactsList
@@ -201,7 +238,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                                     "Pessoal",
                                     "Empresa"
                                 ]}
-                                placeholder="Email"
+                                placeholder="E-mail"
                                 onUpdateContacts={setEmails}
                             />
                         </ContactsListProvider>
@@ -218,7 +255,11 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                             ripple={colors.lightPurple}
                             disable={
                                 !password
-                                || !username}
+                                || !username
+                                || !email
+                                || !city
+                                || !state
+                                || (personalCheck ? !cpf : (!cnpj || !street || !number || !cep)) }
                             onPress={onSignupButtonPress}
                         />
                     </ButtonContainerView>}
