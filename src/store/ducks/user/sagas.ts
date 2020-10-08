@@ -28,12 +28,23 @@ export interface RegisterAction {
         password: string
         accountType: AccountType
         username: string
-        cpf: string
-        cnpj: string
-        cep: string
+        city: string
+        state: string
+        content: PersonalContent | CompanyContent
         telephones: string[]
         emails: string[]
     }
+}
+
+export interface PersonalContent {
+    cpf: string
+}
+
+export interface CompanyContent {
+    street: string
+    number: number
+    cnpj: string
+    cep: string
 }
 
 export interface LoginAction {
