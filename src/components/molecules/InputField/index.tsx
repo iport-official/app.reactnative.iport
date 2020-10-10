@@ -49,6 +49,7 @@ const InputField: React.FC<InputFieldProps> = ({
     information,
     errorMessage,
     style,
+    onChangeText,
     ...rest
 }) => {
     //#region States
@@ -84,6 +85,7 @@ const InputField: React.FC<InputFieldProps> = ({
     }
 
     function handleOnChangeText(value: string) {
+        if (onChangeText) onChangeText(value)
         setHasText(value.length !== 0);
     }
 

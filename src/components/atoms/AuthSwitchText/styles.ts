@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 
-import { Poppins_600SemiBold } from '@expo-google-fonts/poppins';
-
-export const AuthSwitchText = styled.Text`
+export const ContainerText = styled.Text`
     width: 100px;
     text-align: center;
     color: ${(props: {isActive?: boolean}) => props.isActive ? '#fff' : '#fff5'};

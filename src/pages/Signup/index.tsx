@@ -1,57 +1,54 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Animated, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import * as _ImagePicker from 'expo-image-picker';
-import { StackScreenProps } from '@react-navigation/stack';
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Animated, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import * as _ImagePicker from "expo-image-picker";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import { AccountType, UserTypes } from '../../store/ducks/user/types';
-import { RegisterAction } from '../../store/ducks/user/sagas';
+import { AccountType, UserTypes } from "../../store/ducks/user/types";
+import { RegisterAction } from "../../store/ducks/user/sagas";
 
-import ContactsListProvider, { Contact } from '../../contexts/contactsList';
-import { CompanyContent, PersonalContent } from '../../store/ducks/user/sagas';
+import ContactsListProvider, { Contact } from "../../contexts/contactsList";
+import { CompanyContent, PersonalContent } from "../../store/ducks/user/sagas";
 
 import {
     ButtonContainerView,
     ContainerSafeAreaView,
     ExtraFieldsContainer,
     SignupChoice,
-    SignupContainer
-} from './styles';
+    SignupContainer,
+} from "./styles";
 
-import { AppStackParamsList } from '../../navigations/AppStack';
-import FormButton from '../../components/atoms/FormButton';
-import TextField from '../../components/atoms/TextField';
-import ImagePicker from '../../components/atoms/ImagePicker';
-import Checkmark from '../../components/atoms/Checkmark';
-import ContactsList from '../../components/organisms/ContactsList';
+import { AppStackParamsList } from "../../navigations/AppStack";
+import FormButton from "../../components/atoms/FormButton";
+import TextField from "../../components/atoms/TextField";
+import ImagePicker from "../../components/atoms/ImagePicker";
+import Checkmark from "../../components/atoms/Checkmark";
+import ContactsList from "../../components/organisms/ContactsList";
 
-import { colors } from '../../styles';
+import { colors } from "../../styles";
 
-type DefaultSignupPageProps = StackScreenProps<
-    AppStackParamsList
->
+type DefaultSignupPageProps = StackScreenProps<AppStackParamsList>;
 
 export default function SignupPage({ navigation }: DefaultSignupPageProps) {
-
     const dispatch = useDispatch();
 
-    const [profileImage, setProfileImage] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [profileImage, setProfileImage] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [accountType, setAccountType] = useState(AccountType.PERSONAL);
-    const [username, setUsername] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [street, setStreet] = useState('');
+    const [username, setUsername] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [street, setStreet] = useState("");
     const [number, setNumber] = useState(0);
-    const [cep, setCep] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [cnpj, setCnpj] = useState('');
+    const [cep, setCep] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [cnpj, setCnpj] = useState("");
     const [telephones, setTelephones] = useState<Contact[]>([]);
     const [emails, setEmails] = useState<Contact[]>([]);
 
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const [personalCheck, setPersonalCheck] = useState(false);
     const [companyCheck, setCompanyCheck] = useState(false);
@@ -70,27 +67,28 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 accountType,
                 city,
                 state,
-                content: personalCheck ? {
-                    cpf
-                } : {
-                    street,
-                    number,
-                    cep,
-                    cnpj
-                },
-                telephones: telephones.map(telephone => telephone.value),
-                emails: emails.map(email => email.value)
-            }
-        })
+                content: personalCheck
+                    ? {
+                          cpf,
+                      }
+                    : {
+                          street,
+                          number,
+                          cep,
+                          cnpj,
+                      },
+                telephones: telephones.map((telephone) => telephone.value),
+                emails: emails.map((email) => email.value),
+            },
+        });
     }
 
     function handleOnPersonalCheck() {
         setPersonalCheck(true);
         setCompanyCheck(false);
         if (!personalCheck) {
-            setAccountType(AccountType.PERSONAL)
-            if (!personalCheck)
-                animateContainer();
+            setAccountType(AccountType.PERSONAL);
+            if (!personalCheck) animateContainer();
         }
     }
 
@@ -98,9 +96,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         setCompanyCheck(true);
         setPersonalCheck(false);
         if (!companyCheck) {
-            setAccountType(AccountType.COMPANY)
-            if (!personalCheck)
-                animateContainer();
+            setAccountType(AccountType.COMPANY);
+            if (!personalCheck) animateContainer();
         }
     }
 
@@ -115,15 +112,15 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                 toValue: 1,
                 delay: 300,
                 duration: 400,
-                useNativeDriver: false
+                useNativeDriver: false,
             }),
             Animated.timing(animatedExtra, {
                 toValue: 0,
                 duration: 1000,
-                useNativeDriver: false
-            })
+                useNativeDriver: false,
+            }),
         ]).start();
-    }
+    };
 
     //#endregion
 
@@ -131,49 +128,64 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         //#region JSX
 
         <ContainerSafeAreaView>
-            <StatusBar
-                translucent
-                style="light"
-                backgroundColor='#612e96'
-            />
+            <StatusBar translucent style="light" backgroundColor="#612e96" />
             <SignupContainer
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                <ImagePicker onPick={setProfileImage} />
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <ImagePicker
+                    style={{
+                        backgroundColor: "gray",
+                        width: 220,
+                        height: 220,
+                        borderRadius: 110,
+                    }}
+                    onPick={() => {}}
+                />
                 <TextField
                     clear={clearField}
-                    placeholder='Nome de usuário'
+                    placeholder="Nome de usuário"
                     onTextChange={setUsername}
                 />
                 <TextField
                     clear={clearField}
-                    placeholder='E-mail'
-                    keyboard='email-address'
+                    placeholder="E-mail"
+                    keyboard="email-address"
                     length={50}
-                    onTextChange={setEmail} />
+                    onTextChange={setEmail}
+                />
                 <TextField
                     clear={clearPassword}
-                    placeholder='Senha'
-                    fieldType='password'
-                    onTextChange={setPassword} />
+                    placeholder="Senha"
+                    fieldType="password"
+                    onTextChange={setPassword}
+                />
                 <TextField
                     clear={clearPassword}
-                    placeholder='Confirmar senha'
-                    fieldType='password'
-                    onTextChange={setConfirmPassword} />
+                    placeholder="Confirmar senha"
+                    fieldType="password"
+                    onTextChange={setConfirmPassword}
+                />
                 <TextField
                     clear={clearField}
-                    placeholder='Cidade'
-                    onTextChange={setCity} />
+                    placeholder="Cidade"
+                    onTextChange={setCity}
+                />
                 <TextField
                     clear={clearField}
-                    placeholder='Estado'
-                    onTextChange={setState} />
+                    placeholder="Estado"
+                    onTextChange={setState}
+                />
                 <SignupChoice
-                    style={{ marginBottom: !(personalCheck || companyCheck) ? 190 : 7 }}>
+                    style={{
+                        marginBottom: !(personalCheck || companyCheck)
+                            ? 190
+                            : 7,
+                    }}
+                >
                     <Checkmark
                         checked={personalCheck}
                         onCheck={handleOnPersonalCheck}
@@ -186,46 +198,48 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     />
                 </SignupChoice>
 
-                {personalCheck || companyCheck
-                    ? <ExtraFieldsContainer style={{ opacity: animatedOpacity, top: animatedExtra }}>
+                {personalCheck || companyCheck ? (
+                    <ExtraFieldsContainer
+                        style={{ opacity: animatedOpacity, top: animatedExtra }}
+                    >
                         <TextField
                             clear={clearField}
-                            placeholder={personalCheck ? 'CPF' : 'CNPJ'}
-                            keyboard='number-pad'
+                            placeholder={personalCheck ? "CPF" : "CNPJ"}
+                            keyboard="number-pad"
                             length={personalCheck ? 11 : 14}
                             onTextChange={personalCheck ? setCpf : setCnpj}
                         />
-                        { personalCheck
-                            ? <></>
-                            : <>
+                        {personalCheck ? (
+                            <></>
+                        ) : (
+                            <>
                                 <TextField
                                     clear={clearField}
-                                    placeholder='Rua'
+                                    placeholder="Rua"
                                     onTextChange={setStreet}
                                 />
                                 <TextField
                                     clear={clearField}
-                                    placeholder='Número'
-                                    keyboard='number-pad'
-                                    onTextChange={(n: string) => setNumber(parseInt(n))}
+                                    placeholder="Número"
+                                    keyboard="number-pad"
+                                    onTextChange={(n: string) =>
+                                        setNumber(parseInt(n))
+                                    }
                                 />
                                 <TextField
                                     clear={clearField}
-                                    placeholder='CEP'
-                                    keyboard='number-pad'
+                                    placeholder="CEP"
+                                    keyboard="number-pad"
                                     length={8}
                                     onTextChange={setCep}
                                 />
                             </>
-                        }
+                        )}
 
                         <ContactsListProvider>
                             <ContactsList
                                 title="Telefones"
-                                contactTypes={[
-                                    "Pessoal",
-                                    "Empresa"
-                                ]}
+                                contactTypes={["Pessoal", "Empresa"]}
                                 placeholder="Telefone"
                                 onUpdateContacts={setTelephones}
                             />
@@ -234,41 +248,43 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         <ContactsListProvider>
                             <ContactsList
                                 title="E-mails"
-                                contactTypes={[
-                                    "Pessoal",
-                                    "Empresa"
-                                ]}
+                                contactTypes={["Pessoal", "Empresa"]}
                                 placeholder="E-mail"
                                 onUpdateContacts={setEmails}
                             />
                         </ContactsListProvider>
-
                     </ExtraFieldsContainer>
-                    : <View />}
-                {(personalCheck || companyCheck) &&
+                ) : (
+                    <View />
+                )}
+                {(personalCheck || companyCheck) && (
                     <ButtonContainerView
-                        checked={personalCheck || companyCheck}>
+                        checked={personalCheck || companyCheck}
+                    >
                         <FormButton
-                            label='Sign up'
+                            label="Sign up"
                             color={colors.grayPurple}
-                            disableColor={colors.grayPurple + '88'}
+                            disableColor={colors.grayPurple + "88"}
                             ripple={colors.lightPurple}
                             disable={
-                                !password
-                                || !username
-                                || !email
-                                || !city
-                                || !state
-                                || (personalCheck ? !cpf : (!cnpj || !street || !number || !cep)) }
+                                !password ||
+                                !username ||
+                                !email ||
+                                !city ||
+                                !state ||
+                                (personalCheck
+                                    ? !cpf
+                                    : !cnpj || !street || !number || !cep)
+                            }
                             onPress={onSignupButtonPress}
                         />
-                    </ButtonContainerView>}
+                    </ButtonContainerView>
+                )}
             </SignupContainer>
         </ContainerSafeAreaView>
 
         //#endregion
-    )
-
+    );
 }
 
 //#region Old code
@@ -309,7 +325,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
 //     }
 // }
 
-{/* <View style={{
+{
+    /* <View style={{
     flexDirection: 'row',
     alignItems: 'center',
     width: '80%',
@@ -396,6 +413,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
         }
     </View>
 )
-} */}
+} */
+}
 
-    //#endregion
+//#endregion

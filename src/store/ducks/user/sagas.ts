@@ -72,29 +72,12 @@ export function* register({ payload }: RegisterAction) {
     }
 }
 
-export function* login({ payload }: LoginAction) {
-    try {
-        const response: AxiosResponse<LoginProxy> = yield call(
-            api.post,
-            `users/login`,
-            {
-                email: payload.email,
-                password: payload.password
-            }
-        )
-        yield Promise.resolve(setItemAsync('access_token', response.data.access_token))
-        yield put(loginSuccess(response.data))
-    } catch (error) {
-        yield put(loginFailure())
-    }
-}
-
-export function* getProfile() {
+export function* getMe() {
     try {
         const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<UserProxy> = yield call(
             api.get,
-            `users/profile`,
+            `users/me`,
             {
                 headers: {
                     Authorization: 'Bearer ' + token
