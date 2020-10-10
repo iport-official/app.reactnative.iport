@@ -1,17 +1,21 @@
-import { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react';
 
-import { Contact } from '../contexts/contactsList'
+import { Contact } from '../contexts/contactsList';
 
 interface EmailListContextData {
     contacts: Contact[]
     setContacts(contacts: Contact[]): void
 }
 
-const EmailListContext = createContext<EmailListContextData>({} as EmailListContextData)
+interface EmailListProps {
+    children: JSX.Element
+}
 
-export const EmailListProvider: React.FC = ({children}) => {
+const EmailListContext = createContext<EmailListContextData>({} as EmailListContextData);
 
-    const [contacts, setContacts] = useState<Contact[]>([])
+export const EmailListProvider: React.FC<EmailListProps> = ({children}: EmailListProps) => {
+
+    const [contacts, setContacts] = useState<Contact[]>([]);
 
     return (
         //#region JSX
@@ -24,4 +28,4 @@ export const EmailListProvider: React.FC = ({children}) => {
     )
 }
 
-export default EmailListProvider
+export default EmailListProvider;
