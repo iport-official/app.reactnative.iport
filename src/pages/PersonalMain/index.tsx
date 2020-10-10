@@ -23,22 +23,23 @@ import api from '../../services/api';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
-    "MainPage"
->
+    'PersonalMainPage'
+>;
 
 export default function PersonalMainPage({ navigation }: DefaultMainPageProps) {
-
     const [user, setUser] = useState<PostProxy | null>(null);
 
-    useEffect(() => { getMainPost() }, []);
+    useEffect(() => {
+        getMainPost();
+    }, []);
 
     async function getMainPost() {
-        const token = await getItemAsync("access_token");
+        const token = await getItemAsync('access_token');
         const response = await api.get<PostProxy>('posts/main', {
             headers: {
                 Authorization: 'Bearer ' + token
             }
-        })
+        });
         setUser(response.data);
     }
 
@@ -47,25 +48,27 @@ export default function PersonalMainPage({ navigation }: DefaultMainPageProps) {
 
         <ContainerSafeAreaView>
             <ContainerKeyboardAvoidView>
-                <MainHeader onPress={() => { navigation.openDrawer() }} />
+                <MainHeader
+                    onPress={() => {
+                        navigation.openDrawer();
+                    }}
+                />
                 <JobsScrollView>
-                    {user && <PostItem
-                        showDescription
-                        height='300px'
-                        width='94.5%'
-                        {...user}
-                    />}
-                    <HighlightsPostList
-                        title="Mais Votados"
-                    />
-                    <CategoryPostList
-                        title="Por Categoria"
-                    />
+                    {user && (
+                        <PostItem
+                            showDescription
+                            height="300px"
+                            width="94.5%"
+                            {...user}
+                        />
+                    )}
+                    <HighlightsPostList title="Mais Votados" />
+                    <CategoryPostList title="Por Categoria" />
                 </JobsScrollView>
                 <MainFooter />
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
 
         //#endregion
-    )
+    );
 }
