@@ -8,7 +8,8 @@ import ProfileHighlight from '../pages/ProfileHighlight';
 export type ProfileStackParamsList = {
     ProfilePage: undefined;
     ProfileHighlight: {
-        highlight: string
+        highlight: string,
+        isCurrent: boolean
     };
 }
 
