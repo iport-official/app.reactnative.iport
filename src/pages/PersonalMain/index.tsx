@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import { DrawerScreenProps } from '@react-navigation/drawer';
+import React, { useEffect, useState } from 'react';
+
+import { getItemAsync } from 'expo-secure-store';
+
+import { PostProxy } from '../../store/ducks/common/post-proxy';
+
+import { DrawerParamsList } from '../../navigations/MainDrawer';
 
 import {
     ContainerSafeAreaView,
@@ -7,24 +13,20 @@ import {
     JobsScrollView
 } from './styles';
 
-import { DrawerParamsList } from '../../navigations/MainDrawer';
 import MainHeader from '../../components/molecules/MainHeader';
-import MainFooter from '../../components/organisms/MainFooter';
-import HighlightsPostList from '../../components/organisms/HighlightsPostList';
-import CategoryPostList from '../../components/organisms/CategoryPostList';
 import PostItem from '../../components/molecules/PostItem';
-
-import { PostProxy } from '../../store/ducks/common/post-proxy';
+import CategoryPostList from '../../components/organisms/CategoryPostList';
+import HighlightsPostList from '../../components/organisms/HighlightsPostList';
+import MainFooter from '../../components/organisms/MainFooter';
 
 import api from '../../services/api';
-import { getItemAsync } from 'expo-secure-store';
 
 type DefaultMainPageProps = DrawerScreenProps<
     DrawerParamsList,
     "MainPage"
 >
 
-export default function MainPage({ navigation }: DefaultMainPageProps) {
+export default function PersonalMainPage({ navigation }: DefaultMainPageProps) {
 
     const [user, setUser] = useState<PostProxy | null>(null);
 
