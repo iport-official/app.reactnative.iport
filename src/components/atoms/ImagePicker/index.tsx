@@ -45,7 +45,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
     });
 
     return (
-        <ImageViewCircle size={size} { ...rest } >
+        <ImageViewCircle { ...rest } >
             {!!image && <ImageCircle source={{ uri: image }} />}
             <MaterialIcons
                 name="edit"
