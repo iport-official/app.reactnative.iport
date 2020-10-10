@@ -142,6 +142,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         width: 220,
                         height: 220,
                         borderRadius: 110,
+                        marginTop: 30
                     }}
                     onPick={() => {}}
                 />

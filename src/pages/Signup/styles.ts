@@ -4,7 +4,7 @@ import { Animated } from 'react-native';
 
 export const ContainerSafeAreaView = styled(SafeAreaView)`
     background-color: #fff;
-    flex: 1;
+    height: 110%;
     justify-content: center;
     padding: 0 25px;
 `
@@ -12,6 +12,7 @@ export const ContainerSafeAreaView = styled(SafeAreaView)`
 export const SignupContainer = styled.ScrollView`
     background: #fff;
     flex: 1;
+    top: -25px;
 `
 
 export const SignupChoice = styled.View`
