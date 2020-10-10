@@ -24,14 +24,13 @@ const RoundButton: React.FC<RoundButtonProps> = ({
     ...rest
 }) => {
     return (
-        <ContainerView>
+        <ContainerView {...rest} >
             {label && (
                 <LabelView>
                     <LabelText>{label}</LabelText>
                 </LabelView>
             )}
             <ButtonContainer
-                {...rest}
                 style={{
                     backgroundColor: bgColor,
                     transform: [{ translateY: transform, rotate: spin }],
