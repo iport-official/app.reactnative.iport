@@ -66,3 +66,13 @@ export const ContentHorizontalLine = styled.View`
     background-color: #90909088;
     margin: 15px 0;
 `
+
+export const ContentEditContainer = styled.View`
+    position: absolute;
+    width: 104%;
+    top: -2%;
+    left: -2%;
+
+    border-radius: 10px;
+    background-color: #0002;
+`
