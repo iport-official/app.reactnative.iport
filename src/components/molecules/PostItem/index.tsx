@@ -1,7 +1,12 @@
-import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons';
+
+import React, { useEffect } from 'react'
 import Svg, { Ellipse, Circle, Path } from 'react-native-svg';
 
+import { PostProxy } from '../../../store/ducks/common/post-proxy';
+import { UserProxy } from '../../../store/ducks/user/types';
+
+import { colors } from '../../../styles';
 import {
     PostContainerView,
     PostImage,
@@ -20,16 +25,13 @@ import {
     CoinsText
 } from './styles'
 
-import { colors } from '../../../styles';
-
 import HeartIcon from '../../atoms/Heart';
-
-import { PostProxy } from '../../../store/ducks/common/post-proxy';
 
 export interface PostItemProps extends PostProxy {
     width?: string
     height?: string
     showDescription?: boolean
+    user?: UserProxy
 }
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -42,7 +44,11 @@ const PostItem: React.FC<PostItemProps> = ({
     showDescription = false,
     width = '300px',
     height = '210px'
-}) => {
+}: PostItemProps) => {
+
+    useEffect(() => {
+        console.log(user.accountType);
+    }, []);
 
     const timeSince = (time: any) => {
         switch (typeof time) {
@@ -96,6 +102,10 @@ const PostItem: React.FC<PostItemProps> = ({
         }
         return time;
     }
+
+    useEffect(() => {
+        console.log(user);
+    }, []);
 
     return (
         //#region JSX
