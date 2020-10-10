@@ -1,27 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { DrawerScreenProps } from "@react-navigation/drawer";
-
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 
 import {
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
     HeaderView,
     TitleText,
+    ContainerRectButton,
+    ButtonText,
     ContainerScrollView,
-    ImagePickerView,
     InputFieldStyled,
 } from "./styles";
 
 import MainHeader from "../../components/molecules/MainHeader";
 import { DrawerParamsList } from "../../navigations/MainDrawer";
-import ActionButton from "../../components/molecules/ActionButton";
 
 import { colors } from "../../styles";
-import RoundButton from "../../components/atoms/RoundButton";
+import ImagePicker from "../../components/atoms/ImagePicker";
+import {
+    validateSentenceIsEmpty,
+    validateSentenceLength,
+} from "../../utils/rules";
+import { getItemAsync } from "expo-secure-store";
+import api from "../../services/api";
+import { PostProxy } from "../../store/ducks/common/post-proxy";
 
 type DefaultPostCreationPageProps = DrawerScreenProps<
     DrawerParamsList,
@@ -31,23 +34,61 @@ type DefaultPostCreationPageProps = DrawerScreenProps<
 export default function PostCreationPage({
     navigation,
 }: DefaultPostCreationPageProps) {
+    const [image, setImage] = useState("");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
+    const [salary, setSalary] = useState<number | null>(null);
+    const [post, setPost] = useState("");
+    const [local, setLocal] = useState("");
+    const [requirements, setRequirements] = useState("");
+    const [experienceLevel, setEperienceLevel] = useState("");
+    const [vacancyDescription, setVacancyDescription] = useState("");
+
+    async function createPost() {
+        try {
+            const token = await getItemAsync("access_token");
+            await api.post<PostProxy>(
+                "posts",
+                {
+                    image,
+                    title,
+                    description,
+                    category,
+                    salary,
+                    post,
+                    local,
+                    requirements,
+                    experienceLevel,
+                    vacancyDescription,
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    },
+                }
+            );
+            navigation.navigate('MainPage')
+        } catch (error) {
+            alert(error)
+        }
+    }
+
     return (
         //#reigon JSx
 
         <ContainerSafeAreaView>
             <StatusBar style="light" backgroundColor="black" />
-            <MainHeader onPress={() => {}} />
+            <MainHeader
+                onPress={() => {
+                    navigation.openDrawer();
+                }}
+            />
             <HeaderView>
-                <AntDesign
-                    style={{
-                        position: "absolute",
-                        left: 15,
-                    }}
-                    name="arrowleft"
-                    size={24}
-                    color="#303030"
-                />
                 <TitleText>Crie seu Post</TitleText>
+                <ContainerRectButton onPress={createPost}>
+                    <ButtonText>Criar Post</ButtonText>
+                </ContainerRectButton>
             </HeaderView>
             <ContainerKeyboardAvoidView enabled keyboardVerticalOffset={200}>
                 <ContainerScrollView
@@ -56,64 +97,88 @@ export default function PostCreationPage({
                         alignSelf: "center",
                     }}
                 >
-                    <ImagePickerView />
+                    <ImagePicker
+                        style={{
+                            height: 220,
+                            borderRadius: 10,
+                        }}
+                        onPick={setImage}
+                    />
                     <InputFieldStyled
-                        validated
+                        validated={
+                            validateSentenceIsEmpty(title) ||
+                            validateSentenceLength(title, 100)
+                        }
                         multiline
                         color={colors.livePurple}
                         placeholder="Título"
                         information="O título que irá aparecer no seu post"
                         description="O Título não deverá conter mais do que 30 caracteres"
+                        onChangeText={setTitle}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={
+                            validateSentenceIsEmpty(description) ||
+                            validateSentenceLength(description, 500)
+                        }
                         multiline
                         color={colors.livePurple}
                         placeholder="Descrição"
-                        description="A Descrição não deverá conter mais do que 100 caracteres"
+                        description="A Descrição não deverá conter mais do que 500 caracteres"
+                        onChangeText={setDescription}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={validateSentenceLength(category, 30)}
                         color={colors.livePurple}
                         placeholder="Categoria"
+                        onChangeText={setCategory}
                     />
                     <InputFieldStyled
                         validated
                         keyboardType="decimal-pad"
                         color={colors.livePurple}
                         placeholder="Salário"
+                        onChangeText={(text: string) => setSalary(Number(text))}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={validateSentenceLength(post, 30)}
                         color={colors.livePurple}
                         placeholder="Função"
+                        onChangeText={setPost}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={validateSentenceLength(local, 30)}
                         color={colors.livePurple}
                         placeholder="Local"
+                        onChangeText={setLocal}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={validateSentenceLength(requirements, 500)}
                         multiline
                         color={colors.livePurple}
                         placeholder="Requisitos"
-                        description="Os Requisitos não deveram conter mais do que 100 caracteres"
+                        description="Os Requisitos não deveram conter mais do que 500 caracteres"
+                        onChangeText={setRequirements}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={validateSentenceLength(experienceLevel, 30)}
                         color={colors.livePurple}
                         placeholder="Nível de experiência"
+                        onChangeText={setEperienceLevel}
                     />
                     <InputFieldStyled
-                        validated
+                        validated={validateSentenceLength(
+                            vacancyDescription,
+                            500
+                        )}
                         multiline
                         color={colors.livePurple}
                         placeholder="Descrição da vaga"
-                        description="A Descrição da vaga não deverá conter mais do que 100 caracteres"
+                        description="A Descrição da vaga não deverá conter mais do que 500 caracteres"
+                        onChangeText={setVacancyDescription}
                     />
                 </ContainerScrollView>
-                <ActionButton
+                {/* <ActionButton
                     onPress={() => {}}
                     color="#612E96"
                     icon={() => (
@@ -168,7 +233,7 @@ export default function PostCreationPage({
                             onPress={() => {}}
                         />
                     </>
-                </ActionButton>
+                </ActionButton> */}
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
 
