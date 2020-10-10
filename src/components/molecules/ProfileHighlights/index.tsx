@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, View, ViewProps } from 'react-native';
+
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,11 +13,11 @@ import {
     ProfilePersonalInfoContainer
 } from './styles';
 
-import HighlightItem from '../../atoms/HighlightItem';
-import TextPrependIcon from '../../atoms/TextPrependIcon';
 import EditIcon from '../../atoms/EditIcon';
+import HighlightItem from '../../atoms/HighlightItem';
 import TextField from '../../atoms/TextField';
-import InputField from '../../molecules/InputField';
+import TextPrependIcon from '../../atoms/TextPrependIcon';
+// import InputField from '../../molecules/InputField';
 
 interface ProfileHighlightsProps extends ViewProps {
     role?: string;
@@ -42,7 +43,7 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     local = 'Local',
     email = 'E-mail',
     isCurrent = false
-}) => {
+}: ProfileHighlightsProps) => {
 
     const textColor = '#222222';
     const iconColor = textColor + '80';

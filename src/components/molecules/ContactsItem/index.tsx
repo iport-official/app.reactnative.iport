@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
 import { FontAwesome } from '@expo/vector-icons';
 
+import { colors } from '../../../styles'
 import { ContainerView } from './styles'
 
 import TextField from '../../atoms/TextField'
 
-import { colors } from '../../../styles'
-
 interface ContactsItemProps {
-    placeholder: string
-    contactTypes: string[]
-    onPressMinusButton(): void
-    onContactChange(contact: { value: string, contactType: string }): void
+    placeholder: string;
+    contactTypes: string[];
+    onPressMinusButton(): void;
+    onContactChange(contact: { value: string, contactType: string }): void;
 }
 
 const ContactsItem: React.FC<ContactsItemProps> = ({
@@ -20,7 +20,7 @@ const ContactsItem: React.FC<ContactsItemProps> = ({
     contactTypes,
     onPressMinusButton,
     onContactChange,
-}) => {
+}: ContactsItemProps) => {
 
     const [value, setValue] = useState('')
     const [contactType, setContactType] = useState('')

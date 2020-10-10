@@ -8,7 +8,7 @@ import { ImageCircle, ImageViewCircle } from './styles';
 
 interface ImagePickerProps extends ViewProps {
     size?: number;
-    imageProp?: string;
+    imageProp?: string | null;
     onPick(img: string | undefined): void;
 }
 

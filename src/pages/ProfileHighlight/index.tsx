@@ -30,16 +30,16 @@ type DefaultProfileHighlightProps = StackScreenProps<
     'ProfileHighlight'
 >
 
-interface ContentProps {
+export interface ContentProps {
     id: number;
-    image: string;
+    image: string | null | undefined;
     title: string;
     startDate: string;
-    endDate: string;
+    endDate: string | null;
     description: string;
 }
 
-interface SkillProps {
+export interface SkillProps {
     id: number;
     label: string;
     level: number;
@@ -53,16 +53,16 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const initialPageContent = {
+    const initialPageContent: ContentProps = {
         id: 0,
         image: '',
         title: '',
-        start: '',
-        end: '',
+        startDate: '',
+        endDate: '',
         description: ''
     }
 
-    const initialSkillContent = {
+    const initialSkillContent: SkillProps = {
         id: 0,
         label: '',
         level: 0
@@ -108,8 +108,8 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
             id: inContent.id,
             image: inContent.image,
             title: inContent.title,
-            start: inContent.startDate,
-            end: inContent.endDate,
+            startDate: inContent.startDate,
+            endDate: inContent.endDate,
             description: inContent.description
         });
         setModalVisible(true);
@@ -143,8 +143,8 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                 content[i].image = pc.image;
                 content[i].title = pc.title;
                 content[i].description = pc.description;
-                content[i].endDate = pc.end.length > 0 ? pc.end : null;
-                content[i].startDate = highlight !== 'achievements' ? pc.start : '';
+                content[i].endDate = pc.endDate !== null && pc.endDate.length > 0 ? pc.endDate : null;
+                content[i].startDate = highlight !== 'achievements' ? pc.startDate : '';
             }
         }
         setModalVisible(false);
@@ -162,7 +162,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         setModalVisible(false);
     }
 
-    const content = [
+    const content: ContentProps[] = [
         {
             id: 1,
             image: '',
@@ -189,7 +189,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         }
     ]
 
-    const skills = [
+    const skills: SkillProps[] = [
         {
             id: 1,
             label: 'VueJS',
@@ -284,14 +284,14 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                         ? <TextField
                                             fieldWidth='50%'
                                             placeholder='Início'
-                                            textValue={pageContent.start}
-                                            onTextChange={(start: string) => setPageContent({ ...pageContent, start })} />
+                                            textValue={pageContent.startDate}
+                                            onTextChange={(startDate: string) => setPageContent({ ...pageContent, startDate })} />
                                         : <></> }
                                     <TextField
                                         fieldWidth={ highlight === 'achievements' ? '100%' : '50%'}
                                         placeholder='Término'
-                                        textValue={pageContent.end}
-                                        onTextChange={(end: string) => setPageContent({ ...pageContent, end })} />
+                                        textValue={pageContent.endDate}
+                                        onTextChange={(endDate: string) => setPageContent({ ...pageContent, endDate })} />
                                 </View>
                                 <TextField
                                     placeholder='Descrição'
@@ -341,7 +341,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                         style={{ flex: 1, width: '100%' }}>
                         { highlight !== 'skills'
                             ? <ProfileHighlightContent
-                                editPressed={(c) => editPressed(c)}
+                                editPressed={(c: ContentProps) => editPressed(c)}
                                 isCurrent={isCurrent}
                                 content={content.sort((c1, c2) => {
                                     if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
@@ -355,7 +355,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                 })}
                                 contentType={highlight} />
                             : <ProfileSkillsContent
-                                editPressed={(skill) => skillEditPressed(skill)}
+                                editPressed={(skill: SkillProps) => skillEditPressed(skill)}
                                 isCurrent={isCurrent}
                                 content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
                     </View>

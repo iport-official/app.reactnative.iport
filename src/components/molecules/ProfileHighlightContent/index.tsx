@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewProps } from 'react-native';
+import { ViewProps } from 'react-native';
 
 import {
     ContentContainer,
@@ -16,22 +16,23 @@ import {
     HighlightContentContainer
 } from './styles';
 
+import { ContentProps } from '../../../pages/ProfileHighlight';
 import EditIcon from '../../atoms/EditIcon';
 
-interface HighlightContent extends ViewProps {
-    content: any[];
+interface HighlightContentProps extends ViewProps {
+    content: ContentProps[];
     contentType: string;
     isCurrent: boolean;
-    editPressed?(content: any): void;
+    editPressed?(content: ContentProps): void;
 }
 
-const ProfileHighlightContent: React.FC<HighlightContent> = ({
+const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
     editPressed,
     content,
     contentType = '',
     isCurrent = false,
     ...rest
-}) => {
+}: HighlightContentProps) => {
 
     let i = 0;
 

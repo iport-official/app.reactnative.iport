@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { ApplicationState } from '../../../store';
 import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types';
 
-import { ContainerFlatList } from './styles'
+import { ContainerFlatList } from './styles';
 
-import CategoryItem from '../../atoms/CategoryItem'
-import { ApplicationState } from '../../../store';
+import CategoryItem from '../../atoms/CategoryItem';
 
 interface CategoryListProps {
     categories: CategoryProxy[]
 }
 
-const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
+const CategoryList: React.FC<CategoryListProps> = ({ categories }: CategoryListProps) => {
 
     const dispatch = useDispatch()
     const category = useSelector<ApplicationState, string | undefined>(state => state.categories.selectedCategory?.category)
@@ -52,4 +52,4 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
     )
 }
 
-export default CategoryList
+export default CategoryList;

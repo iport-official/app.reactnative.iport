@@ -3,17 +3,15 @@ import { Animated } from 'react-native';
 
 import { ActionButtonContainer } from './styles';
 
-import RoundButton from '../../atoms/RoundButton';
-
 import ActionButtonContext from '../../../contexts/actionButton';
-
+import RoundButton from '../../atoms/RoundButton';
 
 interface ActionButtonProps {
     color?: string;
     activeColor?: string;
-    icon(): any;
-    onPress?(): any;
-    children: any;
+    icon(): JSX.Element;
+    onPress?(): void;
+    children: JSX.Element;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -22,7 +20,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     icon,
     onPress,
     children
-}) => {
+}: ActionButtonProps) => {
 
     const animatedPop = useRef(new Animated.Value(0)).current;
     const { isActive } = useContext(ActionButtonContext);

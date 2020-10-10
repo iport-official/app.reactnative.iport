@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback,
     TextInputProps,
 } from "react-native";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -51,7 +52,7 @@ const InputField: React.FC<InputFieldProps> = ({
     style,
     onChangeText,
     ...rest
-}) => {
+}: InputFieldProps) => {
     //#region States
 
     const input = createRef<TextInput>();

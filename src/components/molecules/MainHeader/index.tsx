@@ -1,19 +1,20 @@
 import React from 'react';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
 
-import ToggleMenuButton from '../../atoms/ToggleMenuButton';
-
 import {
     ContainerHeaderView,
     ContainerPortCoins,
     PortCoinsCounter
 } from './styles';
 
-interface MainHeader {
+import ToggleMenuButton from '../../atoms/ToggleMenuButton';
+
+
+interface MainHeaderProps {
     onPress?(): void
 }
 
-const MainHeader: React.FC<MainHeader> = ({ onPress }) => {
+const MainHeader: React.FC<MainHeaderProps> = ({ onPress }: MainHeaderProps) => {
     return (
         //#region JSX
 

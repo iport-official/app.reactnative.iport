@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ViewProps } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
 
 import {
@@ -13,14 +14,14 @@ import {
 interface ProfileTopBarProps extends ViewProps {
     topBarTitle?: string;
     onArrowPress?(): void;
-    topBarIcon?(): any;
+    topBarIcon?(): JSX.Element;
 }
 
 const ProfileTopBar: React.FC<ProfileTopBarProps> = ({
     onArrowPress,
     topBarIcon,
     topBarTitle = 'Title'
-}) => {
+}: ProfileTopBarProps) => {
     return (
         <ProfileTopBarContainer>
             <ArrowIconContainer

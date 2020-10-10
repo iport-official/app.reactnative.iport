@@ -13,7 +13,7 @@ interface TextFieldProps extends TextInputProps {
     placeholder: string,
     keyboard?: string,
     fieldType?: string,
-    textValue?: string,
+    textValue?: string | null,
     clear?: boolean,
     length?: number,
     fieldWidth?: string,

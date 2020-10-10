@@ -15,12 +15,13 @@ import {
     SkillVerticalLine
 } from './styles';
 
+import { SkillProps } from '../../../pages/ProfileHighlight';
 import EditIcon from '../../atoms/EditIcon';
 
 interface ProfileSkillsProps extends ViewProps {
-    content: any[];
+    content: SkillProps[];
     isCurrent: boolean;
-    editPressed?(skill: any): void;
+    editPressed?(skill: SkillProps): void;
 }
 
 const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
@@ -28,13 +29,13 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
     content,
     isCurrent = false,
     ...rest
-}) => {
+}: ProfileSkillsProps) => {
 
-    let i: number = 0;
-    let levelLabel: string = '';
+    let i = 0;
+    let levelLabel = '';
 
     const getLevelColor = (level: number): string => {
-        let color: string = '';
+        let color = '';
         if(level <= 15) {
             color = '#ff9ec1';
             levelLabel = 'Iniciante';
