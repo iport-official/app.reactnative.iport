@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, ViewProps } from 'react-native';
 
-import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
     HighlightItemsContainer,

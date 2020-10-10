@@ -23,15 +23,13 @@ module.exports = {
             {
                 newlinesBetween: 'always',
                 groups: [
-                    '/^@/',
                     '/react/',
+                    '/^@/',
                     '/(expo)|(modules)/',
                     '/store/',
                     '/navigations/',
                     '/.styles/',
                     '/components/',
-                    '/.controller/',
-                    '/.service/',
                     [('parent', 'sibling', 'index')]
                 ],
                 alphabetize: { order: 'asc', ignoreCase: true }
