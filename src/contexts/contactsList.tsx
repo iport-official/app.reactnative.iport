@@ -11,9 +11,13 @@ interface ContactsListContextData {
     setContacts(contacts: Contact[]): void
 }
 
+interface ContactsListProps {
+    children: JSX.Element
+}
+
 export const ContactsListContext = createContext<ContactsListContextData>({} as ContactsListContextData)
 
-export const ContactsListProvider: React.FC = ({ children }) => {
+export const ContactsListProvider: React.FC<ContactsListProps> = ({ children }: ContactsListProps) => {
 
     const [contacts, setContacts] = useState<Contact[]>([])
 
