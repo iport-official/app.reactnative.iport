@@ -23,7 +23,8 @@ const FormButton: React.FC<ButtonProperties> = ({
     buttonWidth = 220,
     buttonHeight = 50,
     buttonBorderRadius = 8,
-    ...rest }) => {
+    ...rest
+}: ButtonProperties) => {
     return (
         <ButtonStyle
             enabled={!disable}

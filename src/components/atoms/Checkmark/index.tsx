@@ -1,10 +1,11 @@
 import React from 'react'
-import Checkbox from '../Checkbox'
 
 import {
     CheckmarkContainerView,
     CheckmarkTitleText
 } from './styles'
+
+import Checkbox from '../Checkbox'
 
 interface CheckmarkProps {
     title: string
@@ -12,7 +13,7 @@ interface CheckmarkProps {
     onCheck(): void
 }
 
-const Checkmark: React.FC<CheckmarkProps> = ({ title, checked, onCheck }) => {
+const Checkmark: React.FC<CheckmarkProps> = ({ title, checked, onCheck }: CheckmarkProps) => {
     return (
         <CheckmarkContainerView onTouchStart={onCheck}>
             <Checkbox checked={checked} />

@@ -1,16 +1,16 @@
 import React from 'react';
-import { TouchableWithoutFeedbackProps, Text } from 'react-native';
+import { TouchableWithoutFeedbackProps } from 'react-native';
+
 import { Octicons } from '@expo/vector-icons';
 
-import { CheckboxStyle } from './styles';
-
 import { colors } from '../../../styles';
+import { CheckboxStyle } from './styles';
 
 interface CheckboxProperties extends TouchableWithoutFeedbackProps {
     checked: boolean
 }
 
-const Checkbox: React.FC<CheckboxProperties> = ({ checked, ...rest }) => {
+const Checkbox: React.FC<CheckboxProperties> = ({ checked, ...rest }: CheckboxProperties) => {
 
     return (
         <CheckboxStyle {...rest} >

@@ -12,7 +12,7 @@ interface PostListProps extends FlatListProps<CategoryPostProxy> {
     loadingPosts: boolean
 }
 
-const PostList: React.FC<PostListProps> = ({ loadingPosts, ...rest }) => {
+const PostList: React.FC<PostListProps> = ({ loadingPosts, ...rest }: PostListProps) => {
     return (
         <FlatList
             style={{ flexDirection: 'row' }}

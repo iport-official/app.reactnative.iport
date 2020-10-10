@@ -1,5 +1,6 @@
 import React from "react";
 import { ViewProps } from "react-native";
+
 import { Octicons } from '@expo/vector-icons';
 
 import { ContainerView, TextView, ContainerText } from "./styles";
@@ -21,7 +22,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({
     minWidth,
     maxWidth,
     style
-}) => {
+}: InfoBoxProps) => {
     return (
         //#region JSX
 

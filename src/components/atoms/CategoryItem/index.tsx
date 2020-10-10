@@ -1,13 +1,12 @@
 import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 
+import { colors } from '../../../styles';
 import {
     ContainerView,
     CategoryNameText,
     BorderBottomView
 } from './styles';
-
-import { colors } from '../../../styles';
 
 export interface CategoryItemProps {
     name: string
@@ -15,7 +14,7 @@ export interface CategoryItemProps {
     onPress(): void
 }
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ onPress, selected, name }) => {
+const CategoryItem: React.FC<CategoryItemProps> = ({ onPress, selected, name }: CategoryItemProps) => {
 
     return (
         //#region JSX

@@ -1,40 +1,36 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, ViewProps } from 'react-native';
-import * as _ImagePicker from 'expo-image-picker';
+
 import { MaterialIcons } from '@expo/vector-icons';
+import * as _ImagePicker from 'expo-image-picker';
 
 import { ImageCircle, ImageViewCircle } from './styles';
 
 interface ImagePickerProps extends ViewProps {
     size?: number;
     imageProp?: string;
-    onPick(img: any): void;
+    onPick(img: string | undefined): void;
 }
 
 const ImagePicker: React.FC<ImagePickerProps> = ({
-    size = 150,
     imageProp = '',
     onPick,
     ...rest
-}) => {
+}: ImagePickerProps) => {
 
     const [image, setImage] = useState('');
 
     const pickImage = async () => {
-        try {
-            let result = await _ImagePicker.launchImageLibraryAsync({
-                mediaTypes: _ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 1,
-                base64: true
-            });
-            if(!result.cancelled) {
-                setImage(result.uri);
-                onPick(result.base64);
-            }
-        } catch (error) {
-            throw error;
+        const result = await _ImagePicker.launchImageLibraryAsync({
+            mediaTypes: _ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+            base64: true
+        });
+        if(!result.cancelled) {
+            setImage(result.uri);
+            onPick(result.base64);
         }
     }
 

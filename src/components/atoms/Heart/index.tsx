@@ -1,3 +1,4 @@
+import LottieView from 'lottie-react-native';
 import React, { useState, useRef } from 'react'
 import {
     TouchableWithoutFeedback,
@@ -6,7 +7,6 @@ import {
     Easing,
     View
 } from 'react-native';
-import LottieView from 'lottie-react-native';
 
 interface HeartIconsProps extends TouchableWithoutFeedbackProps {
     size: number
@@ -18,11 +18,9 @@ interface HeartIconsProps extends TouchableWithoutFeedbackProps {
 const HeartIcon: React.FC<HeartIconsProps> = ({
     onActive,
     size,
-    color,
     right = 50,
-    onPress,
     ...rest
-}) => {
+}: HeartIconsProps) => {
 
     const [active, setActive] = useState(false);
 

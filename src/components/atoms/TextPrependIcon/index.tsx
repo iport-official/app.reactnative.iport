@@ -8,14 +8,14 @@ import {
 
 interface TextPrependIconProps extends TextProps {
     text: string
-    icon(): any
+    icon(): JSX.Element
 }
 
 const TextPrependIcon: React.FC<TextPrependIconProps> = ({
     icon,
     text,
     ...rest
-}) => {
+}: TextPrependIconProps) => {
     return (
         <TextIconContainer>
             <View style={{ width: 40, alignItems: 'center' }}>{ icon() }</View>

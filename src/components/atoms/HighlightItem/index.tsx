@@ -8,19 +8,19 @@ import {
     HighlightTitleContainer
 } from './styles';
 
-interface HightlightItemProps extends ViewProps {
+interface HighlightItemProps extends ViewProps {
     title?: string;
     titleColor?: string;
-    icon(): any;
+    icon(): JSX.Element;
     onPress?(): void;
 }
 
-const HighlightItem: React.FC<HightlightItemProps> = ({
+const HighlightItem: React.FC<HighlightItemProps> = ({
     icon,
     onPress,
     title = 'Title',
     titleColor = '#46266c'
-}) => {
+}: HighlightItemProps) => {
     return (
         <HighlightItemContainer>
             <HighlightTitleContainer>

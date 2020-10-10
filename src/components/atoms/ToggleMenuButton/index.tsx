@@ -6,7 +6,7 @@ interface ToggleMenuButtonProps {
     onPress?(): void
 }
 
-const ToggleMenuButton: React.FC<ToggleMenuButtonProps> = ({ onPress }) => {
+const ToggleMenuButton: React.FC<ToggleMenuButtonProps> = ({ onPress }: ToggleMenuButtonProps) => {
     return (
         <TouchableWithoutFeedback onPress={onPress} style={{ padding: 15, borderRadius: 50 }}>
             <Svg width="27" height="27" viewBox="0 0 281 197" fill="none">

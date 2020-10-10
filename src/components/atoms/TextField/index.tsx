@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Animated, TextInputProps, Text } from 'react-native';
 
+import { colors } from '../../../styles';
 import {
     PasswordIcon,
     TextFieldInputStyle,
@@ -8,9 +9,7 @@ import {
     TextFieldStyle
 } from './styles';
 
-import { colors } from '../../../styles';
-
-interface TextFieldProperties extends TextInputProps {
+interface TextFieldProps extends TextInputProps {
     placeholder: string,
     keyboard?: string,
     fieldType?: string,
@@ -22,7 +21,7 @@ interface TextFieldProperties extends TextInputProps {
     onFieldBlur?(text: string): void
 }
 
-const TextField: React.FC<TextFieldProperties> = ({
+const TextField: React.FC<TextFieldProps> = ({
     onTextChange,
     onFieldBlur,
     placeholder: label,
@@ -31,10 +30,11 @@ const TextField: React.FC<TextFieldProperties> = ({
     fieldWidth = "100%",
     textValue = '',
     clear = false,
-    length }) => {
+    length
+}: TextFieldProps) => {
 
     const [inputText, setInputText] = useState(textValue);
-    const [isPassword, setIsPassword] = useState(fieldType === 'password' ? true : false);
+    const [isPassword] = useState(fieldType === 'password' ? true : false);
     const [secure, setSecure] = useState(true);
 
     useEffect(() => {

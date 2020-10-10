@@ -14,6 +14,7 @@ interface AuthSwitchProps extends ViewProps {
 
 const Tab = createMaterialTopTabNavigator();
 
+/* eslint-disable react/display-name */
 const AuthSwitch: React.FC<AuthSwitchProps> = ({ isSignup }) => {
     return (
         <Tab.Navigator

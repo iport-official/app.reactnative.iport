@@ -13,7 +13,7 @@ interface MoreButtonProps extends ViewProps {
 const MoreButton: React.FC<MoreButtonProps> = ({
     startColor = '#fff',
     endColor = '#46266c'
-}) => {
+}: MoreButtonProps) => {
 
     const { isActive } = useContext(ActionButtonContext);
 

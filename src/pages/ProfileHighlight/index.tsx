@@ -1,8 +1,11 @@
+import Slider from '@react-native-community/slider';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Modal, View } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import Slider from '@react-native-community/slider';
+
 import { AntDesign, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
 import {
     ContainerKeyboardAvoidView,
@@ -14,21 +17,35 @@ import {
     SkillLevelValue
 } from './styles';
 
-import { ProfileStackParamsList } from '../../navigations/ProfileStack';
-import ProfileTopBar from '../../components/molecules/ProfileTopBar';
+import FormButton from '../../components/atoms/FormButton';
+import ImagePicker from '../../components/atoms/ImagePicker';
+import RoundButton from '../../components/atoms/RoundButton';
+import TextField from '../../components/atoms/TextField';
 import ProfileHighlightContent from '../../components/molecules/ProfileHighlightContent';
 import ProfileSkillsContent from '../../components/molecules/ProfileSkillsContent';
-import RoundButton from '../../components/atoms/RoundButton';
-import ImagePicker from '../../components/atoms/ImagePicker';
-import TextField from '../../components/atoms/TextField';
-import FormButton from '../../components/atoms/FormButton';
+import ProfileTopBar from '../../components/molecules/ProfileTopBar';
 
 type DefaultProfileHighlightProps = StackScreenProps<
     ProfileStackParamsList,
     'ProfileHighlight'
 >
 
-export default function({ navigation, route }: DefaultProfileHighlightProps) {
+interface ContentProps {
+    id: number;
+    image: string;
+    title: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+}
+
+interface SkillProps {
+    id: number;
+    label: string;
+    level: number;
+}
+
+export default function({ navigation, route }: DefaultProfileHighlightProps): JSX.Element {
 
     const [topBarTitle, setTopBarTitle] = useState('');
     const highlight: string = route.params.highlight;
@@ -36,7 +53,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const initialPageContent: any = {
+    const initialPageContent = {
         id: 0,
         image: '',
         title: '',
@@ -45,10 +62,10 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         description: ''
     }
 
-    const initialSkillContent: any = {
+    const initialSkillContent = {
         id: 0,
         label: '',
-        level: ''
+        level: 0
     }
 
     const [pageContent, setPageContent] = useState(initialPageContent);
@@ -86,7 +103,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         return <AntDesign name="plus" size={20} color="white" />
     }
 
-    const editPressed = (inContent: any): void => {
+    const editPressed = (inContent: ContentProps): void => {
         setPageContent({
             id: inContent.id,
             image: inContent.image,
@@ -98,7 +115,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         setModalVisible(true);
     }
 
-    const skillEditPressed = (inSkill: any): void => {
+    const skillEditPressed = (inSkill: SkillProps): void => {
         setSkillContent({
             id: inSkill.id,
             label: inSkill.label,
@@ -108,18 +125,18 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
     }
 
     const disableConfirm = (): boolean => {
-        const pc: any = pageContent;
+        const pc = pageContent;
         return !(pc.title.length > 0
             && pc.description.length > 0);
     }
 
     const disableSkillConfirm = (): boolean => {
-        const sc: any = skillContent;
+        const sc = skillContent;
         return !(sc.label.length > 0 && sc.level <= 100 && sc.level >= 0);
     }
 
     const handleConfirm = (): void => {
-        const pc: any = pageContent;
+        const pc = pageContent;
         alert('yeah');
         for(let i = 0; i < content.length; i++) {
             if(content[i].id === pc.id) {
@@ -133,8 +150,8 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         setModalVisible(false);
     }
 
-    const handleSkillConfirm = (): void => {
-        const sc: any = skillContent;
+    function handleSkillConfirm(): void {
+        const sc = skillContent;
         alert('skill');
         for(let i = 0; i < skills.length; i++) {
             if(skills[i].id === sc.id) {
@@ -145,7 +162,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         setModalVisible(false);
     }
 
-    const content: any[] = [
+    const content = [
         {
             id: 1,
             image: '',
@@ -172,7 +189,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         }
     ]
 
-    const skills: any[] = [
+    const skills = [
         {
             id: 1,
             label: 'VueJS',
@@ -254,7 +271,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
                                 }}>
                                 <ImagePicker
                                     imageProp={pageContent.image}
-                                    onPick={(image: any) => setPageContent({ ...pageContent, image })} />
+                                    onPick={(image: string) => setPageContent({ ...pageContent, image })} />
                                 <TextField
                                     placeholder='Título'
                                     textValue={pageContent.title}
@@ -324,7 +341,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
                         style={{ flex: 1, width: '100%' }}>
                         { highlight !== 'skills'
                             ? <ProfileHighlightContent
-                                editPressed={(c: any) => editPressed(c)}
+                                editPressed={(c) => editPressed(c)}
                                 isCurrent={isCurrent}
                                 content={content.sort((c1, c2) => {
                                     if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
@@ -338,7 +355,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
                                 })}
                                 contentType={highlight} />
                             : <ProfileSkillsContent
-                                editPressed={(skill: any) => skillEditPressed(skill)}
+                                editPressed={(skill) => skillEditPressed(skill)}
                                 isCurrent={isCurrent}
                                 content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
                     </View>

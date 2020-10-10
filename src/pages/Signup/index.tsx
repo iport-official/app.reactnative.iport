@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Animated, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import * as _ImagePicker from "expo-image-picker";
 import { StackScreenProps } from "@react-navigation/stack";
+import React, { useState, useRef } from "react";
+import { Animated, View } from "react-native";
+import { useDispatch } from "react-redux";
 
-import { AccountType, UserTypes } from "../../store/ducks/user/types";
+import { StatusBar } from "expo-status-bar";
+
 import { RegisterAction } from "../../store/ducks/user/sagas";
+import { AccountType, UserTypes } from "../../store/ducks/user/types";
 
-import ContactsListProvider, { Contact } from "../../contexts/contactsList";
-import { CompanyContent, PersonalContent } from "../../store/ducks/user/sagas";
+import { AppStackParamsList } from "../../navigations/AppStack";
 
+import { colors } from "../../styles";
 import {
     ButtonContainerView,
     ContainerSafeAreaView,
@@ -19,18 +19,18 @@ import {
     SignupContainer,
 } from "./styles";
 
-import { AppStackParamsList } from "../../navigations/AppStack";
-import FormButton from "../../components/atoms/FormButton";
-import TextField from "../../components/atoms/TextField";
-import ImagePicker from "../../components/atoms/ImagePicker";
 import Checkmark from "../../components/atoms/Checkmark";
+import FormButton from "../../components/atoms/FormButton";
+import ImagePicker from "../../components/atoms/ImagePicker";
+import TextField from "../../components/atoms/TextField";
 import ContactsList from "../../components/organisms/ContactsList";
 
-import { colors } from "../../styles";
+import ContactsListProvider, { Contact } from "../../contexts/contactsList";
+
 
 type DefaultSignupPageProps = StackScreenProps<AppStackParamsList>;
 
-export default function SignupPage({ navigation }: DefaultSignupPageProps) {
+export default function SignupPage({ navigation }: DefaultSignupPageProps): JSX.Element {
     const dispatch = useDispatch();
 
     const [profileImage, setProfileImage] = useState("");
@@ -57,6 +57,11 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
     const [clearPassword, setClearPassword] = useState(false);
 
     async function onSignupButtonPress() {
+        if(password !== confirmPassword) {
+            alert('As senhas inseridas não são iguais!\nPor favor, insira novamente.');
+            setClearPassword(true);
+        }
+
         dispatch<RegisterAction>({
             type: UserTypes.REGISTER_REQUEST,
             payload: {
@@ -144,7 +149,7 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                         borderRadius: 110,
                         marginTop: 30
                     }}
-                    onPick={() => {}}
+                    onPick={(image: string) => setProfileImage(image)}
                 />
                 <TextField
                     clear={clearField}
@@ -162,12 +167,14 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps) {
                     clear={clearPassword}
                     placeholder="Senha"
                     fieldType="password"
+                    textValue={password}
                     onTextChange={setPassword}
                 />
                 <TextField
                     clear={clearPassword}
                     placeholder="Confirmar senha"
                     fieldType="password"
+                    textValue={confirmPassword}
                     onTextChange={setConfirmPassword}
                 />
                 <TextField

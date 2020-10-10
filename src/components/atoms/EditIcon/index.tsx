@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { EditContainer } from './styles';
@@ -15,7 +16,7 @@ const EditIcon: React.FC<EditIconProps> = ({
     size = 50,
     iconSize = 32,
     ...rest
-}) => {
+}: EditIconProps) => {
     return (
         <EditContainer
             style={{
