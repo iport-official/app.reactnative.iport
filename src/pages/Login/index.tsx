@@ -1,5 +1,4 @@
 import { StackScreenProps } from "@react-navigation/stack";
-
 import React, { useState, useRef, useEffect } from "react";
 import { Keyboard, Animated } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,9 +33,9 @@ import TextField from "../../components/atoms/TextField";
 import api from "../../services/api";
 
 
-type DefaultLoginPageProps = StackScreenProps<AppStackParamsList, "LoginPage">;
+type DefaultLoginPageProps = StackScreenProps<AppStackParamsList>;
 
-export default function LoginPage({ navigation }: DefaultLoginPageProps) {
+export default function LoginPage({ navigation }: DefaultLoginPageProps): JSX.Element {
     const dispatch = useDispatch();
 
     const loading = useSelector<ApplicationState, boolean>(
@@ -110,8 +109,10 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     useEffect(() => {
         if (user !== null)
             navigation.navigate("Drawer", {
-                MainPage: undefined,
-                ProfilePage: undefined,
+                CompanyMainPage: undefined,
+                PersonalMainPage: undefined,
+                ProfileStack: undefined,
+                PostCreationPage: undefined
             });
     }, [user]);
 
