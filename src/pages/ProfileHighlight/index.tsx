@@ -12,6 +12,7 @@ import {
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 import ProfileTopBar from '../../components/molecules/ProfileTopBar';
 import ProfileHighlightContent from '../../components/molecules/ProfileHighlightContent';
+import ProfileSkillsContent from '../../components/molecules/ProfileSkillsContent';
 
 type DefaultProfileHighlightProps = StackScreenProps<
     ProfileStackParamsList,
@@ -78,23 +79,90 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         }
     ]
 
+    const skills = [
+        {
+            id: 1,
+            label: 'VueJS',
+            level: 85
+        },
+        {
+            id: 2,
+            label: 'Java',
+            level: 70
+        },
+        {
+            id: 3,
+            label: 'React Native',
+            level: 70
+        },
+        {
+            id: 4,
+            label: 'C',
+            level: 60
+        },
+        {
+            id: 5,
+            label: 'CSS',
+            level: 60
+        },
+        {
+            id: 6,
+            label: 'HTML',
+            level: 60
+        },
+        {
+            id: 7,
+            label: 'React',
+            level: 55
+        },
+        {
+            id: 8,
+            label: 'Git',
+            level: 45
+        },
+        {
+            id: 9,
+            label: 'Angular',
+            level: 20
+        },
+        {
+            id: 10,
+            label: 'C#',
+            level: 10
+        },
+        {
+            id: 11,
+            label: 'C++',
+            level: 20
+        },
+        {
+            id: 12,
+            label: 'JavaScript',
+            level: 70
+        }
+    ]
+
     return (
         <ContainerSafeAreaView>
             <ContainerKeyboardAvoidView>
                 <ProfileHighlightContainer>
                     <View
                         style={{ flex: 1, width: '100%' }}>
-                        <ProfileHighlightContent
-                            content={content.sort((c1, c2) => {
-                                if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
-                                if(c2.endDate === null) return -1;
-                                if(c1.endDate === null) return -1;
-                                if(c1.endDate !== null && c2.endDate !== null) {
-                                    if(c1.endDate === c2.endDate) return c1.startDate < c2.startDate ? 1 : -1;
+                        { highlight !== 'skills'
+                            ? <ProfileHighlightContent
+                                content={content.sort((c1, c2) => {
+                                    if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
+                                    if(c2.endDate === null) return -1;
+                                    if(c1.endDate === null) return -1;
+                                    if(c1.endDate !== null && c2.endDate !== null) {
+                                        if(c1.endDate === c2.endDate) return c1.startDate < c2.startDate ? 1 : -1;
+                                        return c1.endDate < c2.endDate ? 1 : -1;
+                                    }
                                     return c1.endDate < c2.endDate ? 1 : -1;
-                                }
-                                return c1.endDate < c2.endDate ? 1 : -1;
-                            })} />
+                                })}
+                                contentType={highlight} />
+                            : <ProfileSkillsContent
+                                content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
                     </View>
                     <ProfileTopBar
                         topBarTitle={topBarTitle}
