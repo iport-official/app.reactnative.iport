@@ -60,7 +60,6 @@ export const SkillLevelLabel = styled.Text`
 export const SkillLevelBarContainer = styled.View`
     position: relative;
     height: 12px;
-    width: 100%;
 
     overflow: hidden;
     border-radius: 10px;

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, ViewProps } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { ViewProps } from 'react-native';
 
 import {
     SkillsContent,
@@ -16,12 +15,18 @@ import {
     SkillVerticalLine
 } from './styles';
 
+import EditIcon from '../../atoms/EditIcon';
+
 interface ProfileSkillsProps extends ViewProps {
-    content: any[]
+    content: any[];
+    isCurrent: boolean;
+    editPressed?(skill: any): void;
 }
 
 const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
+    editPressed,
     content,
+    isCurrent = false,
     ...rest
 }) => {
 
@@ -64,7 +69,7 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
                             key={c.id}
                             style={{
                                 marginTop: i === 0 ? 80 : 10,
-                                marginBottom: i++ === content.length - 1 ? 30 : 0
+                                marginBottom: i++ === content.length - 1 ? 70 : 0
                             }} >
                             <SkillContainer>
                                 <SkillTitleContainer>
@@ -73,14 +78,33 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
                                 <SkillVerticalLine />
                                 <SkillLevelContainer>
                                     <SkillLevelLabel
-                                        style={{ color: getLevelColor(c.level) }}>{ levelLabel }</SkillLevelLabel>
-                                    <SkillLevelBarContainer>
+                                        style={{
+                                            color: getLevelColor(c.level),
+                                            transform: [{ translateX: isCurrent ? -15 : 0}]
+                                        }}>{ levelLabel }</SkillLevelLabel>
+                                    <SkillLevelBarContainer
+                                        style={{
+                                            width: isCurrent ? '85%' : '100%',
+                                            transform: [{ translateX: isCurrent ? -15 : 0}]
+                                        }} >
                                         <SkillLevelBar
                                             style={{
                                                 width: c.level + '%',
                                                 backgroundColor: getLevelColor(c.level)
                                             }} />
                                     </SkillLevelBarContainer>
+                                    { isCurrent
+                                        ? <EditIcon
+                                            size={30}
+                                            iconSize={20}
+                                            style={{
+                                                backgroundColor: '#46266c',
+                                                position: 'absolute',
+                                                right: -10,
+                                                top: '12.5%'
+                                            }}
+                                            onPress={() => { if(editPressed) editPressed(c) }} />
+                                        : <></> }
                                 </SkillLevelContainer>
                             </SkillContainer>
                         </ContentContainer>

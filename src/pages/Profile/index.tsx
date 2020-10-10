@@ -259,7 +259,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps) {
                         onSpotlightChange={(spotlight: string) => {}}
                         onEmailChange={(email: string) => {}}
                         onLocalChange={(local: string) => {}}
-                        onHighlightPress={(highlight: string) => navigation.navigate('ProfileHighlight', { highlight })} />
+                        onHighlightPress={(highlight: string) => navigation.navigate('ProfileHighlight', { highlight, isCurrent })} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>
                     <ActionButton

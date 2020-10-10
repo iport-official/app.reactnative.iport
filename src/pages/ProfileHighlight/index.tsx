@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Modal, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import Slider from '@react-native-community/slider';
+import { AntDesign, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
     ContainerKeyboardAvoidView,
     ContainerSafeAreaView,
-    ProfileHighlightContainer
+    ModalContainer,
+    ModalContent,
+    ModalContentItem,
+    ProfileHighlightContainer,
+    SkillLevelValue
 } from './styles';
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 import ProfileTopBar from '../../components/molecules/ProfileTopBar';
 import ProfileHighlightContent from '../../components/molecules/ProfileHighlightContent';
 import ProfileSkillsContent from '../../components/molecules/ProfileSkillsContent';
+import RoundButton from '../../components/atoms/RoundButton';
+import ImagePicker from '../../components/atoms/ImagePicker';
+import TextField from '../../components/atoms/TextField';
+import FormButton from '../../components/atoms/FormButton';
 
 type DefaultProfileHighlightProps = StackScreenProps<
     ProfileStackParamsList,
@@ -22,7 +31,28 @@ type DefaultProfileHighlightProps = StackScreenProps<
 export default function({ navigation, route }: DefaultProfileHighlightProps) {
 
     const [topBarTitle, setTopBarTitle] = useState('');
-    const highlight = route.params.highlight;
+    const highlight: string = route.params.highlight;
+    const isCurrent: boolean = route.params.isCurrent;
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const initialPageContent: any = {
+        id: 0,
+        image: '',
+        title: '',
+        start: '',
+        end: '',
+        description: ''
+    }
+
+    const initialSkillContent: any = {
+        id: 0,
+        label: '',
+        level: ''
+    }
+
+    const [pageContent, setPageContent] = useState(initialPageContent);
+    const [skillContent, setSkillContent] = useState(initialSkillContent);
 
     useEffect(() => {
         if(highlight === 'projects') {
@@ -40,7 +70,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
     const highlightIconSizeMCI = 44;
     const highlightIconSizeFA = 38;
 
-    const topBarIcon = () => {
+    const topBarIcon = (): JSX.Element => {
         if(highlight === 'projects') {
             return <MaterialCommunityIcons name="clipboard-text" size={highlightIconSizeMCI} color={highlightIconColor} />
         } else if(highlight === 'experiences') {
@@ -52,7 +82,70 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         }
     }
 
-    const content = [
+    const plusIcon = (): JSX.Element => {
+        return <AntDesign name="plus" size={20} color="white" />
+    }
+
+    const editPressed = (inContent: any): void => {
+        setPageContent({
+            id: inContent.id,
+            image: inContent.image,
+            title: inContent.title,
+            start: inContent.startDate,
+            end: inContent.endDate,
+            description: inContent.description
+        });
+        setModalVisible(true);
+    }
+
+    const skillEditPressed = (inSkill: any): void => {
+        setSkillContent({
+            id: inSkill.id,
+            label: inSkill.label,
+            level: inSkill.level
+        });
+        setModalVisible(true);
+    }
+
+    const disableConfirm = (): boolean => {
+        const pc: any = pageContent;
+        return !(pc.title.length > 0
+            && pc.description.length > 0);
+    }
+
+    const disableSkillConfirm = (): boolean => {
+        const sc: any = skillContent;
+        return !(sc.label.length > 0 && sc.level <= 100 && sc.level >= 0);
+    }
+
+    const handleConfirm = (): void => {
+        const pc: any = pageContent;
+        alert('yeah');
+        for(let i = 0; i < content.length; i++) {
+            if(content[i].id === pc.id) {
+                content[i].image = pc.image;
+                content[i].title = pc.title;
+                content[i].description = pc.description;
+                content[i].endDate = pc.end.length > 0 ? pc.end : null;
+                content[i].startDate = highlight !== 'achievements' ? pc.start : '';
+            }
+        }
+        setModalVisible(false);
+    }
+
+    const handleSkillConfirm = (): void => {
+        const sc: any = skillContent;
+        alert('skill');
+        for(let i = 0; i < skills.length; i++) {
+            if(skills[i].id === sc.id) {
+                skills[i].label = sc.label;
+                skills[i].level = sc.level;
+            }
+        }
+        setModalVisible(false);
+    }
+
+    const content: any[] = [
         {
             id: 1,
             image: '',
@@ -79,7 +172,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
         }
     ]
 
-    const skills = [
+    const skills: any[] = [
         {
             id: 1,
             label: 'VueJS',
@@ -145,11 +238,94 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
     return (
         <ContainerSafeAreaView>
             <ContainerKeyboardAvoidView>
+                <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(false)} >
+                    <ModalContainer
+                        onPress={() => setModalVisible(false)}
+                        activeOpacity={1} />
+                    { highlight !== 'skills'
+                        ? <ModalContent>
+                            <ModalContentItem
+                                contentContainerStyle={{
+                                    alignItems: 'center'
+                                }}>
+                                <ImagePicker
+                                    imageProp={pageContent.image}
+                                    onPick={(image: any) => setPageContent({ ...pageContent, image })} />
+                                <TextField
+                                    placeholder='Título'
+                                    textValue={pageContent.title}
+                                    onTextChange={(title: string) => setPageContent({ ...pageContent, title })} />
+                                <View
+                                    style={{
+                                        flexDirection: 'row'
+                                    }}>
+                                    { highlight !== 'achievements'
+                                        ? <TextField
+                                            fieldWidth='50%'
+                                            placeholder='Início'
+                                            textValue={pageContent.start}
+                                            onTextChange={(start: string) => setPageContent({ ...pageContent, start })} />
+                                        : <></> }
+                                    <TextField
+                                        fieldWidth={ highlight === 'achievements' ? '100%' : '50%'}
+                                        placeholder='Término'
+                                        textValue={pageContent.end}
+                                        onTextChange={(end: string) => setPageContent({ ...pageContent, end })} />
+                                </View>
+                                <TextField
+                                    placeholder='Descrição'
+                                    textValue={pageContent.description}
+                                    onTextChange={(description: string) => setPageContent({ ...pageContent, description })} />
+                            </ModalContentItem>
+                            <FormButton
+                                label='Confirmar'
+                                color='#46266c'
+                                disableColor='#46266c88'
+                                ripple='#8155E2'
+                                disable={disableConfirm()}
+                                onPress={handleConfirm} />
+                        </ModalContent>
+                        : <ModalContent>
+                            <ModalContentItem
+                                contentContainerStyle={{
+                                    alignItems: 'center'
+                                }}>
+                                <TextField
+                                    placeholder='Competência'
+                                    textValue={skillContent.label}
+                                    onTextChange={(label: string) => setSkillContent({ ...skillContent, label })} />
+                                <Slider
+                                    style={{ width: '90%', height: 40 }}
+                                    minimumValue={0}
+                                    maximumValue={100}
+                                    minimumTrackTintColor='#90909088'
+                                    maximumTrackTintColor='#46266c'
+                                    onValueChange={(level: number) => {
+                                        setSkillContent({ ...skillContent, level: Math.floor(level) });
+                                    }} />
+                                <SkillLevelValue>{ skillContent.level }</SkillLevelValue>
+                            </ModalContentItem>
+                            <FormButton
+                                label='Confirmar'
+                                color='#46266c'
+                                disableColor='#46266c88'
+                                ripple='#8155E2'
+                                disable={disableSkillConfirm()}
+                                onPress={handleSkillConfirm} />
+                        </ModalContent>
+                    }
+                </Modal>
                 <ProfileHighlightContainer>
                     <View
                         style={{ flex: 1, width: '100%' }}>
                         { highlight !== 'skills'
                             ? <ProfileHighlightContent
+                                editPressed={(c: any) => editPressed(c)}
+                                isCurrent={isCurrent}
                                 content={content.sort((c1, c2) => {
                                     if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
                                     if(c2.endDate === null) return -1;
@@ -162,12 +338,28 @@ export default function({ navigation, route }: DefaultProfileHighlightProps) {
                                 })}
                                 contentType={highlight} />
                             : <ProfileSkillsContent
+                                editPressed={(skill: any) => skillEditPressed(skill)}
+                                isCurrent={isCurrent}
                                 content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
                     </View>
                     <ProfileTopBar
                         topBarTitle={topBarTitle}
                         onArrowPress={() => navigation.goBack()}
                         topBarIcon={topBarIcon} />
+                    { isCurrent
+                        ? <RoundButton
+                            icon={plusIcon}
+                            style={{
+                                position: 'absolute',
+                                bottom: 10,
+                                right: 10
+                            }}
+                            onPress={() => {
+                                setPageContent(initialPageContent);
+                                setModalVisible(true);
+                                setSkillContent(initialSkillContent);
+                            }} />
+                        : <></> }
                 </ProfileHighlightContainer>
             </ContainerKeyboardAvoidView>
         </ContainerSafeAreaView>
