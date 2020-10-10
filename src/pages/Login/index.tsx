@@ -101,7 +101,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
     }, [error]);
 
     useEffect(() => {
-        console.log("user " + user);
         if (user !== null)
             navigation.navigate("Drawer", {
                 MainPage: undefined,
@@ -115,7 +114,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             password,
         });
         await setItemAsync("access_token", response.data.access_token);
-        console.log(response.data.access_token);
 
         dispatch<GetProfileAction>({
             type: UserTypes.GET_PROFILE_REQUEST,
