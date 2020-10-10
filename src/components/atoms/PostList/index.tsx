@@ -2,36 +2,35 @@ import React from 'react';
 import { FlatListProps } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { CategoryPostProxy } from '../../../store/ducks/categoriesPosts/types';
+import { PostProxy } from '../../../store/ducks/common/post-proxy';
 
-import {
-    EndFlatListActivityIndicator
-} from './styles'
+import { EndFlatListActivityIndicator } from './styles';
 
-interface PostListProps extends FlatListProps<CategoryPostProxy> {
-    loadingPosts: boolean
+interface PostListProps extends FlatListProps<PostProxy> {
+    loadingPosts: boolean;
 }
 
-const PostList: React.FC<PostListProps> = ({ loadingPosts, ...rest }: PostListProps) => {
+const PostList: React.FC<PostListProps> = ({
+    loadingPosts,
+    ...rest
+}: PostListProps) => {
     return (
         <FlatList
             style={{ flexDirection: 'row' }}
             horizontal
             showsHorizontalScrollIndicator={false}
             onEndReachedThreshold={0.1}
-            ListFooterComponent={(
+            ListFooterComponent={
                 <EndFlatListActivityIndicator
                     style={{
-                        display: loadingPosts
-                            ? 'flex'
-                            : 'none'
+                        display: loadingPosts ? 'flex' : 'none'
                     }}
                 />
-            )}
-            contentContainerStyle={{ alignItems: "center" }}
+            }
+            contentContainerStyle={{ alignItems: 'center' }}
             {...rest}
         />
-    )
-}
+    );
+};
 
 export default PostList;

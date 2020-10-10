@@ -1,21 +1,22 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
     DrawerContentComponentProps,
     DrawerContentOptions,
     DrawerItem,
 } from "@react-navigation/drawer";
 import { StackActions } from "@react-navigation/native";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { ApplicationState } from "../../../store";
+import { GetProfileAction } from "../../../store/ducks/user/sagas";
 import {
     AccountType,
     UserProxy,
     UserTypes,
 } from "../../../store/ducks/user/types";
-import { GetProfileAction } from "../../../store/ducks/user/sagas";
 
 import {
     ContainerView,
@@ -72,7 +73,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<
                         label="Início"
                         labelStyle={{ color: "#fff" }}
                         onPress={() => {
-                            navigation.navigate("MainPage");
+                            navigation.navigate('CompanyMainPage');
                         }}
                     />
                     <DrawerItem

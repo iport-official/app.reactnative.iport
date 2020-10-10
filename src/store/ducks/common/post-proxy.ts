@@ -1,5 +1,3 @@
-import { UserProxy } from "../user/types";
-
 export interface PostProxy {
     id: string
     image: string
@@ -15,5 +13,4 @@ export interface PostProxy {
     experienceLevel: string
     vacancyDescription: string
     createAt: Date
-    user: UserProxy
 }

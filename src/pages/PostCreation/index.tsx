@@ -1,7 +1,15 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 
+import React, { useState } from "react";
+
+import { getItemAsync } from "expo-secure-store";
+import { StatusBar } from "expo-status-bar";
+
+import { PostProxy } from "../../store/ducks/common/post-proxy";
+
+import { DrawerParamsList } from "../../navigations/MainDrawer";
+
+import { colors } from "../../styles";
 import {
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
@@ -13,18 +21,20 @@ import {
     InputFieldStyled,
 } from "./styles";
 
-import MainHeader from "../../components/molecules/MainHeader";
-import { DrawerParamsList } from "../../navigations/MainDrawer";
-
-import { colors } from "../../styles";
 import ImagePicker from "../../components/atoms/ImagePicker";
+import MainHeader from "../../components/molecules/MainHeader";
+
+
+
+import api from "../../services/api";
+
 import {
     validateSentenceIsEmpty,
     validateSentenceLength,
 } from "../../utils/rules";
-import { getItemAsync } from "expo-secure-store";
-import api from "../../services/api";
-import { PostProxy } from "../../store/ducks/common/post-proxy";
+
+
+
 
 type DefaultPostCreationPageProps = DrawerScreenProps<
     DrawerParamsList,
@@ -68,7 +78,7 @@ export default function PostCreationPage({
                     },
                 }
             );
-            navigation.navigate('MainPage')
+            navigation.navigate('CompanyMainPage')
         } catch (error) {
             alert(error)
         }
