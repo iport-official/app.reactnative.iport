@@ -72,7 +72,7 @@ export function* register({ payload }: RegisterAction) {
     }
 }
 
-export function* getProfile() {
+export function* getMe() {
     try {
         const token = yield Promise.resolve(getItemAsync('access_token'))
         const response: AxiosResponse<UserProxy> = yield call(
