@@ -1,14 +1,15 @@
-import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StackScreenProps } from "@react-navigation/stack";
+import React from "react";
 
 import { colors } from "../styles";
 
-import { AppStackParamsList } from "./AppStack";
-import ProfileStack from './ProfileStack';
+import DrawerContent from "../components/molecules/DrawerContent";
+
 import MainPage from "../pages/Main";
 import PostCreationPage from "../pages/PostCreation";
-import DrawerContent from "../components/molecules/DrawerContent";
+import { AppStackParamsList } from "./AppStack";
+import ProfileStack from './ProfileStack';
 
 export type DrawerParamsList = {
     MainPage: undefined;
