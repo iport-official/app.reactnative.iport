@@ -17,10 +17,12 @@ import {
 
 interface HighlightContent extends ViewProps {
     content: any[];
+    contentType: string;
 }
 
 const ProfileHighlightContent: React.FC<HighlightContent> = ({
     content,
+    contentType = '',
     ...rest
 }) => {
 
@@ -34,10 +36,14 @@ const ProfileHighlightContent: React.FC<HighlightContent> = ({
                         <ContentContainer
                             key={c.id}
                             style={{ marginTop: i === 0 ? 80 : 0 }} >
-                            { c.image ? <ContentImage style={{ marginTop: i === 0 ? 0 : 5 }} source={{ uri: `data:image/gif;base64,${c.image}` }} /> : <></> }
+                            { c.image ?
+                                <ContentImage
+                                    style={{ marginTop: i === 0 ? 0 : 5 }}
+                                    source={{ uri: `data:image/gif;base64,${c.image}` }} />
+                                : <></> }
                             <ContentTitleContainer>
                                 <ContentDateContainer>
-                                    <ContentDate>{ c.startDate }</ContentDate>
+                                    { contentType != 'achievements' ? <ContentDate>{ c.startDate }</ContentDate> : <></> }
                                     <ContentDate>{ c.endDate ? c.endDate : 'Em andamento' }</ContentDate>
                                 </ContentDateContainer>
                                 <ContentVerticalLine />

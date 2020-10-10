@@ -45,6 +45,7 @@ export const ContentVerticalLine = styled.View`
 
 export const ContentDateContainer = styled.View`
     align-items: flex-end;
+    justify-content: center;
 `
 
 export const ContentDate = styled.Text`
