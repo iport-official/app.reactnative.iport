@@ -1,12 +1,19 @@
+import { StackScreenProps } from "@react-navigation/stack";
+
 import React, { useState, useRef, useEffect } from "react";
 import { Keyboard, Animated } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+
+import { setItemAsync } from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
-import { StackScreenProps } from "@react-navigation/stack";
 
 import { ApplicationState } from "../../store";
+import { GetProfileAction } from "../../store/ducks/user/sagas";
 import { LoginProxy, UserProxy, UserTypes } from "../../store/ducks/user/types";
 
+import { AppStackParamsList } from "../../navigations/AppStack";
+
+import { colors } from "../../styles";
 import {
     ContainerSafeAreaView,
     LoginContainer,
@@ -17,15 +24,15 @@ import {
     ForgotPassword,
 } from "./styles";
 
-import { AppStackParamsList } from "../../navigations/AppStack";
-import TextField from "../../components/atoms/TextField";
+
 import Checkbox from "../../components/atoms/Checkbox";
 import FormButton from "../../components/atoms/FormButton";
+import TextField from "../../components/atoms/TextField";
 
-import { colors } from "../../styles";
-import { GetProfileAction } from "../../store/ducks/user/sagas";
+
+
 import api from "../../services/api";
-import { setItemAsync } from "expo-secure-store";
+
 
 type DefaultLoginPageProps = StackScreenProps<AppStackParamsList, "LoginPage">;
 
@@ -114,7 +121,6 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps) {
             password,
         });
         await setItemAsync("access_token", response.data.access_token);
-
         dispatch<GetProfileAction>({
             type: UserTypes.GET_PROFILE_REQUEST,
         });

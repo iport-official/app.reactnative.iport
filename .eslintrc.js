@@ -23,6 +23,7 @@ module.exports = {
             {
                 newlinesBetween: 'always',
                 groups: [
+                    '/^@/',
                     '/react/',
                     '/(expo)|(modules)/',
                     '/store/',
