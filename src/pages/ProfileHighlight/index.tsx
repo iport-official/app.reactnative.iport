@@ -3,13 +3,14 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Modal, View } from 'react-native';
 
-import { AntDesign, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Feather, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
 import {
     ContainerKeyboardAvoidView,
     ContainerSafeAreaView,
+    ModalButtonsContainer,
     ModalContainer,
     ModalContent,
     ModalContentItem,
@@ -17,7 +18,6 @@ import {
     SkillLevelValue
 } from './styles';
 
-import FormButton from '../../components/atoms/Buttons/FormButton';
 import RoundButton from '../../components/atoms/Buttons/RoundButton';
 import ImagePicker from '../../components/atoms/Inputs/ImagePicker';
 import TextField from '../../components/atoms/Inputs/TextField';
@@ -49,6 +49,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
 
     const [topBarTitle, setTopBarTitle] = useState('');
     const highlight: string = route.params.highlight;
+    const isEditMode: boolean = route.params.isEditMode;
     const isCurrent: boolean = route.params.isCurrent;
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -100,7 +101,15 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
     }
 
     const plusIcon = (): JSX.Element => {
-        return <AntDesign name="plus" size={20} color="white" />
+        return <AntDesign name="plus" size={30} color="white" />
+    }
+
+    const checkIcon = (): JSX.Element => {
+        return <Feather name="check" size={30} color="white" />
+    }
+
+    const closeIcon = (): JSX.Element => {
+        return <AntDesign name="close" size={30} color="white" />
     }
 
     const editPressed = (inContent: ContentProps): void => {
@@ -124,42 +133,52 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         setModalVisible(true);
     }
 
-    const disableConfirm = (): boolean => {
-        const pc = pageContent;
-        return !(pc.title.length > 0
-            && pc.description.length > 0);
-    }
-
-    const disableSkillConfirm = (): boolean => {
-        const sc = skillContent;
-        return !(sc.label.length > 0 && sc.level <= 100 && sc.level >= 0);
-    }
-
     const handleConfirm = (): void => {
         const pc = pageContent;
-        alert('yeah');
-        for(let i = 0; i < content.length; i++) {
-            if(content[i].id === pc.id) {
-                content[i].image = pc.image;
-                content[i].title = pc.title;
-                content[i].description = pc.description;
-                content[i].endDate = pc.endDate !== null && pc.endDate.length > 0 ? pc.endDate : null;
-                content[i].startDate = highlight !== 'achievements' ? pc.startDate : '';
+        if(!(pc.title.length > 0 && pc.description.length > 0)) {
+            alert('Preencha os campos corretamente!');
+        } else {
+            for(let i = 0; i < content.length; i++) {
+                if(content[i].id === pc.id) {
+                    content[i].image = pc.image;
+                    content[i].title = pc.title;
+                    content[i].description = pc.description;
+                    content[i].endDate = pc.endDate !== null && pc.endDate.length > 0 ? pc.endDate : null;
+                    content[i].startDate = highlight !== 'achievements' ? pc.startDate : '';
+                }
             }
+            setModalVisible(false);
         }
-        setModalVisible(false);
     }
 
-    function handleSkillConfirm(): void {
+    const handleSkillConfirm = (): void => {
         const sc = skillContent;
-        alert('skill');
-        for(let i = 0; i < skills.length; i++) {
-            if(skills[i].id === sc.id) {
-                skills[i].label = sc.label;
-                skills[i].level = sc.level;
+        if(!(sc.label.length > 0 && sc.level <= 100 && sc.level >= 0)) {
+            alert('Insira o nome da competência!');
+        } else {
+            for(let i = 0; i < skills.length; i++) {
+                if(skills[i].id === sc.id) {
+                    skills[i].label = sc.label;
+                    skills[i].level = sc.level;
+                }
             }
+            setModalVisible(false);
         }
-        setModalVisible(false);
+    }
+
+    const levelLabel = (level: number): string => {
+        if(level <= 15) {
+            return 'Iniciante';
+        } else if(level > 15 && level <= 30) {
+            return 'Conhecedor';
+        } else if(level > 30 && level <= 60) {
+            return 'Intermediário';
+        } else if(level > 60 && level <= 80) {
+            return 'Avançado';
+        } else if(level > 80 && level <= 90) {
+            return 'Experiente';
+        }
+        return 'Expert';
     }
 
     const content: ContentProps[] = [
@@ -270,6 +289,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                     alignItems: 'center'
                                 }}>
                                 <ImagePicker
+                                    style={{ height: 120, width: '90%', borderRadius: 10 }}
                                     imageProp={pageContent.image}
                                     onPick={(image: string) => setPageContent({ ...pageContent, image })} />
                                 <TextField
@@ -298,15 +318,17 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                     textValue={pageContent.description}
                                     onTextChange={(description: string) => setPageContent({ ...pageContent, description })} />
                             </ModalContentItem>
-                            <FormButton
-                                label='Confirmar'
-                                color='#46266c'
-                                disableColor='#46266c88'
-                                ripple='#8155E2'
-                                disable={disableConfirm()}
-                                onPress={handleConfirm} />
+                            <ModalButtonsContainer>
+                                <RoundButton
+                                    icon={closeIcon}
+                                    bgColor='#f08'
+                                    onPress={() => setModalVisible(false)} />
+                                <RoundButton
+                                    icon={checkIcon}
+                                    onPress={() => handleConfirm()} />
+                            </ModalButtonsContainer>
                         </ModalContent>
-                        : <ModalContent>
+                        : <ModalContent style={{ top: '27%' }}>
                             <ModalContentItem
                                 contentContainerStyle={{
                                     alignItems: 'center'
@@ -315,24 +337,28 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                     placeholder='Competência'
                                     textValue={skillContent.label}
                                     onTextChange={(label: string) => setSkillContent({ ...skillContent, label })} />
+                                <SkillLevelValue style={{ marginTop: 20 }}>{ skillContent.level }</SkillLevelValue>
+                                <SkillLevelValue>{ levelLabel(skillContent.level) }</SkillLevelValue>
                                 <Slider
                                     style={{ width: '90%', height: 40 }}
                                     minimumValue={0}
                                     maximumValue={100}
-                                    minimumTrackTintColor='#90909088'
-                                    maximumTrackTintColor='#46266c'
+                                    minimumTrackTintColor='#46266c'
+                                    maximumTrackTintColor='#bbb'
+                                    value={skillContent.level}
                                     onValueChange={(level: number) => {
                                         setSkillContent({ ...skillContent, level: Math.floor(level) });
                                     }} />
-                                <SkillLevelValue>{ skillContent.level }</SkillLevelValue>
+                                <ModalButtonsContainer>
+                                    <RoundButton
+                                        icon={closeIcon}
+                                        bgColor='#f08'
+                                        onPress={() => setModalVisible(false)} />
+                                    <RoundButton
+                                        icon={checkIcon}
+                                        onPress={() => handleSkillConfirm()} />
+                                </ModalButtonsContainer>
                             </ModalContentItem>
-                            <FormButton
-                                label='Confirmar'
-                                color='#46266c'
-                                disableColor='#46266c88'
-                                ripple='#8155E2'
-                                disable={disableSkillConfirm()}
-                                onPress={handleSkillConfirm} />
                         </ModalContent>
                     }
                 </Modal>
@@ -342,7 +368,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                         { highlight !== 'skills'
                             ? <ProfileHighlightContent
                                 editPressed={(c: ContentProps) => editPressed(c)}
-                                isCurrent={isCurrent}
+                                isEditMode={isEditMode}
                                 content={content.sort((c1, c2) => {
                                     if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
                                     if(c2.endDate === null) return -1;
@@ -356,7 +382,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                 contentType={highlight} />
                             : <ProfileSkillsContent
                                 editPressed={(skill: SkillProps) => skillEditPressed(skill)}
-                                isCurrent={isCurrent}
+                                isEditMode={isEditMode}
                                 content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
                     </View>
                     <ProfileTopBar

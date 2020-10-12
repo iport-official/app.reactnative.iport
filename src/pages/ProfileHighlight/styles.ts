@@ -1,5 +1,9 @@
-import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Roboto_700Bold } from '@expo-google-fonts/roboto';
+
+import styled from 'styled-components/native';
 
 export const ContainerSafeAreaView = styled(SafeAreaView)`
     flex: 1;
@@ -42,5 +46,13 @@ export const ModalContentItem = styled.ScrollView`
 `
 
 export const SkillLevelValue = styled.Text`
+    color: #46266c;
+    font-family: Roboto_700Bold;
+`
 
+export const ModalButtonsContainer = styled.View`
+    flex-direction: row;
+    margin-top: 20px;
+    width: 90%;
+    justify-content: space-between;
 `
