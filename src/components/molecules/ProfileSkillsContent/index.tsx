@@ -20,14 +20,14 @@ import EditIcon from '../../atoms/Buttons/EditIcon';
 
 interface ProfileSkillsProps extends ViewProps {
     content: SkillProps[];
-    isCurrent: boolean;
+    isEditMode: boolean;
     editPressed?(skill: SkillProps): void;
 }
 
 const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
     editPressed,
     content,
-    isCurrent = false,
+    isEditMode = false,
     ...rest
 }: ProfileSkillsProps): JSX.Element => {
 
@@ -81,12 +81,12 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
                                     <SkillLevelLabel
                                         style={{
                                             color: getLevelColor(c.level),
-                                            transform: [{ translateX: isCurrent ? -15 : 0}]
+                                            transform: [{ translateX: isEditMode ? -15 : 0}]
                                         }}>{ levelLabel }</SkillLevelLabel>
                                     <SkillLevelBarContainer
                                         style={{
-                                            width: isCurrent ? '85%' : '100%',
-                                            transform: [{ translateX: isCurrent ? -15 : 0}]
+                                            width: isEditMode ? '85%' : '100%',
+                                            transform: [{ translateX: isEditMode ? -15 : 0}]
                                         }} >
                                         <SkillLevelBar
                                             style={{
@@ -94,7 +94,7 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
                                                 backgroundColor: getLevelColor(c.level)
                                             }} />
                                     </SkillLevelBarContainer>
-                                    { isCurrent
+                                    { isEditMode
                                         ? <EditIcon
                                             size={30}
                                             iconSize={20}

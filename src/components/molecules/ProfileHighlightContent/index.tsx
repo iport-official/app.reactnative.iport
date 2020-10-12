@@ -22,7 +22,7 @@ import EditIcon from '../../atoms/Buttons/EditIcon';
 interface HighlightContentProps extends ViewProps {
     content: ContentProps[];
     contentType: string;
-    isCurrent: boolean;
+    isEditMode: boolean;
     editPressed?(content: ContentProps): void;
 }
 
@@ -30,7 +30,7 @@ const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
     editPressed,
     content,
     contentType = '',
-    isCurrent = false,
+    isEditMode = false,
     ...rest
 }: HighlightContentProps): JSX.Element => {
 
@@ -62,7 +62,7 @@ const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
                             </ContentTitleContainer>
                             <ContentDescription>{ c.description }</ContentDescription>
                             { i++ !== content.length - 1 ?  <ContentHorizontalLine /> : <></> }
-                            { isCurrent
+                            { isEditMode
                                 ? <ContentEditContainer
                                     style={{ height: i - 1 !== content.length - 1 ? '95%' : '104%' }}>
                                     <EditIcon
