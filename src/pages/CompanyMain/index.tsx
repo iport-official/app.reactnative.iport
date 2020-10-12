@@ -78,7 +78,7 @@ export function CompanyMainPage({
     ////#endregion
 
     return (
-        //#reigon JSX
+        //#reigon JSX test
 
         <ContainerSafeAreaView>
             <MainHeader
