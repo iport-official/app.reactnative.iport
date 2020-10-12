@@ -9,6 +9,7 @@ export type ProfileStackParamsList = {
     ProfilePage: undefined;
     ProfileHighlight: {
         highlight: string,
+        isEditMode: boolean,
         isCurrent: boolean
     };
 }

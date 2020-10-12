@@ -1,6 +1,9 @@
-import { Roboto_700Bold } from '@expo-google-fonts/roboto';
-import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Roboto_700Bold } from '@expo-google-fonts/roboto';
+
+import styled from 'styled-components/native';
 
 export const ContainerSafeAreaView = styled(SafeAreaView)`
     flex: 1;
@@ -44,7 +47,7 @@ export const ModalContentItem = styled.View`
 
     padding: 0 7.5%;
     border-radius: 10px;
-    background-color: ${(props: {isCurrent: boolean}) => props.isCurrent ? '#0002' : '#0000' };
+    background-color: ${(props: {isEditMode: boolean}) => props.isEditMode ? '#0002' : '#0000' };
 `
 
 export const ContactItem = styled.Text`

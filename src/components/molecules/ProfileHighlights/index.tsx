@@ -22,7 +22,7 @@ interface ProfileHighlightsProps extends ViewProps {
     spotlight?: string;
     local?: string;
     email?: string;
-    isCurrent?: boolean;
+    isEditMode?: boolean;
     onRoleChange?(role: string): void;
     onSpotlightChange?(spotlight: string): void;
     onEmailChange?(email: string): void;
@@ -40,7 +40,7 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     spotlight = 'Spotlight',
     local = 'Local',
     email = 'E-mail',
-    isCurrent = false
+    isEditMode = false
 }: ProfileHighlightsProps) => {
 
     const textColor = '#222222';
@@ -89,8 +89,8 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
         <ProfileHighlightsContainer>
             <ProfilePersonalInfoContainer
                 style={{
-                    backgroundColor: isCurrent ? '#0002' : '#0000',
-                    paddingTop: isCurrent ? 15 : 0
+                    backgroundColor: isEditMode ? '#0002' : '#0000',
+                    paddingTop: isEditMode ? 15 : 0
                 }}>
                 <Modal
                     animationType='fade'
@@ -137,7 +137,7 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                     style={{ color: textColor }}
                     icon={localIcon}
                     text={local} />
-                { isCurrent
+                { isEditMode
                     ? <EditIcon
                         size={30}
                         iconSize={20}
