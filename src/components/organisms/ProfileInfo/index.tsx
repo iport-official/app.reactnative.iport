@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, View, ViewProps } from 'react-native';
 
+import { Entypo } from '@expo/vector-icons';
+
 import {
     InfoContainer,
     InfoEndLine,
@@ -12,6 +14,7 @@ import {
     ProfilePhoto,
     ProfilePhotoBackground,
     ProfilePhotoContainer,
+    ProfilePhotoEmpty,
     ProfileStatus,
     StatusText
 } from './styles';
@@ -77,7 +80,13 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
             </ProfileInfoHeader>
             <ProfilePhotoContainer>
                 <ProfilePhotoBackground />
-                { !isEditMode ? <ProfilePhoto source={{ uri: profileImage }} />
+                { !isEditMode
+                    ? ( profileImage && profileImage.length > 0
+                        ? <ProfilePhoto source={{ uri: profileImage }} />
+                        : <ProfilePhotoEmpty>
+                            <Entypo name="user" size={180} color="white" />
+                        </ProfilePhotoEmpty>
+                    )
                     : <ImagePicker
                         imageProp={profileImage}
                         onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
@@ -85,7 +94,8 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
                         /> }
             </ProfilePhotoContainer>
             <InfoContainer>
-                { !isEditMode ? <ProfileName>{ name || 'Name' }</ProfileName>
+                { !isEditMode
+                    ? <ProfileName>{ name || 'Name' }</ProfileName>
                     : <View style={{ flexDirection: 'row' }}>
                         <ProfileName style={{ marginRight: 5 }}>{ name || 'Name' }</ProfileName>
                         <EditIcon

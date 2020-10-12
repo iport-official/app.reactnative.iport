@@ -1,7 +1,9 @@
-import styled from 'styled-components/native';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Roboto_700Bold } from '@expo-google-fonts/roboto';
 
 import { colors } from '../../../styles';
+
+import styled from 'styled-components/native';
 
 const photoSize = 180;
 
@@ -54,6 +56,19 @@ export const ProfilePhotoBackground = styled.View`
     border-radius: 200px;
     border-width: 10px;
     border-color: #fff;
+`
+
+export const ProfilePhotoEmpty = styled.View`
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    top: -20px;
+
+    height: 180px;
+    width: 180px;
+    border-radius: 300px;
+
+    background: #aaa;
 `
 
 export const InfoContainer = styled.View`
