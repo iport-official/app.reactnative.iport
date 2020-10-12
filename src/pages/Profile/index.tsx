@@ -3,8 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { setStatusBarStyle } from 'expo-status-bar';
 
@@ -50,6 +49,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
     const [first, setFirst] = useState(0);
     const [liked, setLiked] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [editMode, setEditMode] = useState(false);
 
     const buttonPosA = 70;
     const buttonPosB = 140;
@@ -80,7 +80,15 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
         return <MaterialCommunityIcons name="phone" size={30} color="white" />
     }
 
-    const toggleActionButton = () => {
+    const editButton = () => {
+        return <MaterialCommunityIcons name="pencil" size={30} color="white" />
+    }
+
+    const confirmButton = (): JSX.Element => {
+        return <Feather name="check" size={30} color="white" />
+    }
+
+    const toggleActionButton = (): void => {
         setIsActive(!isActive);
         setFirst(1);
         if(!isActive) {
@@ -90,18 +98,28 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
         }
     }
 
-    const handleLikePress = () => {
+    const handleLikePress = (): void => {
         setLiked(!liked);
     }
 
-    const handleApplyPress = () => {
+    const handleApplyPress = (): void => {
         toggleActionButton();
         alert('Applied');
     }
 
-    const handleContactsPress = () => {
+    const handleContactsPress = (): void => {
         toggleActionButton();
         setModalVisible(true);
+    }
+
+    const handleEditPress = (): void => {
+        toggleActionButton();
+        setEditMode(true);
+    }
+
+    const handleConfirmPress = (): void => {
+        toggleActionButton();
+        setEditMode(false);
     }
 
     const animatePopIn = () => {
@@ -186,11 +204,11 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         activeOpacity={1} />
                     <ModalContent>
                         <ModalContentItem
-                            isCurrent={isCurrent}
+                            isEditMode={editMode}
                             style={{
                                 paddingTop: isCurrent ? 5 : 0
                             }} >
-                            { isCurrent
+                            { editMode
                                 ? <EditIcon
                                 size={30}
                                 iconSize={20}
@@ -202,7 +220,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { emails.length > 0 || isCurrent
+                            { emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
                             { emails.map(e => {
@@ -210,12 +228,12 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                             }) }
                         </ModalContentItem>
                         <ModalContentItem
-                            isCurrent={isCurrent}
+                            isEditMode={editMode}
                             style={{
-                                marginTop: emails.length !== 0 || isCurrent ? 20 : 0,
-                                paddingTop: isCurrent ? 5 : 0
+                                marginTop: emails.length !== 0 || editMode ? 20 : 0,
+                                paddingTop: editMode ? 5 : 0
                             }} >
-                            { isCurrent
+                            { editMode
                                 ? <EditIcon
                                 size={30}
                                 iconSize={20}
@@ -227,14 +245,14 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { phones.length > 0 || isCurrent
+                            { phones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
                             { phones.map(p => {
                                 return <ContactItem key={p.id}>{ p.phone }</ContactItem>
                             }) }
                         </ModalContentItem>
-                        { emails.length === 0 && phones.length === 0 && !isCurrent
+                        { emails.length === 0 && phones.length === 0 && !editMode
                             ? <ContactTitle style={{ textAlign: 'center', marginTop: 20 }}
                                 >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
@@ -248,7 +266,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         profileImage={`data:image/gif;base64,${user?.profileImage}`}
                         name={user?.username}
                         status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer'
-                        isCurrent={isCurrent}
+                        isEditMode={editMode}
                         // onStatusChange={(status: string) => {}}
                         // onNameChange={(name: string) => {}}
                         // onImageChange={(image: string) => {}}
@@ -258,12 +276,13 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         spotlight='Fluente em Inglês, Espanhol e Francês'
                         email={user?.email}
                         local='Sorocaba - SP'
-                        isCurrent={isCurrent}
+                        isEditMode={editMode}
                         // onRoleChange={(role: string) => {}}
                         // onSpotlightChange={(spotlight: string) => {}}
                         // onEmailChange={(email: string) => {}}
                         // onLocalChange={(local: string) => {}}
-                        onHighlightPress={(highlight: string) => navigation.navigate('ProfileHighlight', { highlight, isCurrent })} />
+                        onHighlightPress={(highlight: string) =>
+                            navigation.navigate('ProfileHighlight', { highlight, isEditMode: editMode, isCurrent })} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>
                     <ActionButton
@@ -292,12 +311,28 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                         icon={contactsButton}
                                         onPress={() => handleContactsPress()} />
                                 </View>
-                                : <RoundButton
-                                    transform={first == 0 ? buttonPosA : animatedPopA}
-                                    spin={first == 0 ? '180deg' : spin}
-                                    bgColor='#850085'
-                                    icon={contactsButton}
-                                    onPress={() => handleContactsPress()} />
+                                : <>
+                                    { !editMode
+                                        ? <RoundButton
+                                            transform={first == 0 ? buttonPosB : animatedPopB}
+                                            spin={first == 0 ? '180deg' : spin}
+                                            bgColor='#fb9218'
+                                            icon={editButton}
+                                            onPress={() => handleEditPress()} />
+                                        : <RoundButton
+                                            transform={first == 0 ? buttonPosB : animatedPopB}
+                                            spin={first == 0 ? '180deg' : spin}
+                                            bgColor='#03ce17'
+                                            icon={confirmButton}
+                                            onPress={() => handleConfirmPress()} />
+                                    }
+                                    <RoundButton
+                                        transform={first == 0 ? buttonPosA : animatedPopA}
+                                        spin={first == 0 ? '180deg' : spin}
+                                        bgColor='#850085'
+                                        icon={contactsButton}
+                                        onPress={() => handleContactsPress()} />
+                                </>
                             )
                         }
                     </ActionButton>
