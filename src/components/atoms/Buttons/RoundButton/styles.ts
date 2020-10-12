@@ -1,7 +1,11 @@
-import styled from 'styled-components/native';
 import { Animated } from 'react-native';
-import { colors } from '../../../styles';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Roboto_400Regular } from '@expo-google-fonts/roboto';
+
+import { colors } from '../../../../styles';
+
+import styled from 'styled-components/native';
 
 const size = 60;
 

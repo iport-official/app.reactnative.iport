@@ -1,7 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Roboto_700Bold, Roboto_400Regular } from '@expo-google-fonts/roboto';
-import styled from 'styled-components/native';
 
 import { colors } from '../../../styles';
+
+import styled from 'styled-components/native';
+
 
 export const HighlightContentContainer = styled.View`
     flex: 1;

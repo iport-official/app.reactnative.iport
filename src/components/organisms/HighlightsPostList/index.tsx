@@ -12,7 +12,7 @@ import {
 
 import { ContainerView, TitleText } from './styles';
 
-import PostList from '../../atoms/PostList';
+import PostList from '../../atoms/Views/PostList';
 import PostItem from '../../molecules/PostItem';
 
 interface HighlightsPostListProps {

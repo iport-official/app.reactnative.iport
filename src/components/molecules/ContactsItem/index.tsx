@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { colors } from '../../../styles'
 import { ContainerView } from './styles'
 
-import TextField from '../../atoms/TextField'
+import TextField from '../../atoms/Inputs/TextField'
 
 interface ContactsItemProps {
     placeholder: string;

@@ -17,10 +17,10 @@ import {
     SkillLevelValue
 } from './styles';
 
-import FormButton from '../../components/atoms/FormButton';
-import ImagePicker from '../../components/atoms/ImagePicker';
-import RoundButton from '../../components/atoms/RoundButton';
-import TextField from '../../components/atoms/TextField';
+import FormButton from '../../components/atoms/Buttons/FormButton';
+import RoundButton from '../../components/atoms/Buttons/RoundButton';
+import ImagePicker from '../../components/atoms/Inputs/ImagePicker';
+import TextField from '../../components/atoms/Inputs/TextField';
 import ProfileHighlightContent from '../../components/molecules/ProfileHighlightContent';
 import ProfileSkillsContent from '../../components/molecules/ProfileSkillsContent';
 import ProfileTopBar from '../../components/molecules/ProfileTopBar';

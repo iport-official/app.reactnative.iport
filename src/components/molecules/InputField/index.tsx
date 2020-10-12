@@ -22,7 +22,7 @@ import {
     DescriptionText,
 } from "./styles";
 
-import InfoBox from "../../atoms/InfoBox";
+import InfoBox from "../../atoms/Views/InfoBox";
 
 interface InputFieldProps extends TextInputProps {
     color: string;

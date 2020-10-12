@@ -22,7 +22,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({
     minWidth,
     maxWidth,
     style
-}: InfoBoxProps) => {
+}: InfoBoxProps): JSX.Element => {
     return (
         //#region JSX
 

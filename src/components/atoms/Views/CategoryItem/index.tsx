@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 
-import { colors } from '../../../styles';
+import { colors } from '../../../../styles';
 import {
     ContainerView,
     CategoryNameText,

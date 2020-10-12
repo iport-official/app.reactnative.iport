@@ -19,10 +19,10 @@ import {
     SignupContainer,
 } from "./styles";
 
-import Checkmark from "../../components/atoms/Checkmark";
-import FormButton from "../../components/atoms/FormButton";
-import ImagePicker from "../../components/atoms/ImagePicker";
-import TextField from "../../components/atoms/TextField";
+import FormButton from "../../components/atoms/Buttons/FormButton";
+import Checkmark from "../../components/atoms/Checkboxes/Checkmark";
+import ImagePicker from "../../components/atoms/Inputs/ImagePicker";
+import TextField from "../../components/atoms/Inputs/TextField";
 import ContactsList from "../../components/organisms/ContactsList";
 
 import ContactsListProvider, { Contact } from "../../contexts/contactsList";

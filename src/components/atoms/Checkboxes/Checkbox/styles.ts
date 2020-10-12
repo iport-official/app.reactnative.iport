@@ -1,5 +1,6 @@
+import { colors } from '../../../../styles';
+
 import styled from 'styled-components/native';
-import { colors } from '../../../styles';
 
 export const CheckboxStyle = styled.View`
     border-width: 1px;

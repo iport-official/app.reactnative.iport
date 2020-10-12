@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatListProps } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { PostProxy } from '../../../store/ducks/common/post-proxy';
+import { PostProxy } from '../../../../store/ducks/common/post-proxy';
 
 import { EndFlatListActivityIndicator } from './styles';
 

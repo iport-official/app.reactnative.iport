@@ -1,4 +1,3 @@
-
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, View } from 'react-native';
@@ -25,12 +24,9 @@ import {
     ModalContentItem
 } from './styles';
 
-
-
-
-import EditIcon from '../../components/atoms/EditIcon';
-import MoreButton from '../../components/atoms/MoreButton';
-import RoundButton from '../../components/atoms/RoundButton';
+import EditIcon from '../../components/atoms/Buttons/EditIcon';
+import MoreButton from '../../components/atoms/Buttons/MoreButton';
+import RoundButton from '../../components/atoms/Buttons/RoundButton';
 import ActionButton from '../../components/molecules/ActionButton';
 // import MainHeader from '../../components/molecules/MainHeader';
 import ProfileHightlights from '../../components/molecules/ProfileHighlights';
@@ -38,8 +34,6 @@ import ProfileInfo from '../../components/organisms/ProfileInfo';
 
 import ActionButtonContext from '../../contexts/actionButton';
 import uuid from 'uuid-random';
-
-
 
 type DefaultProfilePageProps = StackScreenProps<
     ProfileStackParamsList,

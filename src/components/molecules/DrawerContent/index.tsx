@@ -27,11 +27,11 @@ import {
     FooterView,
 } from "./styles";
 
-import ProfilePhoto from "../../atoms/ProfilePhoto";
+import ProfilePhoto from "../../atoms/Views/ProfilePhoto";
 
 const DrawerContent: React.FC<DrawerContentComponentProps<
     DrawerContentOptions
->> = ({ navigation, ...props }) => {
+>> = ({ navigation, ...props }: DrawerContentComponentProps<DrawerContentOptions>): JSX.Element => {
     const dispatch = useDispatch();
 
     const loading = useSelector<ApplicationState, boolean>(
@@ -115,7 +115,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<
                     )}
                     label="Ajuda"
                     labelStyle={{ color: "#fff" }}
-                    onPress={() => {}}
+                    onPress={() => alert('Ajuda')}
                 />
                 <DrawerItem
                     icon={({ size }) => (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Animated, TextInputProps, Text } from 'react-native';
 
-import { colors } from '../../../styles';
+import { colors } from '../../../../styles';
 import {
     PasswordIcon,
     TextFieldInputStyle,
@@ -10,15 +10,15 @@ import {
 } from './styles';
 
 interface TextFieldProps extends TextInputProps {
-    placeholder: string,
-    keyboard?: string,
-    fieldType?: string,
-    textValue?: string | null,
-    clear?: boolean,
-    length?: number,
-    fieldWidth?: string,
-    onTextChange?(text: string): void,
-    onFieldBlur?(text: string): void
+    placeholder: string;
+    keyboard?: string;
+    fieldType?: string;
+    textValue?: string | null;
+    clear?: boolean;
+    length?: number;
+    fieldWidth?: string;
+    onTextChange?(text: string): void;
+    onFieldBlur?(text: string | null): void;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
@@ -111,7 +111,7 @@ const TextField: React.FC<TextFieldProps> = ({
                 secureTextEntry={isPassword && secure}
                 keyboardType={keyboard}
                 maxLength={length}
-                value={inputText}
+                value={inputText || ''}
                 onChangeText={(text: string) => { setInputText(text); if (onTextChange) onTextChange(text); }}
                 onFocus={() => {
                     if (!inputText) animateOnFocus();

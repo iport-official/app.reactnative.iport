@@ -17,7 +17,7 @@ import {
 } from './styles';
 
 import { ContentProps } from '../../../pages/ProfileHighlight';
-import EditIcon from '../../atoms/EditIcon';
+import EditIcon from '../../atoms/Buttons/EditIcon';
 
 interface HighlightContentProps extends ViewProps {
     content: ContentProps[];
@@ -32,7 +32,7 @@ const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
     contentType = '',
     isCurrent = false,
     ...rest
-}: HighlightContentProps) => {
+}: HighlightContentProps): JSX.Element => {
 
     let i = 0;
 

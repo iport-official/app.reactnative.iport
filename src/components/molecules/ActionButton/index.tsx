@@ -4,7 +4,7 @@ import { Animated } from 'react-native';
 import { ActionButtonContainer } from './styles';
 
 import ActionButtonContext from '../../../contexts/actionButton';
-import RoundButton from '../../atoms/RoundButton';
+import RoundButton from '../../atoms/Buttons/RoundButton';
 
 interface ActionButtonProps {
     color?: string;

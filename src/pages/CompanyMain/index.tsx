@@ -22,7 +22,7 @@ import {
     WarningText
 } from './styles';
 
-import PostList from '../../components/atoms/PostList';
+import PostList from '../../components/atoms/Views/PostList';
 import MainHeader from '../../components/molecules/MainHeader';
 import PostItem from '../../components/molecules/PostItem';
 

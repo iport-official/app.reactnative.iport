@@ -16,7 +16,7 @@ import {
 } from './styles';
 
 import { SkillProps } from '../../../pages/ProfileHighlight';
-import EditIcon from '../../atoms/EditIcon';
+import EditIcon from '../../atoms/Buttons/EditIcon';
 
 interface ProfileSkillsProps extends ViewProps {
     content: SkillProps[];
@@ -29,7 +29,7 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
     content,
     isCurrent = false,
     ...rest
-}: ProfileSkillsProps) => {
+}: ProfileSkillsProps): JSX.Element => {
 
     let i = 0;
     let levelLabel = '';

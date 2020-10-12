@@ -7,8 +7,7 @@ import {
     PortCoinsCounter
 } from './styles';
 
-import ToggleMenuButton from '../../atoms/ToggleMenuButton';
-
+import ToggleMenuButton from '../../atoms/Buttons/ToggleMenuButton';
 
 interface MainHeaderProps {
     onPress?(): void

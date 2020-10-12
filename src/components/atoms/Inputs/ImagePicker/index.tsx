@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, ViewProps } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
+
 import * as _ImagePicker from 'expo-image-picker';
 
 import { ImageCircle, ImageViewCircle } from './styles';

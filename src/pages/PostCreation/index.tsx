@@ -20,7 +20,7 @@ import {
     InputFieldStyled,
 } from "./styles";
 
-import ImagePicker from "../../components/atoms/ImagePicker";
+import ImagePicker from "../../components/atoms/Inputs/ImagePicker";
 import MainHeader from "../../components/molecules/MainHeader";
 
 

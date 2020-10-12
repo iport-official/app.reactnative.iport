@@ -3,7 +3,7 @@ import { Animated, View, ViewProps } from 'react-native';
 
 import { Rectangle } from './styles';
 
-import ActionButtonContext from '../../../contexts/actionButton';
+import ActionButtonContext from '../../../../contexts/actionButton';
 
 interface MoreButtonProps extends ViewProps {
     startColor?: string;

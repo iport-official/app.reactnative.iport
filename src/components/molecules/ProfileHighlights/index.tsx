@@ -11,10 +11,10 @@ import {
     ProfilePersonalInfoContainer
 } from './styles';
 
-import EditIcon from '../../atoms/EditIcon';
-import HighlightItem from '../../atoms/HighlightItem';
-import TextField from '../../atoms/TextField';
-import TextPrependIcon from '../../atoms/TextPrependIcon';
+import EditIcon from '../../atoms/Buttons/EditIcon';
+import TextField from '../../atoms/Inputs/TextField';
+import TextPrependIcon from '../../atoms/Texts/TextPrependIcon';
+import HighlightItem from '../../atoms/Views/HighlightItem';
 // import InputField from '../../molecules/InputField';
 
 interface ProfileHighlightsProps extends ViewProps {

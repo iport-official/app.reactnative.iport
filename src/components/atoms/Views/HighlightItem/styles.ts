@@ -1,7 +1,7 @@
-import styled from 'styled-components/native';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Roboto_700Bold } from '@expo-google-fonts/roboto';
 
-import { colors } from '../../../styles';
+import styled from 'styled-components/native';
 
 const size = 140;
 

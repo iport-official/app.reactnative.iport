@@ -16,9 +16,9 @@ import {
     StatusText
 } from './styles';
 
-import ImagePicker from '../../atoms/ImagePicker';
-import EditIcon from '../../atoms/EditIcon';
-import TextField from '../../atoms/TextField';
+import EditIcon from '../../atoms/Buttons/EditIcon';
+import ImagePicker from '../../atoms/Inputs/ImagePicker';
+import TextField from '../../atoms/Inputs/TextField';
 
 interface ProfileInfoProps extends ViewProps {
     profileImage?: string | any;
@@ -38,7 +38,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
     name,
     status,
     isCurrent = false
-}) => {
+}: ProfileInfoProps): JSX.Element => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [modalType, setModalType] = useState('');

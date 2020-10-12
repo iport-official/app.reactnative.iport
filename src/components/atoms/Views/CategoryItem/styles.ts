@@ -1,6 +1,6 @@
-import styled from 'styled-components/native'
+import { colors } from '../../../../styles'
 
-import { colors } from '../../../styles'
+import styled from 'styled-components/native'
 
 export const ContainerView = styled.View`
     margin: 0 5px;

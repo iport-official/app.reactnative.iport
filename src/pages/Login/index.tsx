@@ -24,9 +24,9 @@ import {
 } from "./styles";
 
 
-import Checkbox from "../../components/atoms/Checkbox";
-import FormButton from "../../components/atoms/FormButton";
-import TextField from "../../components/atoms/TextField";
+import FormButton from "../../components/atoms/Buttons/FormButton";
+import Checkbox from "../../components/atoms/Checkboxes/Checkbox";
+import TextField from "../../components/atoms/Inputs/TextField";
 
 
 

@@ -1,7 +1,8 @@
-import { FontAwesome5 } from '@expo/vector-icons';
 
 import React, { useEffect } from 'react'
 import Svg, { Ellipse, Circle, Path } from 'react-native-svg';
+
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import { PostProxy } from '../../../store/ducks/common/post-proxy';
 import { UserProxy } from '../../../store/ducks/user/types';
@@ -25,7 +26,7 @@ import {
     CoinsText
 } from './styles'
 
-import HeartIcon from '../../atoms/Heart';
+import HeartIcon from '../../atoms/Buttons/Heart';
 
 export interface PostItemProps extends PostProxy {
     width?: string
@@ -47,7 +48,7 @@ const PostItem: React.FC<PostItemProps> = ({
 }: PostItemProps) => {
 
     useEffect(() => {
-        console.log(user.accountType);
+        console.log(user ? user.accountType : '');
     }, []);
 
     const timeSince = (time: any) => {
@@ -92,7 +93,7 @@ const PostItem: React.FC<PostItemProps> = ({
         }
         let i = 0,
             format;
-        while (format = time_formats[i++]) {
+        while (format == time_formats[i++]) {
             if (seconds < format[0]) {
                 if (typeof format[2] == 'string')
                     return format[list_choice];
@@ -129,10 +130,10 @@ const PostItem: React.FC<PostItemProps> = ({
             <PostContentView>
                 <ProfileView>
                     <ProfileImage
-                        source={{ uri: `data:image/gif;base64,${user.profileImage}` }}
+                        source={{ uri: `data:image/gif;base64,${user ? user.profileImage : ''}` }}
                     />
                     <ProfileSimpleView>
-                        <NameText>{user.username}</NameText>
+                        <NameText>{user ? user.username : ''}</NameText>
                         <PublishingDateText>{timeSince(createAt)}</PublishingDateText>
                     </ProfileSimpleView>
                 </ProfileView>

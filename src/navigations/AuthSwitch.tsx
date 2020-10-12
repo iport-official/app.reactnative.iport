@@ -5,7 +5,7 @@ import { ViewProps } from 'react-native';
 
 import { colors } from '../styles';
 
-import AuthSwitchText from '../components/atoms/AuthSwitchText';
+import AuthSwitchText from '../components/atoms/Texts/AuthSwitchText';
 
 import LoginPage from '../pages/Login';
 import SignupPage from '../pages/Signup';

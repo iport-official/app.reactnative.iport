@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy';
 import { ApplicationState } from '../../../store';
-import { CategoriesPostsTypes, CategoryPostProxy } from '../../../store/ducks/categoriesPosts/types';
-import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types';
 import { LoadCategoriesRequestAction } from '../../../store/ducks/categories/sagas';
+import { CategoryProxy, CategoriesTypes } from '../../../store/ducks/categories/types';
 import { LoadPostsByCategoryAction } from '../../../store/ducks/categoriesPosts/sagas';
+import { CategoriesPostsTypes, CategoryPostProxy } from '../../../store/ducks/categoriesPosts/types';
+import { BaseArrayProxy } from '../../../store/ducks/common/base-array-proxy';
 
 import {
     ContainerView,
     TitleText
 } from './styles';
 
+import PostList from '../../atoms/Views/PostList';
 import CategoryList from '../../molecules/CategoryList';
 import PostItem from '../../molecules/PostItem';
-import PostList from '../../atoms/PostList';
 
 interface CategoryPostListProps {
     title: string
 }
 
-const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
+const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }: CategoryPostListProps) => {
 
     const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
     useEffect(() => { loadCategoryList(true, 0) }, []);
     useEffect(() => { loadPostsByCategory(true, 0) }, [selectedCategory]);
 
-    function loadCategoryList(shouldStart: boolean = false, pageNumber: number = categoryListPage) {
+    function loadCategoryList(shouldStart = false, pageNumber: number = categoryListPage) {
         dispatch<LoadCategoriesRequestAction>({
             type: CategoriesTypes.LOAD_REQUEST,
             payload: {
@@ -50,7 +50,7 @@ const CategoryPostList: React.FC<CategoryPostListProps> = ({ title }) => {
     }
 
     function loadPostsByCategory(
-        shouldStart: boolean = false,
+        shouldStart = false,
         pageNumber: number = categoryPostListPage
     ) {
         if (selectedCategory === null)

@@ -1,5 +1,7 @@
-import styled from 'styled-components/native';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Roboto_400Regular } from '@expo-google-fonts/roboto';
+
+import styled from 'styled-components/native';
 
 export const TextIconContainer = styled.View`
     flex-direction: row;

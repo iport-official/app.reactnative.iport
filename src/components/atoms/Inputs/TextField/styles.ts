@@ -1,9 +1,13 @@
-import { Feather } from '@expo/vector-icons';
 import { Animated } from 'react-native';
+
+import { Feather } from '@expo/vector-icons';
+
+import { colors } from '../../../../styles';
+
 import styled from 'styled-components/native';
 
-import { colors } from '../../../styles';
-import AnimatedTextInput from '../../animated/AnimatedTextInput';
+
+import AnimatedTextInput from '../../../animated/AnimatedTextInput';
 
 export const TextFieldStyle = styled.View`
     background-color: ${colors.transparent};
