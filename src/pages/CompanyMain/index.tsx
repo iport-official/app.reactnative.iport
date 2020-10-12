@@ -1,4 +1,3 @@
-
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import React, { useEffect, useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
@@ -34,20 +33,17 @@ type DefaultCompanyMainPageProps = DrawerScreenProps<
     'PersonalMainPage'
 >;
 
-interface GetPostsByUserProxy {
-    user: UserProxy;
-    posts: BaseArrayProxy<PostProxy>;
-}
-
-export function CompanyMainPage({ navigation }: DefaultCompanyMainPageProps): JSX.Element {
+export function CompanyMainPage({
+    navigation
+}: DefaultCompanyMainPageProps): JSX.Element {
     const id = useSelector<ApplicationState, string | undefined>(
         (state) => state.user.user?.id
     );
 
     const [loading, setLoading] = useState(false);
-    const [userPosts, setUserPosts] = useState<GetPostsByUserProxy | null>(
-        null
-    );
+    const [userPosts, setUserPosts] = useState<BaseArrayProxy<
+        PostProxy
+    > | null>(null);
 
     useEffect(() => {
         getMyPosts();
@@ -61,7 +57,7 @@ export function CompanyMainPage({ navigation }: DefaultCompanyMainPageProps): JS
             const token = await getItemAsync('access_token');
             const response = await api.get<
                 unknown,
-                AxiosResponse<GetPostsByUserProxy>
+                AxiosResponse<BaseArrayProxy<PostProxy>>
             >(`users/${id}/posts`, {
                 headers: {
                     Authorization: 'Bearer ' + token
@@ -76,7 +72,7 @@ export function CompanyMainPage({ navigation }: DefaultCompanyMainPageProps): JS
     }
 
     function validatePostsArray(): boolean {
-        return userPosts !== null && userPosts.posts.length !== 0;
+        return userPosts !== null && userPosts.length !== 0;
     }
 
     ////#endregion
@@ -98,18 +94,11 @@ export function CompanyMainPage({ navigation }: DefaultCompanyMainPageProps): JS
                 {validatePostsArray() ? (
                     <PostList
                         loadingPosts={loading}
-                        data={userPosts?.posts.array}
+                        data={userPosts?.array}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => {
                             const { id, ...rest } = item;
-                            return (
-                                <PostItem
-                                    key={id}
-                                    id={id}
-                                    user={userPosts?.user}
-                                    {...rest}
-                                />
-                            );
+                            return <PostItem key={id} id={id} {...rest} />;
                         }}
                     />
                 ) : (

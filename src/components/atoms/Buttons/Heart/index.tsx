@@ -1,5 +1,5 @@
 import LottieView from 'lottie-react-native';
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react';
 import {
     TouchableWithoutFeedback,
     TouchableWithoutFeedbackProps,
@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 
 interface HeartIconsProps extends TouchableWithoutFeedbackProps {
-    size: number
-    color: string
-    right?: number
-    onActive?(value: boolean): void
+    size: number;
+    color: string;
+    right?: number;
+    onActive?(value: boolean): void;
 }
 
 const HeartIcon: React.FC<HeartIconsProps> = ({
@@ -21,20 +21,17 @@ const HeartIcon: React.FC<HeartIconsProps> = ({
     right = 50,
     ...rest
 }: HeartIconsProps) => {
-
     const [active, setActive] = useState(false);
 
     const animation = useRef(new Animated.Value(0.4)).current;
 
     function handleOnPress() {
         setActive(!active);
-        if (onActive)
-            onActive(active);
+        if (onActive) onActive(active);
 
-        if(!active) {
+        if (!active) {
             likeCliked();
-        }
-        else likeClikedOff();
+        } else likeClikedOff();
     }
 
     const likeCliked = () => {
@@ -46,7 +43,7 @@ const HeartIcon: React.FC<HeartIconsProps> = ({
                 useNativeDriver: false
             })
         ]).start();
-    }
+    };
 
     const likeClikedOff = () => {
         Animated.parallel([
@@ -56,25 +53,36 @@ const HeartIcon: React.FC<HeartIconsProps> = ({
                 useNativeDriver: false
             })
         ]).start();
-    }
+    };
 
     return (
         //#region JSX
 
-        <TouchableWithoutFeedback
-            onPress={handleOnPress}
-            {...rest}>
-            <View style={{ height: 50, width: 50, position: 'absolute', right: right }}>
+        <TouchableWithoutFeedback onPress={handleOnPress} {...rest}>
+            <View
+                style={{
+                    height: 50,
+                    width: 50,
+                    position: 'absolute',
+                    right: right
+                }}
+            >
                 <LottieView
-                    resizeMode='contain'
-                    source={ require('../../../../assets/lottie/heart.json') }
-                    style={{ height: size, position: "absolute", right: -27.5, bottom: -17.5 }}
-                    progress={animation} />
+                    resizeMode="contain"
+                    source={require('../../../../assets/lottie/heart.json')}
+                    style={{
+                        height: size,
+                        position: 'absolute',
+                        right: -27.5,
+                        bottom: -17.5
+                    }}
+                    progress={animation}
+                />
             </View>
         </TouchableWithoutFeedback>
 
         //#endregion
-    )
-}
+    );
+};
 
-export default HeartIcon
+export default HeartIcon;
