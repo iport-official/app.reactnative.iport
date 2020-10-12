@@ -1,5 +1,4 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
-
 import React, { useState } from "react";
 
 import { getItemAsync } from "expo-secure-store";
@@ -27,7 +26,6 @@ import MainHeader from "../../components/molecules/MainHeader";
 
 
 import api from "../../services/api";
-
 import {
     validateSentenceIsEmpty,
     validateSentenceLength,
@@ -43,8 +41,8 @@ type DefaultPostCreationPageProps = DrawerScreenProps<
 
 export default function PostCreationPage({
     navigation,
-}: DefaultPostCreationPageProps) {
-    const [image, setImage] = useState("");
+}: DefaultPostCreationPageProps): JSX.Element {
+    const [image, setImage] = useState<string | undefined>("");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");

@@ -15,7 +15,7 @@ export type ProfileStackParamsList = {
 
 const { Navigator, Screen } = createStackNavigator<ProfileStackParamsList>()
 
-export default function ProfileStack() {
+export default function ProfileStack(): JSX.Element {
     return (
         //#region JSX
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { ApplicationState } from '../store';
-import { AccountType, UserProxy } from '../store/ducks/user/types';
+import { AccountType } from '../store/ducks/user/types';
 
 import { colors } from '../styles';
 
@@ -27,7 +27,7 @@ type DefaultLoginPageProps = StackScreenProps<AppStackParamsList, 'Drawer'>;
 
 const { Navigator, Screen } = createDrawerNavigator<DrawerParamsList>();
 
-export default function Drawer({ navigation }: DefaultLoginPageProps) {
+export default function Drawer({ navigation }: DefaultLoginPageProps): JSX.Element {
     const accountType = useSelector<ApplicationState, AccountType | undefined>(
         (state) => state.user.user?.accountType
     );

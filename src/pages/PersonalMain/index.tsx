@@ -26,7 +26,7 @@ type DefaultMainPageProps = DrawerScreenProps<
     'PersonalMainPage'
 >;
 
-export default function PersonalMainPage({ navigation }: DefaultMainPageProps) {
+export default function PersonalMainPage({ navigation }: DefaultMainPageProps): JSX.Element {
     const [user, setUser] = useState<PostProxy | null>(null);
 
     useEffect(() => {

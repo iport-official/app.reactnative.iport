@@ -1,12 +1,11 @@
-import { createStore, Store, applyMiddleware } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-
-import rootReducer from './ducks/rootReducer'
 import { CategoriesState } from './ducks/categories/types'
-import rootSaga from './ducks/rootSaga'
 import { CategoriesPostsState } from './ducks/categoriesPosts/types'
 import { HighlightsPostsState } from './ducks/highlightsPosts/types'
+import rootReducer from './ducks/rootReducer'
+import rootSaga from './ducks/rootSaga'
 import { UserState } from './ducks/user/types'
+import { createStore, Store, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
 
 export interface ApplicationState {
     user: UserState

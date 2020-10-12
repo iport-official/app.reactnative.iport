@@ -1,11 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Modal, Text, View } from 'react-native';
+
 import { StackScreenProps } from '@react-navigation/stack';
-import { StackActions } from '@react-navigation/native';
-import { setStatusBarStyle } from 'expo-status-bar';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Modal, View } from 'react-native';
+import { useSelector } from 'react-redux';
+
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import uuid from 'uuid-random';
+
+import { setStatusBarStyle } from 'expo-status-bar';
+
+import { ApplicationState } from '../../store';
+import { UserProxy } from '../../store/ducks/user/types';
+
+import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
 import {
     ContactItem,
@@ -18,26 +25,28 @@ import {
     ModalContentItem
 } from './styles';
 
-import { ProfileStackParamsList } from '../../navigations/ProfileStack';
-import MainHeader from '../../components/molecules/MainHeader';
-import ProfileInfo from '../../components/organisms/ProfileInfo';
-import ProfileHightlights from '../../components/molecules/ProfileHighlights';
+
+
+
+import EditIcon from '../../components/atoms/EditIcon';
+import MoreButton from '../../components/atoms/MoreButton';
 import RoundButton from '../../components/atoms/RoundButton';
 import ActionButton from '../../components/molecules/ActionButton';
-import MoreButton from '../../components/atoms/MoreButton';
-import EditIcon from '../../components/atoms/EditIcon';
+// import MainHeader from '../../components/molecules/MainHeader';
+import ProfileHightlights from '../../components/molecules/ProfileHighlights';
+import ProfileInfo from '../../components/organisms/ProfileInfo';
 
 import ActionButtonContext from '../../contexts/actionButton';
-import { useSelector } from 'react-redux';
-import { ApplicationState } from '../../store';
-import { UserProxy } from '../../store/ducks/user/types';
+import uuid from 'uuid-random';
+
+
 
 type DefaultProfilePageProps = StackScreenProps<
     ProfileStackParamsList,
     'ProfilePage'
 >
 
-export default function ProfilePage({ navigation }: DefaultProfilePageProps) {
+export default function ProfilePage({ navigation }: DefaultProfilePageProps): JSX.Element {
 
     const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user);
 
@@ -48,9 +57,9 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps) {
     const [liked, setLiked] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const buttonPosA: number = 70;
-    const buttonPosB: number = 140;
-    const buttonPosC: number = 210;
+    const buttonPosA = 70;
+    const buttonPosB = 140;
+    const buttonPosC = 210;
 
     const animatedPopA = useRef(new Animated.Value(buttonPosA)).current;
     const animatedPopB = useRef(new Animated.Value(buttonPosB)).current;
@@ -157,11 +166,11 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps) {
     });
 
     // TODO - remove template arrays
-    const phones: any[] = [
+    const phones = [
         { id: uuid(), phone: "988776655" },
         { id: uuid(), phone: "988776655" },
         { id: uuid(), phone: "988776655" }];
-    const emails: any[] = [
+    const emails = [
         { id: uuid(), email: "michell@gmail.com" },
         { id: uuid(), email: "michell.algarra@gmail.com"},
         { id: uuid(), email: "nest.js@gmail.com" }];
@@ -246,19 +255,20 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps) {
                         name={user?.username}
                         status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer'
                         isCurrent={isCurrent}
-                        onStatusChange={(status: string) => {}}
-                        onNameChange={(name: string) => {}}
-                        onImageChange={(image: string) => {}} />
+                        // onStatusChange={(status: string) => {}}
+                        // onNameChange={(name: string) => {}}
+                        // onImageChange={(image: string) => {}}
+                        />
                     <ProfileHightlights
                         role='Estudante de Engenharia de Computação'
                         spotlight='Fluente em Inglês, Espanhol e Francês'
                         email={user?.email}
                         local='Sorocaba - SP'
                         isCurrent={isCurrent}
-                        onRoleChange={(role: string) => {}}
-                        onSpotlightChange={(spotlight: string) => {}}
-                        onEmailChange={(email: string) => {}}
-                        onLocalChange={(local: string) => {}}
+                        // onRoleChange={(role: string) => {}}
+                        // onSpotlightChange={(spotlight: string) => {}}
+                        // onEmailChange={(email: string) => {}}
+                        // onLocalChange={(local: string) => {}}
                         onHighlightPress={(highlight: string) => navigation.navigate('ProfileHighlight', { highlight, isCurrent })} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>

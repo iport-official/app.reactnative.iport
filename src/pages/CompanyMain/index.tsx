@@ -1,9 +1,10 @@
-import { Entypo } from '@expo/vector-icons';
-import { DrawerScreenProps } from '@react-navigation/drawer';
 
+import { DrawerScreenProps } from '@react-navigation/drawer';
 import React, { useEffect, useState } from 'react';
-import { Text, TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import { useSelector } from 'react-redux';
+
+import { Entypo } from '@expo/vector-icons';
 
 import { getItemAsync } from 'expo-secure-store';
 
@@ -26,7 +27,6 @@ import MainHeader from '../../components/molecules/MainHeader';
 import PostItem from '../../components/molecules/PostItem';
 
 import api from '../../services/api';
-
 import { AxiosResponse } from 'axios';
 
 type DefaultCompanyMainPageProps = DrawerScreenProps<
@@ -39,7 +39,7 @@ interface GetPostsByUserProxy {
     posts: BaseArrayProxy<PostProxy>;
 }
 
-export function CompanyMainPage({ navigation }: DefaultCompanyMainPageProps) {
+export function CompanyMainPage({ navigation }: DefaultCompanyMainPageProps): JSX.Element {
     const id = useSelector<ApplicationState, string | undefined>(
         (state) => state.user.user?.id
     );

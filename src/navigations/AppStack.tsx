@@ -13,7 +13,7 @@ export type AppStackParamsList = {
 
 const { Navigator, Screen } = createStackNavigator<AppStackParamsList>()
 
-export default function AppStack() {
+export default function AppStack(): JSX.Element {
     return (
         //#region JSX
 

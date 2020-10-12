@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
 import React from 'react';
 import { ViewProps } from 'react-native';
 
