@@ -67,7 +67,7 @@ const HeartIcon: React.FC<HeartIconsProps> = ({
             <View style={{ height: 50, width: 50, position: 'absolute', right: right }}>
                 <LottieView
                     resizeMode='contain'
-                    source={ require('../../../assets/lottie/heart.json') }
+                    source={ require('../../../../assets/lottie/heart.json') }
                     style={{ height: size, position: "absolute", right: -27.5, bottom: -17.5 }}
                     progress={animation} />
             </View>
