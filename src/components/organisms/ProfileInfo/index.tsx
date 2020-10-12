@@ -24,7 +24,7 @@ interface ProfileInfoProps extends ViewProps {
     profileImage?: string | any;
     name?: string;
     status?: string;
-    isCurrent?: boolean;
+    isEditMode?: boolean;
     onNameChange?(name: string): void;
     onStatusChange?(status: string): void;
     onImageChange?(image: string): void;
@@ -37,7 +37,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
     profileImage,
     name,
     status,
-    isCurrent = false
+    isEditMode = false
 }: ProfileInfoProps): JSX.Element => {
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -77,15 +77,15 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
             </ProfileInfoHeader>
             <ProfilePhotoContainer>
                 <ProfilePhotoBackground />
-                { !isCurrent ? <ProfilePhoto source={{ uri: profileImage }} />
+                { !isEditMode ? <ProfilePhoto source={{ uri: profileImage }} />
                     : <ImagePicker
-                        size={180}
-                        onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
                         imageProp={profileImage}
+                        onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
+                        style={{ height: 180, width: 180, borderRadius: 500 }}
                         /> }
             </ProfilePhotoContainer>
             <InfoContainer>
-                { !isCurrent ? <ProfileName>{ name || 'Name' }</ProfileName>
+                { !isEditMode ? <ProfileName>{ name || 'Name' }</ProfileName>
                     : <View style={{ flexDirection: 'row' }}>
                         <ProfileName style={{ marginRight: 5 }}>{ name || 'Name' }</ProfileName>
                         <EditIcon
@@ -95,7 +95,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
                     </View> }
                 <ProfileStatus>
                     <StatusText>{ status || 'Status' }</StatusText>
-                    { isCurrent ?
+                    { isEditMode ?
                         <EditIcon
                             size={30}
                             iconSize={20}
