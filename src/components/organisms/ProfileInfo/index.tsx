@@ -115,7 +115,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
                             onPress={() => { setModalType('name'); setModalVisible(true); }} />
                     </View> }
                 <ProfileStatus>
-                    <StatusText>{ status || 'Status' }</StatusText>
+                    <StatusText hasStatus={status && status.length > 0 ? true : false}>{ status || 'Sem Status...' }</StatusText>
                     { isEditMode ?
                         <EditIcon
                             size={30}

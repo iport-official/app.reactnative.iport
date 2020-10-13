@@ -95,7 +95,7 @@ export const ProfileStatus = styled.View`
 `
 
 export const StatusText = styled.Text`
-    color: #222;
+    color: ${(props: {hasStatus: boolean}) => props.hasStatus ? '#222' : '#aaa'};
     font-family: Roboto_700Bold;
     font-size: 16px;
     text-align: center;
