@@ -71,6 +71,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
 
     const [pageContent, setPageContent] = useState(initialPageContent);
     const [skillContent, setSkillContent] = useState(initialSkillContent);
+    const [isAdd, setIsAdd] = useState(false);
 
     useEffect(() => {
         if(highlight === 'projects') {
@@ -122,6 +123,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
             description: inContent.description
         });
         setModalVisible(true);
+        setIsAdd(false);
     }
 
     const skillEditPressed = (inSkill: SkillProps): void => {
@@ -138,31 +140,70 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         if(!(pc.title.length > 0 && pc.description.length > 0)) {
             alert('Preencha os campos corretamente!');
         } else {
-            for(let i = 0; i < content.length; i++) {
-                if(content[i].id === pc.id) {
-                    content[i].image = pc.image;
-                    content[i].title = pc.title;
-                    content[i].description = pc.description;
-                    content[i].endDate = pc.endDate !== null && pc.endDate.length > 0 ? pc.endDate : null;
-                    content[i].startDate = highlight !== 'achievements' ? pc.startDate : '';
+            const contentCopy = [...content];
+            let found = false;
+            contentCopy.sort((c1, c2) => c1.id < c2.id ? -1 : 1);
+            if(isAdd) {
+                for(let i = 0; i < contentCopy.length; i++) {
+                    if(contentCopy[i].title.toLowerCase() === pc.title.toLowerCase()) {
+                        alert('Não foi possível completar a operação! Outr'
+                            + highlight === 'projects' ? 'o projeto' : (highlight === 'skills' ? 'a competência' : 'a experiência')
+                            + ' possui este nome');
+                        found = true;
+                        break;
+                    }
                 }
+                if(found === false) {
+                    pc.id = contentCopy[contentCopy.length - 1].id;
+                    content.push(pc);
+                    setModalVisible(false);
+                }
+            } else {
+                for(let i = 0; i < content.length; i++) {
+                    if(content[i].id === pc.id) {
+                        content[i].image = pc.image;
+                        content[i].title = pc.title;
+                        content[i].description = pc.description;
+                        content[i].endDate = pc.endDate !== null && pc.endDate.length > 0 ? pc.endDate : null;
+                        content[i].startDate = highlight !== 'achievements' ? pc.startDate : '';
+                    }
+                }
+                setModalVisible(false);
             }
-            setModalVisible(false);
         }
     }
 
     const handleSkillConfirm = (): void => {
-        const sc = skillContent;
+        const sc = {...skillContent};
         if(!(sc.label.length > 0 && sc.level <= 100 && sc.level >= 0)) {
             alert('Insira o nome da competência!');
         } else {
-            for(let i = 0; i < skills.length; i++) {
-                if(skills[i].id === sc.id) {
-                    skills[i].label = sc.label;
-                    skills[i].level = sc.level;
+            const skillsCopy = [...skills];
+            let found = false;
+            skillsCopy.sort((s1, s2) => s1.id < s2.id ? -1 : 1);
+            if(isAdd) {
+                for(let i = 0; i < skillsCopy.length; i++) {
+                    if(skillsCopy[i].label.toLowerCase().trim() === sc.label.toLowerCase().trim()) {
+                        alert('Não foi possível completar a operação! Outra competência existente possui este nome!');
+                        console.log(skillsCopy);
+                        found = true;
+                        break;
+                    }
                 }
+                if(found === false) {
+                    sc.id = skillsCopy[skillsCopy.length - 1].id + 1;
+                    skills.push(sc);
+                    setModalVisible(false);
+                }
+            } else {
+                for(let i = 0; i < skillsCopy.length; i++) {
+                    if(skillsCopy[i].id === sc.id) {
+                        skillsCopy[i].label = sc.label;
+                        skillsCopy[i].level = sc.level;
+                    }
+                }
+                setModalVisible(false);
             }
-            setModalVisible(false);
         }
     }
 
@@ -291,6 +332,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                 <ImagePicker
                                     style={{ height: 120, width: '90%', borderRadius: 10 }}
                                     imageProp={pageContent.image}
+                                    aspect={[16, 9]}
                                     onPick={(image: string) => setPageContent({ ...pageContent, image })} />
                                 <TextField
                                     placeholder='Título'
@@ -369,6 +411,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                             ? <ProfileHighlightContent
                                 editPressed={(c: ContentProps) => editPressed(c)}
                                 isEditMode={isEditMode}
+                                isCurrent={isCurrent}
                                 content={content.sort((c1, c2) => {
                                     if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
                                     if(c2.endDate === null) return -1;
@@ -383,6 +426,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                             : <ProfileSkillsContent
                                 editPressed={(skill: SkillProps) => skillEditPressed(skill)}
                                 isEditMode={isEditMode}
+                                isCurrent={isCurrent}
                                 content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
                     </View>
                     <ProfileTopBar
@@ -399,8 +443,9 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                             }}
                             onPress={() => {
                                 setPageContent(initialPageContent);
-                                setModalVisible(true);
                                 setSkillContent(initialSkillContent);
+                                setModalVisible(true);
+                                setIsAdd(true);
                             }} />
                         : <></> }
                 </ProfileHighlightContainer>
