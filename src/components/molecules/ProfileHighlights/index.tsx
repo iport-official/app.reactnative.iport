@@ -20,13 +20,15 @@ import HighlightItem from '../../atoms/Views/HighlightItem';
 interface ProfileHighlightsProps extends ViewProps {
     role?: string;
     spotlight?: string;
-    local?: string;
+    city?: string;
+    state?: string;
     email?: string;
     isEditMode?: boolean;
     onRoleChange?(role: string): void;
     onSpotlightChange?(spotlight: string): void;
     onEmailChange?(email: string): void;
-    onLocalChange?(local: string): void;
+    onCityChange?(city: string): void;
+    onStateChange?(state: string): void;
     onHighlightPress?(highlight: string): void;
 }
 
@@ -34,11 +36,13 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     onRoleChange,
     onSpotlightChange,
     onEmailChange,
-    onLocalChange,
+    onCityChange,
+    onStateChange,
     onHighlightPress,
     role = 'Role',
     spotlight = 'Spotlight',
-    local = 'Local',
+    city = 'City',
+    state = 'State',
     email = 'E-mail',
     isEditMode = false
 }: ProfileHighlightsProps) => {
@@ -116,9 +120,13 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                             length={50}
                             onTextChange={(email: string) => { if(onEmailChange) onEmailChange(email); }} />
                         <TextField
-                            placeholder='Cidade - Estado'
-                            textValue={local}
-                            onTextChange={(local: string) => { if(onLocalChange) onLocalChange(local); }} />
+                            placeholder='Cidade'
+                            textValue={city}
+                            onTextChange={(city: string) => { if(onCityChange) onCityChange(city); }} />
+                        <TextField
+                            placeholder='Estado'
+                            textValue={state}
+                            onTextChange={(state: string) => { if(onStateChange) onStateChange(state); }} />
                     </ModalContent>
                 </Modal>
                 <TextPrependIcon
@@ -136,7 +144,7 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                 <TextPrependIcon
                     style={{ color: textColor }}
                     icon={localIcon}
-                    text={local} />
+                    text={city + ' - ' + state} />
                 { isEditMode
                     ? <EditIcon
                         size={30}

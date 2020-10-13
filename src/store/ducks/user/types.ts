@@ -68,6 +68,8 @@ export interface UserProxy {
     accountType: AccountType
     createAt: Date
     updateAt: Date
+    city: string
+    state: string
     content: PersonalUserProxy | CompanyUserProxy
     telephones: BaseArrayProxy<string>
     emails: BaseArrayProxy<string>
@@ -80,4 +82,27 @@ export interface UserState {
     user: UserProxy | null
     loading: boolean
     error: boolean
+}
+
+export interface ProjectExperienceProxy {
+    id: string
+    image: string
+    title: string
+    startDate: Date
+    endDate: Date | null
+    description: string
+}
+
+export interface AchievementProxy {
+    id: string
+    image: string
+    title: string
+    endDate: Date
+    description: string
+}
+
+export interface SkillProxy {
+    id: string
+    label: string
+    level: number
 }
