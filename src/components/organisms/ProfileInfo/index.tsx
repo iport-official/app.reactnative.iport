@@ -82,16 +82,27 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
                 <ProfilePhotoBackground />
                 { !isEditMode
                     ? ( profileImage && profileImage.length > 0
-                        ? <ProfilePhoto source={{ uri: profileImage }} />
+                        ? <ProfilePhoto source={{ uri: `data:image/gif;base64,${profileImage}` }} />
                         : <ProfilePhotoEmpty>
                             <Entypo name="user" size={180} color="white" />
                         </ProfilePhotoEmpty>
                     )
-                    : <ImagePicker
-                        imageProp={profileImage}
-                        onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
-                        style={{ height: 180, width: 180, borderRadius: 500 }}
-                        /> }
+                    : ( profileImage && profileImage.length > 0
+                        ? <ImagePicker
+                            imageProp={`data:image/gif;base64,${profileImage}`}
+                            onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
+                            style={{ height: 180, width: 180, borderRadius: 500 }}
+                            />
+                        : <>
+                            <ProfilePhotoEmpty style={{ position: 'absolute', zIndex: 1 }}>
+                                <Entypo name="user" size={180} color="white" />
+                            </ProfilePhotoEmpty>
+                            <ImagePicker
+                                onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
+                                style={{ height: 180, width: 180, borderRadius: 500, zIndex: 2 }}
+                                />
+                        </> )
+                    }
             </ProfilePhotoContainer>
             <InfoContainer>
                 { !isEditMode
