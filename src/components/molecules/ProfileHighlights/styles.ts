@@ -22,7 +22,7 @@ export const ModalContainer = styled.TouchableOpacity`
 `
 
 export const ModalContent = styled.View`
-    top: 32%;
+    top: 20%;
     left: 10%;
 
     justify-content: center;
