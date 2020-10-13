@@ -8,7 +8,9 @@ import { AntDesign, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { setStatusBarStyle } from 'expo-status-bar';
 
 import { ApplicationState } from '../../store';
+import { getMe } from '../../store/ducks/user/sagas';
 import { UserProxy } from '../../store/ducks/user/types';
+
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
@@ -27,7 +29,7 @@ import EditIcon from '../../components/atoms/Buttons/EditIcon';
 import MoreButton from '../../components/atoms/Buttons/MoreButton';
 import RoundButton from '../../components/atoms/Buttons/RoundButton';
 import ActionButton from '../../components/molecules/ActionButton';
-// import MainHeader from '../../components/molecules/MainHeader';
+import MainHeader from '../../components/molecules/MainHeader';
 import ProfileHightlights from '../../components/molecules/ProfileHighlights';
 import ProfileInfo from '../../components/organisms/ProfileInfo';
 
@@ -39,17 +41,51 @@ type DefaultProfilePageProps = StackScreenProps<
     'ProfilePage'
 >
 
+interface ProfileInfoProps {
+    image: string | null;
+    name: string;
+    status: string;
+}
+
+interface ProfileHighlightsProps {
+    role: string;
+    spotlight: string;
+    email: string;
+    city: string;
+    state: string;
+}
+
 export default function ProfilePage({ navigation }: DefaultProfilePageProps): JSX.Element {
 
     const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user);
 
     useEffect(() => { setStatusBarStyle("light") }, []);
+    useEffect(() => {
+        console.log(user);
+    }, []);
 
     const [isActive, setIsActive] = useState(false);
     const [first, setFirst] = useState(0);
     const [liked, setLiked] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [editMode, setEditMode] = useState(false);
+
+    const initialProfileInfo: ProfileInfoProps = {
+        image: '',
+        name: '',
+        status: ''
+    }
+
+    const initialProfileHighlights: ProfileHighlightsProps = {
+        role: '',
+        spotlight: '',
+        email: '',
+        city: '',
+        state: ''
+    }
+
+    const [profileInfo, setProfileInfo] = useState(initialProfileInfo);
+    const [profileHighlights, setProfileHighlights] = useState(initialProfileHighlights);
 
     const buttonPosA = 70;
     const buttonPosB = 140;
@@ -110,6 +146,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
     const handleContactsPress = (): void => {
         toggleActionButton();
         setModalVisible(true);
+        console.log(getMe());
     }
 
     const handleEditPress = (): void => {
@@ -120,6 +157,11 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
     const handleConfirmPress = (): void => {
         toggleActionButton();
         setEditMode(false);
+
+        console.log('------------------------------------');
+        console.log(profileInfo);
+        console.log('------------------------------------');
+        console.log(profileHighlights);
     }
 
     const animatePopIn = () => {
@@ -220,12 +262,12 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { emails.length > 0 || editMode
+                            {/* { user && user?.emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
-                            { emails.map(e => {
+                            { user && user?.emails.array.map(e => {
                                 return <ContactItem key={e.id}>{ e.email }</ContactItem>
-                            }) }
+                            }) } */}
                         </ModalContentItem>
                         <ModalContentItem
                             isEditMode={editMode}
@@ -245,12 +287,12 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { phones.length > 0 || editMode
+                            {/* { user && user?.telephones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
-                            { phones.map(p => {
+                            { user && user?.telephones.array.map(p => {
                                 return <ContactItem key={p.id}>{ p.phone }</ContactItem>
-                            }) }
+                            }) } */}
                         </ModalContentItem>
                         { emails.length === 0 && phones.length === 0 && !editMode
                             ? <ContactTitle style={{ textAlign: 'center', marginTop: 20 }}
@@ -258,29 +300,31 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                             : <View /> }
                     </ModalContent>
                 </Modal>
-                {/* <MainHeader onPress={() => { navigation.openDrawer() }} /> */}
+                <MainHeader />
                 <ContentView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
-                        profileImage={`data:image/gif;base64,${user?.profileImage}`}
+                        profileImage={user?.profileImage}
                         name={user?.username}
-                        status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer'
+                        status={profileInfo.status}
                         isEditMode={editMode}
-                        // onStatusChange={(status: string) => {}}
-                        // onNameChange={(name: string) => {}}
-                        // onImageChange={(image: string) => {}}
+                        onStatusChange={(status: string) => setProfileInfo({ ...profileInfo, status }) }
+                        onNameChange={(name: string) => setProfileInfo({ ...profileInfo, name }) }
+                        onImageChange={(image: string | null) => setProfileInfo({ ...profileInfo, image }) }
                         />
                     <ProfileHightlights
-                        role='Estudante de Engenharia de Computação'
-                        spotlight='Fluente em Inglês, Espanhol e Francês'
+                        role={profileHighlights.role}
+                        spotlight={profileHighlights.spotlight}
                         email={user?.email}
-                        local='Sorocaba - SP'
+                        city={user?.city}
+                        state={user?.state}
                         isEditMode={editMode}
-                        // onRoleChange={(role: string) => {}}
-                        // onSpotlightChange={(spotlight: string) => {}}
-                        // onEmailChange={(email: string) => {}}
-                        // onLocalChange={(local: string) => {}}
+                        onRoleChange={(role: string) => setProfileHighlights({ ...profileHighlights, role }) }
+                        onSpotlightChange={(spotlight: string) => setProfileHighlights({ ...profileHighlights, spotlight }) }
+                        onEmailChange={(email: string) => setProfileHighlights({ ...profileHighlights, email }) }
+                        onCityChange={(city: string) => setProfileHighlights({ ...profileHighlights, city }) }
+                        onStateChange={(state: string) => setProfileHighlights({ ...profileHighlights, state })}
                         onHighlightPress={(highlight: string) =>
                             navigation.navigate('ProfileHighlight', { highlight, isEditMode: editMode, isCurrent })} />
                 </ContentView>

@@ -1,7 +1,6 @@
-import { call, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { getItemAsync, setItemAsync } from "expo-secure-store";
 
+import api from "../../../services/api";
 import {
     getProfileFailure,
     getProfileSuccess,
@@ -17,8 +16,8 @@ import {
     UserProxy,
     UserTypes
 } from "./types";
-
-import api from "../../../services/api";
+import { AxiosResponse } from "axios";
+import { call, put } from "redux-saga/effects";
 
 export interface RegisterAction {
     type: typeof UserTypes.REGISTER_REQUEST
@@ -43,8 +42,8 @@ export interface PersonalContent {
 export interface CompanyContent {
     street: string
     number: number
-    cnpj: string
     cep: string
+    cnpj: string
 }
 
 export interface LoginAction {
@@ -59,6 +58,7 @@ export interface GetProfileAction {
     type: typeof UserTypes.GET_PROFILE_REQUEST
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function* register({ payload }: RegisterAction) {
     try {
         const response: AxiosResponse<RegisterProxy> = yield call(
@@ -72,6 +72,7 @@ export function* register({ payload }: RegisterAction) {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function* getMe() {
     try {
         const token = yield Promise.resolve(getItemAsync('access_token'))

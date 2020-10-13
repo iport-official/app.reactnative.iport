@@ -12,7 +12,9 @@ import {
     SkillLevelLabel,
     SkillTitle,
     SkillTitleContainer,
-    SkillVerticalLine
+    SkillVerticalLine,
+    WarningText,
+    WarningTextContainer
 } from './styles';
 
 import { SkillProps } from '../../../pages/ProfileHighlight';
@@ -21,6 +23,7 @@ import EditIcon from '../../atoms/Buttons/EditIcon';
 interface ProfileSkillsProps extends ViewProps {
     content: SkillProps[];
     isEditMode: boolean;
+    isCurrent: boolean;
     editPressed?(skill: SkillProps): void;
 }
 
@@ -28,6 +31,7 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
     editPressed,
     content,
     isEditMode = false,
+    isCurrent = false,
     ...rest
 }: ProfileSkillsProps): JSX.Element => {
 
@@ -64,53 +68,58 @@ const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({
     return (
         <SkillsContentContainer { ...rest } >
             <SkillsContent>
-                { content.map(c => {
-                    return (
-                        <ContentContainer
-                            key={c.id}
-                            style={{
-                                marginTop: i === 0 ? 80 : 10,
-                                marginBottom: i++ === content.length - 1 ? 70 : 0
-                            }} >
-                            <SkillContainer>
-                                <SkillTitleContainer>
-                                    <SkillTitle>{ c.label }</SkillTitle>
-                                </SkillTitleContainer>
-                                <SkillVerticalLine />
-                                <SkillLevelContainer>
-                                    <SkillLevelLabel
-                                        style={{
-                                            color: getLevelColor(c.level),
-                                            transform: [{ translateX: isEditMode ? -15 : 0}]
-                                        }}>{ levelLabel }</SkillLevelLabel>
-                                    <SkillLevelBarContainer
-                                        style={{
-                                            width: isEditMode ? '85%' : '100%',
-                                            transform: [{ translateX: isEditMode ? -15 : 0}]
-                                        }} >
-                                        <SkillLevelBar
+                { content && content.length
+                    ? content.map(c => {
+                        return (
+                            <ContentContainer
+                                key={c.id}
+                                style={{
+                                    marginTop: i === 0 ? 80 : 10,
+                                    marginBottom: i++ === content.length - 1 ? 70 : 0
+                                }} >
+                                <SkillContainer>
+                                    <SkillTitleContainer>
+                                        <SkillTitle>{ c.label }</SkillTitle>
+                                    </SkillTitleContainer>
+                                    <SkillVerticalLine />
+                                    <SkillLevelContainer>
+                                        <SkillLevelLabel
                                             style={{
-                                                width: c.level + '%',
-                                                backgroundColor: getLevelColor(c.level)
-                                            }} />
-                                    </SkillLevelBarContainer>
-                                    { isEditMode
-                                        ? <EditIcon
-                                            size={30}
-                                            iconSize={20}
+                                                color: getLevelColor(c.level),
+                                                transform: [{ translateX: isEditMode ? -15 : 0}]
+                                            }}>{ levelLabel }</SkillLevelLabel>
+                                        <SkillLevelBarContainer
                                             style={{
-                                                backgroundColor: '#46266c',
-                                                position: 'absolute',
-                                                right: -10,
-                                                top: '12.5%'
-                                            }}
-                                            onPress={() => { if(editPressed) editPressed(c) }} />
-                                        : <></> }
-                                </SkillLevelContainer>
-                            </SkillContainer>
-                        </ContentContainer>
-                    );
-                }) }
+                                                width: isEditMode ? '85%' : '100%',
+                                                transform: [{ translateX: isEditMode ? -15 : 0}]
+                                            }} >
+                                            <SkillLevelBar
+                                                style={{
+                                                    width: c.level + '%',
+                                                    backgroundColor: getLevelColor(c.level)
+                                                }} />
+                                        </SkillLevelBarContainer>
+                                        { isEditMode
+                                            ? <EditIcon
+                                                size={30}
+                                                iconSize={20}
+                                                style={{
+                                                    backgroundColor: '#46266c',
+                                                    position: 'absolute',
+                                                    right: -10,
+                                                    top: '12.5%'
+                                                }}
+                                                onPress={() => { if(editPressed) editPressed({...c}) }} />
+                                            : <></> }
+                                    </SkillLevelContainer>
+                                </SkillContainer>
+                            </ContentContainer>
+                        );
+                    })
+                    : <WarningTextContainer>
+                        <WarningText>Competências ainda não foram adicionadas! { isCurrent ? 'Adicione clicando no botão + no canto inferior direito de sua tela.' : 'Por favor, aguarde a atualização do perfil.' }</WarningText>
+                    </WarningTextContainer>
+                }
             </SkillsContent>
         </SkillsContentContainer>
     )

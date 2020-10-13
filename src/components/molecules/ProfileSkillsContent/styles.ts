@@ -1,7 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Roboto_700Bold } from '@expo-google-fonts/roboto';
-import styled from 'styled-components/native';
 
 import { colors } from '../../../styles';
+
+import styled from 'styled-components/native';
+
 
 export const SkillsContentContainer = styled.View`
     flex: 1;
@@ -69,4 +72,20 @@ export const SkillLevelBarContainer = styled.View`
 export const SkillLevelBar = styled.View`
     height: 100%;
     border-radius: 10px;
+`
+
+export const WarningTextContainer = styled.View`
+    justify-content: center;
+    align-items: center;
+
+    height: 600px;
+    width: 100%;
+    padding: 0 10%;
+`
+
+export const WarningText = styled.Text`
+    color: #0008;
+
+    font-size: 18px;
+    text-align: center;
 `
