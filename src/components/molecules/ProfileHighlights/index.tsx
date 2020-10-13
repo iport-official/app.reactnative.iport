@@ -20,13 +20,15 @@ import HighlightItem from '../../atoms/Views/HighlightItem';
 interface ProfileHighlightsProps extends ViewProps {
     role?: string;
     spotlight?: string;
-    local?: string;
+    city?: string;
+    state?: string;
     email?: string;
-    isCurrent?: boolean;
+    isEditMode?: boolean;
     onRoleChange?(role: string): void;
     onSpotlightChange?(spotlight: string): void;
     onEmailChange?(email: string): void;
-    onLocalChange?(local: string): void;
+    onCityChange?(city: string): void;
+    onStateChange?(state: string): void;
     onHighlightPress?(highlight: string): void;
 }
 
@@ -34,13 +36,15 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     onRoleChange,
     onSpotlightChange,
     onEmailChange,
-    onLocalChange,
+    onCityChange,
+    onStateChange,
     onHighlightPress,
     role = 'Role',
     spotlight = 'Spotlight',
-    local = 'Local',
+    city = 'City',
+    state = 'State',
     email = 'E-mail',
-    isCurrent = false
+    isEditMode = false
 }: ProfileHighlightsProps) => {
 
     const textColor = '#222222';
@@ -89,8 +93,8 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
         <ProfileHighlightsContainer>
             <ProfilePersonalInfoContainer
                 style={{
-                    backgroundColor: isCurrent ? '#0002' : '#0000',
-                    paddingTop: isCurrent ? 15 : 0
+                    backgroundColor: isEditMode ? '#0002' : '#0000',
+                    paddingTop: isEditMode ? 15 : 0
                 }}>
                 <Modal
                     animationType='fade'
@@ -116,9 +120,13 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                             length={50}
                             onTextChange={(email: string) => { if(onEmailChange) onEmailChange(email); }} />
                         <TextField
-                            placeholder='Cidade - Estado'
-                            textValue={local}
-                            onTextChange={(local: string) => { if(onLocalChange) onLocalChange(local); }} />
+                            placeholder='Cidade'
+                            textValue={city}
+                            onTextChange={(city: string) => { if(onCityChange) onCityChange(city); }} />
+                        <TextField
+                            placeholder='Estado'
+                            textValue={state}
+                            onTextChange={(state: string) => { if(onStateChange) onStateChange(state); }} />
                     </ModalContent>
                 </Modal>
                 <TextPrependIcon
@@ -136,8 +144,8 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                 <TextPrependIcon
                     style={{ color: textColor }}
                     icon={localIcon}
-                    text={local} />
-                { isCurrent
+                    text={city + ' - ' + state} />
+                { isEditMode
                     ? <EditIcon
                         size={30}
                         iconSize={20}

@@ -3,13 +3,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { setStatusBarStyle } from 'expo-status-bar';
 
 import { ApplicationState } from '../../store';
+import { getMe } from '../../store/ducks/user/sagas';
 import { UserProxy } from '../../store/ducks/user/types';
+
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
@@ -28,7 +29,7 @@ import EditIcon from '../../components/atoms/Buttons/EditIcon';
 import MoreButton from '../../components/atoms/Buttons/MoreButton';
 import RoundButton from '../../components/atoms/Buttons/RoundButton';
 import ActionButton from '../../components/molecules/ActionButton';
-// import MainHeader from '../../components/molecules/MainHeader';
+import MainHeader from '../../components/molecules/MainHeader';
 import ProfileHightlights from '../../components/molecules/ProfileHighlights';
 import ProfileInfo from '../../components/organisms/ProfileInfo';
 
@@ -40,16 +41,51 @@ type DefaultProfilePageProps = StackScreenProps<
     'ProfilePage'
 >
 
+interface ProfileInfoProps {
+    image: string | null;
+    name: string;
+    status: string;
+}
+
+interface ProfileHighlightsProps {
+    role: string;
+    spotlight: string;
+    email: string;
+    city: string;
+    state: string;
+}
+
 export default function ProfilePage({ navigation }: DefaultProfilePageProps): JSX.Element {
 
     const user = useSelector<ApplicationState, UserProxy | null>(state => state.user.user);
 
     useEffect(() => { setStatusBarStyle("light") }, []);
+    useEffect(() => {
+        console.log(user);
+    }, []);
 
     const [isActive, setIsActive] = useState(false);
     const [first, setFirst] = useState(0);
     const [liked, setLiked] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+
+    const initialProfileInfo: ProfileInfoProps = {
+        image: '',
+        name: '',
+        status: ''
+    }
+
+    const initialProfileHighlights: ProfileHighlightsProps = {
+        role: '',
+        spotlight: '',
+        email: '',
+        city: '',
+        state: ''
+    }
+
+    const [profileInfo, setProfileInfo] = useState(initialProfileInfo);
+    const [profileHighlights, setProfileHighlights] = useState(initialProfileHighlights);
 
     const buttonPosA = 70;
     const buttonPosB = 140;
@@ -80,7 +116,15 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
         return <MaterialCommunityIcons name="phone" size={30} color="white" />
     }
 
-    const toggleActionButton = () => {
+    const editButton = () => {
+        return <MaterialCommunityIcons name="pencil" size={30} color="white" />
+    }
+
+    const confirmButton = (): JSX.Element => {
+        return <Feather name="check" size={30} color="white" />
+    }
+
+    const toggleActionButton = (): void => {
         setIsActive(!isActive);
         setFirst(1);
         if(!isActive) {
@@ -90,18 +134,34 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
         }
     }
 
-    const handleLikePress = () => {
+    const handleLikePress = (): void => {
         setLiked(!liked);
     }
 
-    const handleApplyPress = () => {
+    const handleApplyPress = (): void => {
         toggleActionButton();
         alert('Applied');
     }
 
-    const handleContactsPress = () => {
+    const handleContactsPress = (): void => {
         toggleActionButton();
         setModalVisible(true);
+        console.log(getMe());
+    }
+
+    const handleEditPress = (): void => {
+        toggleActionButton();
+        setEditMode(true);
+    }
+
+    const handleConfirmPress = (): void => {
+        toggleActionButton();
+        setEditMode(false);
+
+        console.log('------------------------------------');
+        console.log(profileInfo);
+        console.log('------------------------------------');
+        console.log(profileHighlights);
     }
 
     const animatePopIn = () => {
@@ -186,11 +246,11 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         activeOpacity={1} />
                     <ModalContent>
                         <ModalContentItem
-                            isCurrent={isCurrent}
+                            isEditMode={editMode}
                             style={{
                                 paddingTop: isCurrent ? 5 : 0
                             }} >
-                            { isCurrent
+                            { editMode
                                 ? <EditIcon
                                 size={30}
                                 iconSize={20}
@@ -202,20 +262,20 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { emails.length > 0 || isCurrent
+                            {/* { user && user?.emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
-                            { emails.map(e => {
+                            { user && user?.emails.array.map(e => {
                                 return <ContactItem key={e.id}>{ e.email }</ContactItem>
-                            }) }
+                            }) } */}
                         </ModalContentItem>
                         <ModalContentItem
-                            isCurrent={isCurrent}
+                            isEditMode={editMode}
                             style={{
-                                marginTop: emails.length !== 0 || isCurrent ? 20 : 0,
-                                paddingTop: isCurrent ? 5 : 0
+                                marginTop: emails.length !== 0 || editMode ? 20 : 0,
+                                paddingTop: editMode ? 5 : 0
                             }} >
-                            { isCurrent
+                            { editMode
                                 ? <EditIcon
                                 size={30}
                                 iconSize={20}
@@ -227,43 +287,46 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { phones.length > 0 || isCurrent
+                            {/* { user && user?.telephones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
-                            { phones.map(p => {
+                            { user && user?.telephones.array.map(p => {
                                 return <ContactItem key={p.id}>{ p.phone }</ContactItem>
-                            }) }
+                            }) } */}
                         </ModalContentItem>
-                        { emails.length === 0 && phones.length === 0 && !isCurrent
+                        { emails.length === 0 && phones.length === 0 && !editMode
                             ? <ContactTitle style={{ textAlign: 'center', marginTop: 20 }}
                                 >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
                     </ModalContent>
                 </Modal>
-                {/* <MainHeader onPress={() => { navigation.openDrawer() }} /> */}
+                <MainHeader />
                 <ContentView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
-                        profileImage={`data:image/gif;base64,${user?.profileImage}`}
+                        profileImage={user?.profileImage}
                         name={user?.username}
-                        status='Atualmente trabalha na empresa iPort Enterprise como Java Backend Developer'
-                        isCurrent={isCurrent}
-                        // onStatusChange={(status: string) => {}}
-                        // onNameChange={(name: string) => {}}
-                        // onImageChange={(image: string) => {}}
+                        status={profileInfo.status}
+                        isEditMode={editMode}
+                        onStatusChange={(status: string) => setProfileInfo({ ...profileInfo, status }) }
+                        onNameChange={(name: string) => setProfileInfo({ ...profileInfo, name }) }
+                        onImageChange={(image: string | null) => setProfileInfo({ ...profileInfo, image }) }
                         />
                     <ProfileHightlights
-                        role='Estudante de Engenharia de Computação'
-                        spotlight='Fluente em Inglês, Espanhol e Francês'
+                        role={profileHighlights.role}
+                        spotlight={profileHighlights.spotlight}
                         email={user?.email}
-                        local='Sorocaba - SP'
-                        isCurrent={isCurrent}
-                        // onRoleChange={(role: string) => {}}
-                        // onSpotlightChange={(spotlight: string) => {}}
-                        // onEmailChange={(email: string) => {}}
-                        // onLocalChange={(local: string) => {}}
-                        onHighlightPress={(highlight: string) => navigation.navigate('ProfileHighlight', { highlight, isCurrent })} />
+                        city={user?.city}
+                        state={user?.state}
+                        isEditMode={editMode}
+                        onRoleChange={(role: string) => setProfileHighlights({ ...profileHighlights, role }) }
+                        onSpotlightChange={(spotlight: string) => setProfileHighlights({ ...profileHighlights, spotlight }) }
+                        onEmailChange={(email: string) => setProfileHighlights({ ...profileHighlights, email }) }
+                        onCityChange={(city: string) => setProfileHighlights({ ...profileHighlights, city }) }
+                        onStateChange={(state: string) => setProfileHighlights({ ...profileHighlights, state })}
+                        onHighlightPress={(highlight: string) =>
+                            navigation.navigate('ProfileHighlight', { highlight, isEditMode: editMode, isCurrent })} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>
                     <ActionButton
@@ -292,12 +355,28 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                         icon={contactsButton}
                                         onPress={() => handleContactsPress()} />
                                 </View>
-                                : <RoundButton
-                                    transform={first == 0 ? buttonPosA : animatedPopA}
-                                    spin={first == 0 ? '180deg' : spin}
-                                    bgColor='#850085'
-                                    icon={contactsButton}
-                                    onPress={() => handleContactsPress()} />
+                                : <>
+                                    { !editMode
+                                        ? <RoundButton
+                                            transform={first == 0 ? buttonPosB : animatedPopB}
+                                            spin={first == 0 ? '180deg' : spin}
+                                            bgColor='#fb9218'
+                                            icon={editButton}
+                                            onPress={() => handleEditPress()} />
+                                        : <RoundButton
+                                            transform={first == 0 ? buttonPosB : animatedPopB}
+                                            spin={first == 0 ? '180deg' : spin}
+                                            bgColor='#03ce17'
+                                            icon={confirmButton}
+                                            onPress={() => handleConfirmPress()} />
+                                    }
+                                    <RoundButton
+                                        transform={first == 0 ? buttonPosA : animatedPopA}
+                                        spin={first == 0 ? '180deg' : spin}
+                                        bgColor='#850085'
+                                        icon={contactsButton}
+                                        onPress={() => handleContactsPress()} />
+                                </>
                             )
                         }
                     </ActionButton>

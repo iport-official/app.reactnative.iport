@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, View, ViewProps } from 'react-native';
 
+import { Entypo } from '@expo/vector-icons';
+
 import {
     InfoContainer,
     InfoEndLine,
@@ -12,6 +14,7 @@ import {
     ProfilePhoto,
     ProfilePhotoBackground,
     ProfilePhotoContainer,
+    ProfilePhotoEmpty,
     ProfileStatus,
     StatusText
 } from './styles';
@@ -24,7 +27,7 @@ interface ProfileInfoProps extends ViewProps {
     profileImage?: string | any;
     name?: string;
     status?: string;
-    isCurrent?: boolean;
+    isEditMode?: boolean;
     onNameChange?(name: string): void;
     onStatusChange?(status: string): void;
     onImageChange?(image: string): void;
@@ -37,7 +40,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
     profileImage,
     name,
     status,
-    isCurrent = false
+    isEditMode = false
 }: ProfileInfoProps): JSX.Element => {
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -77,15 +80,33 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
             </ProfileInfoHeader>
             <ProfilePhotoContainer>
                 <ProfilePhotoBackground />
-                { !isCurrent ? <ProfilePhoto source={{ uri: profileImage }} />
-                    : <ImagePicker
-                        size={180}
-                        onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
-                        imageProp={profileImage}
-                        /> }
+                { !isEditMode
+                    ? ( profileImage && profileImage.length > 0
+                        ? <ProfilePhoto source={{ uri: `data:image/gif;base64,${profileImage}` }} />
+                        : <ProfilePhotoEmpty>
+                            <Entypo name="user" size={180} color="white" />
+                        </ProfilePhotoEmpty>
+                    )
+                    : ( profileImage && profileImage.length > 0
+                        ? <ImagePicker
+                            imageProp={`data:image/gif;base64,${profileImage}`}
+                            onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
+                            style={{ height: 180, width: 180, borderRadius: 500 }}
+                            />
+                        : <>
+                            <ProfilePhotoEmpty style={{ position: 'absolute', zIndex: 1 }}>
+                                <Entypo name="user" size={180} color="white" />
+                            </ProfilePhotoEmpty>
+                            <ImagePicker
+                                onPick={(image: string) => { if(onImageChange) onImageChange(image); }}
+                                style={{ height: 180, width: 180, borderRadius: 500, zIndex: 2 }}
+                                />
+                        </> )
+                    }
             </ProfilePhotoContainer>
             <InfoContainer>
-                { !isCurrent ? <ProfileName>{ name || 'Name' }</ProfileName>
+                { !isEditMode
+                    ? <ProfileName>{ name || 'Name' }</ProfileName>
                     : <View style={{ flexDirection: 'row' }}>
                         <ProfileName style={{ marginRight: 5 }}>{ name || 'Name' }</ProfileName>
                         <EditIcon
@@ -95,7 +116,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
                     </View> }
                 <ProfileStatus>
                     <StatusText>{ status || 'Status' }</StatusText>
-                    { isCurrent ?
+                    { isEditMode ?
                         <EditIcon
                             size={30}
                             iconSize={20}

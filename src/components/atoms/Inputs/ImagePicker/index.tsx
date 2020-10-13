@@ -10,12 +10,14 @@ import { ImageCircle, ImageViewCircle } from './styles';
 interface ImagePickerProps extends ViewProps {
     size?: number;
     imageProp?: string | null;
+    aspect?: [number, number];
     onPick(img: string | undefined): void;
 }
 
 const ImagePicker: React.FC<ImagePickerProps> = ({
-    imageProp = '',
     onPick,
+    imageProp = '',
+    aspect = [1, 1],
     ...rest
 }: ImagePickerProps) => {
 
@@ -25,7 +27,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
         const result = await _ImagePicker.launchImageLibraryAsync({
             mediaTypes: _ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [1, 1],
+            aspect,
             quality: 1,
             base64: true
         });

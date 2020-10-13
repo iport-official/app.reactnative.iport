@@ -79,3 +79,19 @@ export const ContentEditContainer = styled.View`
     border-radius: 10px;
     background-color: #0002;
 `
+
+export const WarningTextContainer = styled.View`
+    justify-content: center;
+    align-items: center;
+
+    height: 600px;
+    width: 100%;
+    padding: 0 10%;
+`
+
+export const WarningText = styled.Text`
+    color: #0008;
+
+    font-size: 18px;
+    text-align: center;
+`
