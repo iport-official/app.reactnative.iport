@@ -185,7 +185,6 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                 for(let i = 0; i < skillsCopy.length; i++) {
                     if(skillsCopy[i].label.toLowerCase().trim() === sc.label.toLowerCase().trim()) {
                         alert('Não foi possível completar a operação! Outra competência existente possui este nome!');
-                        console.log(skillsCopy);
                         found = true;
                         break;
                     }
