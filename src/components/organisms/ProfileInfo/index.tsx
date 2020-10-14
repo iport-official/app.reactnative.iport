@@ -24,7 +24,7 @@ import ImagePicker from '../../atoms/Inputs/ImagePicker';
 import TextField from '../../atoms/Inputs/TextField';
 
 interface ProfileInfoProps extends ViewProps {
-    profileImage?: string | any;
+    profileImage?: string | null | undefined;
     name?: string;
     status?: string;
     isEditMode?: boolean;
