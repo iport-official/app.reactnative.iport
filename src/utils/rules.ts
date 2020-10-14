@@ -16,7 +16,7 @@ export function validateSentenceLength(
     return sentence.length <= maxLength;
 }
 
-export function validateSentenceIsEmpty(sentence: string): boolean {
+export function validateSentenceIsEmpty(sentence?: string): boolean {
     return (!sentence || 0 === sentence.length);
 }
 

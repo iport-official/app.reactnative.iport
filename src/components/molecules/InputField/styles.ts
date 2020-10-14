@@ -1,18 +1,19 @@
 import { Animated } from 'react-native'
+
+import { colors } from '../../../styles'
+
 import styled from 'styled-components/native'
 
 import AnimatedTextInput from '../../animated/AnimatedTextInput'
 
-import { colors } from '../../../styles'
 
 const paddingHorizontal = 20
 const height = 55
-const width = 350
 
 export const ContainerView = styled.View``
 
 export const TextInputView = styled.View`
-    width: ${width}px;
+    width: 100%;
     background: #eee;
     border-radius: 8px;
     min-height: ${height}px;
@@ -55,7 +56,7 @@ export const LineView = styled(Animated.View)`
 `
 
 export const DescriptionText = styled.Text`
-    width: ${width}px;
+    width: 100%;
     padding: 10px ${paddingHorizontal / 2}px;
     opacity: 0.3;
     color: ${colors.livePurple};

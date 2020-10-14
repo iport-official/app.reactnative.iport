@@ -8,14 +8,13 @@ import { AntDesign, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { setStatusBarStyle } from 'expo-status-bar';
 
 import { ApplicationState } from '../../store';
-import { getMe } from '../../store/ducks/user/sagas';
-import { UserProxy } from '../../store/ducks/user/types';
+import { PersonalUserProxy, UserProxy } from '../../store/ducks/user/types';
 
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
 import {
-    ContactItem,
+    // ContactItem,
     ContactTitle,
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
@@ -145,7 +144,6 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
     const handleContactsPress = (): void => {
         toggleActionButton();
         setModalVisible(true);
-        console.log(getMe());
     }
 
     const handleEditPress = (): void => {
@@ -264,9 +262,9 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                             { user && user.emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
-                            { user?.emails.array.map((e, index) => {
+                            {/* { user?.emails.array.map((e, index) => {
                                 return <ContactItem key={index}>{ e }</ContactItem>
-                            }) }
+                            }) } */}
                         </ModalContentItem>
                         <ModalContentItem
                             isEditMode={editMode}
@@ -289,9 +287,9 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                             { user && user.telephones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
-                            { user?.telephones.array.map((p, index) => {
+                            {/* { user?.telephones.array.map((p, index) => {
                                 return <ContactItem key={index}>{ p }</ContactItem>
-                            }) }
+                            }) } */}
                         </ModalContentItem>
                         { user && user.emails.length === 0 && user.telephones.length === 0 && !editMode
                             ? <ContactTitle style={{ textAlign: 'center', marginBottom: 10 }}
@@ -305,7 +303,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
                         profileImage={user?.profileImage}
-                        name={user?.username}
+                        name={(user?.content as PersonalUserProxy).status}
                         status={profileInfo.status}
                         isEditMode={editMode}
                         onStatusChange={(status: string) => setProfileInfo({ ...profileInfo, status }) }
@@ -313,8 +311,8 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         onImageChange={(image: string | null) => setProfileInfo({ ...profileInfo, image }) }
                         />
                     <ProfileHightlights
-                        role={profileHighlights.role}
-                        spotlight={profileHighlights.spotlight}
+                        role={(user?.content as PersonalUserProxy).job}
+                        spotlight={(user?.content as PersonalUserProxy).highlights}
                         email={user?.email}
                         city={user?.city}
                         state={user?.state}

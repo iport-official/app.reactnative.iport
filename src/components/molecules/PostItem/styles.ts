@@ -1,14 +1,15 @@
+import { colors } from '../../../styles';
+
 import styled from 'styled-components/native';
 
-import { colors } from '../../../styles';
 
 const borderRadius = 50;
 const textShadow = `0px 0px 1px white`;
 
 interface DimensionsProps {
-    width: any | string
-    height: any | string
-    isMain: any | boolean
+    width: string
+    height: string
+    isMain: boolean
 }
 
 export const PostContainerView = styled.View`
@@ -120,4 +121,19 @@ export const CoinsText = styled.Text`
     text-align: center;
     text-shadow: ${textShadow};
     margin-left: 7px;
+`
+
+export const ActionsContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+
+    height: 100%;
+`
+
+export const ActionsButton = styled.TouchableOpacity`
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    width: 35px;
 `
