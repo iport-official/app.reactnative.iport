@@ -47,6 +47,9 @@ export interface RegisterCompanyUserPayload {
 
 export interface PersonalUserProxy {
     cpf: string
+    status?: string
+    job?: string
+    highlights?: string
 }
 
 export interface CompanyUserProxy {
