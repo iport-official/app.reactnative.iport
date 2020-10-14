@@ -1,16 +1,21 @@
+import { UserProxy } from '../user/types';
+
 export interface PostProxy {
     id: string
     image: string
     title: string
-    description?: string
+    description: string
     category: string
-    recomendations: number
     contact: string
+    recommendations: number
+    likes: number
     salary: number
-    post: string
+    role: string
     local: string
     requirements: string
     experienceLevel: string
-    vacancyDescription: string
+    jobDescription: string
     createAt: Date
+    updateAt: Date
+    user: UserProxy
 }
