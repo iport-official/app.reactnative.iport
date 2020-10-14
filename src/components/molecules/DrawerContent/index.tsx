@@ -99,7 +99,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<
                                     color="#fff"
                                 />
                             )}
-                            label="Criar Post"
+                            label="Criar Vaga"
                             labelStyle={{ color: "#fff" }}
                             onPress={() => {
                                 navigation.navigate("PostCreationPage");
