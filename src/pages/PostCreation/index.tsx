@@ -143,7 +143,7 @@ export default function PostCreationPage({
                                 height: 220,
                                 borderRadius: 10,
                             }}
-                            imageProp={id && id.length > 0 ? post.image : image}
+                            imageProp={post && post.image ? `data:image/gif;base64,${post.image}` : ''}
                             aspect={[4, 3]}
                             onPick={setImage}
                         />
