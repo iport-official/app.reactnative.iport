@@ -10,7 +10,7 @@ import { getItemAsync } from 'expo-secure-store';
 import { ApplicationState } from '../../store';
 import { BaseArrayProxy } from '../../store/ducks/common/base-array-proxy';
 import { PostProxy } from '../../store/ducks/common/post-proxy';
-import { UserProxy } from '../../store/ducks/user/types';
+import { UpdatePostPayload } from '../../store/highlightPostTemp';
 
 import { DrawerParamsList } from '../../navigations/MainDrawer';
 
@@ -75,6 +75,29 @@ export function CompanyMainPage({
         return userPosts !== null && userPosts.length !== 0;
     }
 
+    const postEdit = async (id: string, post: UpdatePostPayload): Promise<void> => {
+        console.log(post.title);
+        navigation.navigate('PostCreationPage', { id, post });
+    }
+
+    // posts/${id} - api.delete
+    const postDelete = async (id: string): Promise<void> => {
+        try {
+            const token = await getItemAsync('access_token');
+            const response = await api.delete<
+                any
+            >(`posts/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            });
+
+            getMyPosts();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     ////#endregion
 
     return (
@@ -98,14 +121,23 @@ export function CompanyMainPage({
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => {
                             const { id, ...rest } = item;
-                            return <PostItem key={id} id={id} {...rest} />;
+                            return (
+                                <PostItem
+                                    marginTop={20}
+                                    isCurrent={true}
+                                    key={id}
+                                    id={id}
+                                    editPressed={(postId: string, post: UpdatePostPayload) => postEdit(postId, post)}
+                                    deletePressed={(postId: string) => postDelete(postId)}
+                                    {...rest} />
+                            )
                         }}
                     />
                 ) : (
                     <WarningView>
                         <TouchableWithoutFeedback
                             onPress={() => {
-                                navigation.navigate('PostCreationPage');
+                                navigation.navigate('PostCreationPage', {});
                             }}
                         >
                             <Entypo
@@ -115,8 +147,8 @@ export function CompanyMainPage({
                             />
                         </TouchableWithoutFeedback>
                         <WarningText>
-                            Você ainda não possui posts! Clique no “+” para
-                            criar o seu primeiro
+                            Você ainda não possui vagas! Clique no “+” para
+                            criar a sua primeira
                         </WarningText>
                     </WarningView>
                 )}

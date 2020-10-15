@@ -39,11 +39,11 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
     onCityChange,
     onStateChange,
     onHighlightPress,
-    role = 'Role',
-    spotlight = 'Spotlight',
-    city = 'City',
-    state = 'State',
-    email = 'E-mail',
+    role = '',
+    spotlight = '',
+    city = '',
+    state = '',
+    email = '',
     isEditMode = false
 }: ProfileHighlightsProps) => {
 
@@ -129,22 +129,36 @@ const ProfileHighlights: React.FC<ProfileHighlightsProps> = ({
                             onTextChange={(state: string) => { if(onStateChange) onStateChange(state); }} />
                     </ModalContent>
                 </Modal>
-                <TextPrependIcon
-                    style={{ color: textColor }}
-                    icon={roleIcon}
-                    text={role} />
-                <TextPrependIcon
-                    style={{ color: textColor }}
-                    icon={spotlightIcon}
-                    text={spotlight} />
-                <TextPrependIcon
-                    style={{ color: textColor }}
-                    icon={emailIcon}
-                    text={email} />
-                <TextPrependIcon
-                    style={{ color: textColor }}
-                    icon={localIcon}
-                    text={city + ' - ' + state} />
+                { (role && role.length > 0) || (isEditMode)
+                    ? <TextPrependIcon
+                        style={{ color: textColor }}
+                        icon={roleIcon}
+                        text={role} />
+                    : <></>
+                }
+                { (spotlight && spotlight.length > 0) || (isEditMode)
+                    ? <TextPrependIcon
+                        style={{ color: textColor }}
+                        icon={spotlightIcon}
+                        text={spotlight} />
+                    : <></>
+                }
+                { (email && email.length > 0) || (isEditMode)
+                    ? <TextPrependIcon
+                        style={{ color: textColor }}
+                        icon={emailIcon}
+                        text={email} />
+                    : <></>
+                }
+                { ((city && city.length > 0) || (state && state.length > 0) || (isEditMode))
+                    ? <TextPrependIcon
+                        style={{ color: textColor }}
+                        icon={localIcon}
+                        text={city && city.length > 0 && state && state.length > 0
+                            ? city + ' - ' + state
+                            : (city && city.length > 0 ? city : (state && state.length > 0 ? state : ''))} />
+                    : <></>
+                }
                 { isEditMode
                     ? <EditIcon
                         size={30}

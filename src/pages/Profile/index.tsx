@@ -8,14 +8,13 @@ import { AntDesign, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { setStatusBarStyle } from 'expo-status-bar';
 
 import { ApplicationState } from '../../store';
-import { getMe } from '../../store/ducks/user/sagas';
-import { UserProxy } from '../../store/ducks/user/types';
+import { PersonalUserProxy, UserProxy } from '../../store/ducks/user/types';
 
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
 import {
-    ContactItem,
+    // ContactItem,
     ContactTitle,
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
@@ -34,7 +33,6 @@ import ProfileHightlights from '../../components/molecules/ProfileHighlights';
 import ProfileInfo from '../../components/organisms/ProfileInfo';
 
 import ActionButtonContext from '../../contexts/actionButton';
-import uuid from 'uuid-random';
 
 type DefaultProfilePageProps = StackScreenProps<
     ProfileStackParamsList,
@@ -146,7 +144,6 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
     const handleContactsPress = (): void => {
         toggleActionButton();
         setModalVisible(true);
-        console.log(getMe());
     }
 
     const handleEditPress = (): void => {
@@ -220,14 +217,14 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
     });
 
     // TODO - remove template arrays
-    const phones = [
-        { id: uuid(), phone: "988776655" },
-        { id: uuid(), phone: "988776655" },
-        { id: uuid(), phone: "988776655" }];
-    const emails = [
-        { id: uuid(), email: "michell@gmail.com" },
-        { id: uuid(), email: "michell.algarra@gmail.com"},
-        { id: uuid(), email: "nest.js@gmail.com" }];
+    // const phones = [
+    //     { id: uuid(), phone: "988776655" },
+    //     { id: uuid(), phone: "988776655" },
+    //     { id: uuid(), phone: "988776655" }];
+    // const emails = [
+    //     { id: uuid(), email: "michell@gmail.com" },
+    //     { id: uuid(), email: "michell.algarra@gmail.com"},
+    //     { id: uuid(), email: "nest.js@gmail.com" }];
 
     const isCurrent = true;
 
@@ -262,17 +259,17 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            {/* { user && user?.emails.length > 0 || editMode
+                            { user && user.emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
-                            { user && user?.emails.array.map(e => {
-                                return <ContactItem key={e.id}>{ e.email }</ContactItem>
+                            {/* { user?.emails.array.map((e, index) => {
+                                return <ContactItem key={index}>{ e }</ContactItem>
                             }) } */}
                         </ModalContentItem>
                         <ModalContentItem
                             isEditMode={editMode}
                             style={{
-                                marginTop: emails.length !== 0 || editMode ? 20 : 0,
+                                marginTop: user?.emails.length !== 0 || editMode ? 20 : 0,
                                 paddingTop: editMode ? 5 : 0
                             }} >
                             { editMode
@@ -287,15 +284,15 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            {/* { user && user?.telephones.length > 0 || editMode
+                            { user && user.telephones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
-                            { user && user?.telephones.array.map(p => {
-                                return <ContactItem key={p.id}>{ p.phone }</ContactItem>
+                            {/* { user?.telephones.array.map((p, index) => {
+                                return <ContactItem key={index}>{ p }</ContactItem>
                             }) } */}
                         </ModalContentItem>
-                        { emails.length === 0 && phones.length === 0 && !editMode
-                            ? <ContactTitle style={{ textAlign: 'center', marginTop: 20 }}
+                        { user && user.emails.length === 0 && user.telephones.length === 0 && !editMode
+                            ? <ContactTitle style={{ textAlign: 'center', marginBottom: 10 }}
                                 >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
                     </ModalContent>
@@ -306,7 +303,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
                         profileImage={user?.profileImage}
-                        name={user?.username}
+                        name={(user?.content as PersonalUserProxy).status}
                         status={profileInfo.status}
                         isEditMode={editMode}
                         onStatusChange={(status: string) => setProfileInfo({ ...profileInfo, status }) }
@@ -314,8 +311,8 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         onImageChange={(image: string | null) => setProfileInfo({ ...profileInfo, image }) }
                         />
                     <ProfileHightlights
-                        role={profileHighlights.role}
-                        spotlight={profileHighlights.spotlight}
+                        role={(user?.content as PersonalUserProxy).job}
+                        spotlight={(user?.content as PersonalUserProxy).highlights}
                         email={user?.email}
                         city={user?.city}
                         state={user?.state}

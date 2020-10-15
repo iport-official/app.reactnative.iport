@@ -1,9 +1,11 @@
 import { KeyboardAvoidingView } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import styled from 'styled-components/native'
-import InputField from '../../components/molecules/InputField'
+
 import { colors } from '../../styles'
+
+import InputField from '../../components/molecules/InputField'
+import styled from 'styled-components/native'
 
 export const ContainerSafeAreaView = styled(SafeAreaView)`
     flex: 1;
@@ -30,8 +32,9 @@ export const TitleText = styled.Text`
 
 export const ContainerRectButton = styled(RectButton)`
     position: absolute;
-    right: 30px;
-    background: ${colors.livePurple};
+    right: 10px;
+    background: ${colors.strongPurple};
+    border-radius: 10px;
     padding: 10px 10px;
 `
 
@@ -42,6 +45,10 @@ export const ButtonText = styled.Text`
 export const ContainerScrollView = styled.ScrollView`
     flex: 1;
     margin-bottom: 20px;
+`
+
+export const ContainerContentView = styled.View`
+    width: 330px;
 `
 
 export const ImagePickerView = styled.View`

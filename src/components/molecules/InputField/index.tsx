@@ -36,9 +36,11 @@ interface InputFieldProps extends TextInputProps {
     information?: string;
     errorMessage?: string;
     style?: StyleProp<ViewStyle>;
+    isActive?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
+    onChangeText,
     color,
     validated,
     unvalidatedColor = "#FF0000",
@@ -50,7 +52,7 @@ const InputField: React.FC<InputFieldProps> = ({
     information,
     errorMessage,
     style,
-    onChangeText,
+    isActive = false,
     ...rest
 }: InputFieldProps) => {
     //#region States
@@ -70,6 +72,10 @@ const InputField: React.FC<InputFieldProps> = ({
     const placehodlerFontSizeAnimation = useRef(new Animated.Value(16)).current;
 
     //#endregion
+
+    if(isActive) {
+        playAnimation(true);
+    }
 
     //#region Functions
 

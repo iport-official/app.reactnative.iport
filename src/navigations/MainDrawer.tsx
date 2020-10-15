@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { ApplicationState } from '../store';
 import { AccountType } from '../store/ducks/user/types';
+import { UpdatePostPayload } from '../store/highlightPostTemp';
 
 import { colors } from '../styles';
 
@@ -17,10 +18,13 @@ import { AppStackParamsList } from './AppStack';
 import ProfileStack from './ProfileStack';
 
 export type DrawerParamsList = {
-    CompanyMainPage: undefined
+    CompanyMainPage: undefined;
     PersonalMainPage: undefined;
     ProfileStack: undefined;
-    PostCreationPage: undefined;
+    PostCreationPage: {
+        id?: string | null;
+        post?: UpdatePostPayload;
+    };
 };
 
 type DefaultLoginPageProps = StackScreenProps<AppStackParamsList, 'Drawer'>;
