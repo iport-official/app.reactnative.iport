@@ -51,8 +51,8 @@ export default function PostCreationPage({
     const [experienceLevel, setExperienceLevel] = useState<string | undefined>(undefined);
     const [jobDescription, setJobDescription] = useState<string | undefined>(undefined);
 
-    const id = route.params.id;
-    const post: UpdatePostPayload = {...route.params.post};
+    const id = route.params && route.params.id ? route.params.id : '';
+    const post: UpdatePostPayload = route.params && route.params.post ? {...route.params.post} : {};
 
     async function createPost(): Promise<void> {
         try {
