@@ -36,7 +36,7 @@ type DefaultCompanyMainPageProps = DrawerScreenProps<
 export function CompanyMainPage({
     navigation
 }: DefaultCompanyMainPageProps): JSX.Element {
-    const id = useSelector<ApplicationState, string | undefined>(
+    const userId = useSelector<ApplicationState, string | undefined>(
         (state) => state.user.user?.id
     );
 
@@ -58,7 +58,7 @@ export function CompanyMainPage({
             const response = await api.get<
                 unknown,
                 AxiosResponse<BaseArrayProxy<PostProxy>>
-            >(`users/${id}/posts`, {
+            >(`users/${userId}/posts`, {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }
@@ -81,12 +81,12 @@ export function CompanyMainPage({
     }
 
     // posts/${id} - api.delete
-    const postDelete = async (id: string): Promise<void> => {
+    const postDelete = async (postId: string): Promise<void> => {
         try {
             const token = await getItemAsync('access_token');
             const response = await api.delete<
                 any
-            >(`posts/${id}`, {
+            >(`users/${userId}/posts/${postId}`, {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }

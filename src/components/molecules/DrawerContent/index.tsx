@@ -73,7 +73,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps<
                         label="Início"
                         labelStyle={{ color: "#fff" }}
                         onPress={() => {
-                            navigation.navigate('CompanyMainPage');
+                            navigation.navigate(user?.accountType === 'COMPANY' ? 'CompanyMainPage' : 'PersonalMainPage');
                         }}
                     />
                     <DrawerItem
