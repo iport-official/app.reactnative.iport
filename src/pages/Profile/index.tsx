@@ -259,7 +259,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { user && user.emails.length > 0 || editMode
+                            { user && user.emails && user.emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
                             {/* { user?.emails.array.map((e, index) => {
@@ -269,7 +269,7 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                         <ModalContentItem
                             isEditMode={editMode}
                             style={{
-                                marginTop: user?.emails.length !== 0 || editMode ? 20 : 0,
+                                marginTop: user?.emails?.length !== 0 || editMode ? 20 : 0,
                                 paddingTop: editMode ? 5 : 0
                             }} >
                             { editMode
@@ -284,14 +284,14 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                                 }} />
                                 : <View />
                             }
-                            { user && user.telephones.length > 0 || editMode
+                            { user && user.telephones && user.telephones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
                             {/* { user?.telephones.array.map((p, index) => {
                                 return <ContactItem key={index}>{ p }</ContactItem>
                             }) } */}
                         </ModalContentItem>
-                        { user && user.emails.length === 0 && user.telephones.length === 0 && !editMode
+                        { user && user.emails && user.emails.length === 0 && user.telephones && user.telephones.length === 0 && !editMode
                             ? <ContactTitle style={{ textAlign: 'center', marginBottom: 10 }}
                                 >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
@@ -303,8 +303,8 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
                         profileImage={user?.profileImage}
-                        name={(user?.content as PersonalUserProxy).status}
-                        status={profileInfo.status}
+                        name={user?.username}
+                        status={(user?.content as PersonalUserProxy).status}
                         isEditMode={editMode}
                         onStatusChange={(status: string) => setProfileInfo({ ...profileInfo, status }) }
                         onNameChange={(name: string) => setProfileInfo({ ...profileInfo, name }) }
