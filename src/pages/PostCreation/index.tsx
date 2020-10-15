@@ -1,9 +1,11 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { getItemAsync } from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
 
+import { ApplicationState } from "../../store";
 import { PostProxy } from "../../store/ducks/common/post-proxy";
 import { UpdatePostPayload } from '../../store/highlightPostTemp';
 
@@ -51,14 +53,15 @@ export default function PostCreationPage({
     const [experienceLevel, setExperienceLevel] = useState<string | undefined>(undefined);
     const [jobDescription, setJobDescription] = useState<string | undefined>(undefined);
 
-    const id = route.params.id;
-    const post: UpdatePostPayload = {...route.params.post};
+    const id = route.params && route.params.id ? route.params.id : '';
+    const post: UpdatePostPayload = route.params && route.params.post ? {...route.params.post} : {};
+    const userId = useSelector<ApplicationState, string | undefined>(state => state.user.user?.id);
 
     async function createPost(): Promise<void> {
         try {
             const token = await getItemAsync("access_token");
             await api.post<PostProxy>(
-                "posts",
+                `users/${userId}/posts`,
                 {
                     image,
                     title,
@@ -88,7 +91,7 @@ export default function PostCreationPage({
         try {
             const token = await getItemAsync('access_token');
             await api.patch<PostProxy>(
-                `posts/${id}`,
+                `users/${userId}/posts/${id}`,
                 {
                     image,
                     title,
