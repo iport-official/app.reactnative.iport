@@ -28,10 +28,7 @@ import FormButton from "../../components/atoms/Buttons/FormButton";
 import Checkbox from "../../components/atoms/Checkboxes/Checkbox";
 import TextField from "../../components/atoms/Inputs/TextField";
 
-
-
 import api from "../../services/api";
-
 
 type DefaultLoginPageProps = StackScreenProps<AppStackParamsList>;
 
@@ -112,7 +109,10 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps): JSX.El
                 CompanyMainPage: undefined,
                 PersonalMainPage: undefined,
                 ProfileStack: undefined,
-                PostCreationPage: undefined
+                PostCreationPage: {},
+                PostDetails: {
+                    postDetails: undefined
+                }
             });
     }, [user]);
 
@@ -167,7 +167,7 @@ export default function LoginPage({ navigation }: DefaultLoginPageProps): JSX.El
                 </LoginFooter>
                 <FormButton
                     disable={false}
-                    label="Login"
+                    label="Entrar"
                     color={colors.grayPurple}
                     disableColor={colors.grayPurple + "88"}
                     ripple={colors.lightPurple}

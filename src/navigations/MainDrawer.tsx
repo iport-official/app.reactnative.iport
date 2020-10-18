@@ -10,10 +10,12 @@ import { UpdatePostPayload } from '../store/highlightPostTemp';
 import { colors } from '../styles';
 
 import DrawerContent from '../components/molecules/DrawerContent';
+import { PostDetailsPayload } from '../components/molecules/PostItem';
 
 import { CompanyMainPage } from '../pages/CompanyMain';
 import PersonalMainPage from '../pages/PersonalMain';
 import PostCreationPage from '../pages/PostCreation';
+import PostDetails from '../pages/PostDetails';
 import { AppStackParamsList } from './AppStack';
 import ProfileStack from './ProfileStack';
 
@@ -25,6 +27,9 @@ export type DrawerParamsList = {
         id?: string | null;
         post?: UpdatePostPayload;
     };
+    PostDetails: {
+        postDetails: PostDetailsPayload | undefined
+    }
 };
 
 type DefaultLoginPageProps = StackScreenProps<AppStackParamsList, 'Drawer'>;
@@ -54,6 +59,7 @@ export default function Drawer({ navigation }: DefaultLoginPageProps): JSX.Eleme
             )}
             <Screen name="PostCreationPage" component={PostCreationPage} />
             <Screen name="ProfileStack" component={ProfileStack} />
+            <Screen name="PostDetails" component={PostDetails} />
         </Navigator>
 
         //#endregion

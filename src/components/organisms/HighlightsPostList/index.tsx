@@ -13,13 +13,16 @@ import {
 import { ContainerView, TitleText } from './styles';
 
 import PostList from '../../atoms/Views/PostList';
+import { PostDetailsPayload } from '../../molecules/PostItem';
 import PostItem from '../../molecules/PostItem';
 
 interface HighlightsPostListProps {
     title: string;
+    postPressed?(postDetails: PostDetailsPayload): void
 }
 
 const HighlightsPostList: React.FC<HighlightsPostListProps> = ({
+    postPressed,
     title
 }: HighlightsPostListProps) => {
     const dispatch = useDispatch();
@@ -76,7 +79,13 @@ const HighlightsPostList: React.FC<HighlightsPostListProps> = ({
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => {
                     const { id, ...rest } = item;
-                    return <PostItem key={id} id={id} {...rest} />;
+                    return (
+                        <PostItem
+                            postPressed={(postDetails: PostDetailsPayload) => { if(postPressed) postPressed(postDetails) }}
+                            key={id}
+                            id={id}
+                            {...rest} />
+                    )
                 }}
                 onViewableItemsChanged={handleOnViewableItemsChanged.current}
                 viewabilityConfig={handleViewabilityConfig.current}

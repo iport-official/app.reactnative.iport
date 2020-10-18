@@ -15,6 +15,7 @@ import {
 
 import MainHeader from '../../components/molecules/MainHeader';
 import PostItem from '../../components/molecules/PostItem';
+import { PostDetailsPayload } from '../../components/molecules/PostItem';
 import CategoryPostList from '../../components/organisms/CategoryPostList';
 import HighlightsPostList from '../../components/organisms/HighlightsPostList';
 import MainFooter from '../../components/organisms/MainFooter';
@@ -57,12 +58,15 @@ export default function PersonalMainPage({ navigation }: DefaultMainPageProps): 
                     {user && (
                         <PostItem
                             showDescription
+                            postPressed={(postDetails: PostDetailsPayload) => navigation.navigate('PostDetails', { postDetails })}
                             height="300px"
                             width="94.5%"
                             {...user}
                         />
                     )}
-                    <HighlightsPostList title="Mais Votados" />
+                    <HighlightsPostList
+                        title="Mais Votados"
+                        postPressed={(postDetails: PostDetailsPayload) => navigation.navigate('PostDetails', { postDetails })} />
                     <CategoryPostList title="Por Categoria" />
                 </JobsScrollView>
                 <MainFooter />
