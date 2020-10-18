@@ -7,18 +7,20 @@ import {
 } from './styles';
 
 interface TextPrependIconProps extends TextProps {
-    text: string
-    icon(): JSX.Element
+    text: string;
+    icon(): JSX.Element;
+    width?: number;
 }
 
 const TextPrependIcon: React.FC<TextPrependIconProps> = ({
     icon,
     text,
+    width = 40,
     ...rest
 }: TextPrependIconProps) => {
     return (
         <TextIconContainer>
-            <View style={{ width: 40, alignItems: 'center' }}>{ icon() }</View>
+            <View style={{ width, alignItems: 'center' }}>{ icon() }</View>
             <TextComponent { ...rest }>{ text }</TextComponent>
         </TextIconContainer>
     )
