@@ -7,10 +7,14 @@ const borderRadius = 50;
 const textShadow = `0px 0px 1px white`;
 
 interface DimensionsProps {
-    width: string
-    height: string
+    width?: string
+    height?: string
     isMain: boolean
 }
+
+export const PostTouchable = styled.TouchableOpacity`
+    margin-top: ${(props: DimensionsProps) => props.isMain ? '20px' : '0'};
+`
 
 export const PostContainerView = styled.View`
     width: ${(props: DimensionsProps) => props.width};

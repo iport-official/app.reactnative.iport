@@ -16,7 +16,6 @@ interface AuthSwitchProps extends ViewProps {
 
 const Tab = createMaterialTopTabNavigator();
 
-
 const AuthSwitch: React.FC<AuthSwitchProps> = ({
     isSignup
 }: AuthSwitchProps) => {
@@ -27,7 +26,7 @@ const AuthSwitch: React.FC<AuthSwitchProps> = ({
                 tabBarLabel: ({ focused }: { focused: boolean }) => {
                     return (
                         <AuthSwitchText isActive={focused}>
-                            {isSignup ? 'Login' : 'SignUp'}
+                            {isSignup ? 'Entrar' : 'Registrar'}
                         </AuthSwitchText>
                     );
                 }
