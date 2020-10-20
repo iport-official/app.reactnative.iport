@@ -87,7 +87,16 @@ export interface UserState {
     error: boolean
 }
 
-export interface ProjectExperienceProxy {
+export interface ProjectProxy {
+    id: string
+    image: string
+    title: string
+    startDate: Date
+    endDate: Date | null
+    description: string
+}
+
+export interface ExperienceProxy {
     id: string
     image: string
     title: string
@@ -100,7 +109,7 @@ export interface AchievementProxy {
     id: string
     image: string
     title: string
-    endDate: Date
+    endDate: Date | null
     description: string
 }
 
