@@ -1,6 +1,8 @@
 import React from 'react';
 import { ViewProps } from 'react-native';
 
+import { SkillProxy } from '../../../store/ducks/user/types';
+
 import {
     SkillsContent,
     SkillsContentContainer,
@@ -17,14 +19,13 @@ import {
     WarningTextContainer
 } from './styles';
 
-import { SkillProps } from '../../../pages/ProfileHighlight';
 import EditIcon from '../../atoms/Buttons/EditIcon';
 
 interface ProfileSkillsProps extends ViewProps {
-    content: SkillProps[];
+    content: SkillProxy[];
     isEditMode: boolean;
     isCurrent: boolean;
-    editPressed?(skill: SkillProps): void;
+    editPressed?(skill: SkillProxy): void;
 }
 
 const ProfileSkillsContent: React.FC<ProfileSkillsProps> = ({

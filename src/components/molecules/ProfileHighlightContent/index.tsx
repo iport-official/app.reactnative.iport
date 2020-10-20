@@ -18,15 +18,15 @@ import {
     WarningTextContainer
 } from './styles';
 
-import { ContentProps } from '../../../pages/ProfileHighlight';
+import { ContentProxy } from '../../../pages/ProfileHighlight';
 import EditIcon from '../../atoms/Buttons/EditIcon';
 
 interface HighlightContentProps extends ViewProps {
-    content: ContentProps[];
+    content: ContentProxy[];
     contentType: string;
     isEditMode: boolean;
     isCurrent: boolean;
-    editPressed?(content: ContentProps): void;
+    editPressed?(content: ContentProxy): void;
 }
 
 const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
@@ -68,7 +68,7 @@ const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
                                     : <></> }
                                 <ContentTitleContainer>
                                     <ContentDateContainer>
-                                        { contentType != 'achievements' ? <ContentDate>{ c.startDate }</ContentDate> : <></> }
+                                        { contentType != 'achievements' ? <ContentDate>{ (c as {startDate: Date}).startDate }</ContentDate> : <></> }
                                         <ContentDate>{ c.endDate ? c.endDate : 'Em andamento' }</ContentDate>
                                     </ContentDateContainer>
                                     <ContentVerticalLine />
