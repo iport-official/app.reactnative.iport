@@ -6,7 +6,10 @@ import { Modal, View } from 'react-native';
 
 import { AntDesign, Feather, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { AchievementProxy, ExperienceProxy, ProjectProxy, SkillProxy } from '../../store/ducks/user/types';
+import { getItemAsync } from 'expo-secure-store';
+
+import { UserWithArrayProxy } from '../../store/ducks/common/user-with-array-proxy';
+import { AchievementProxy, ExperienceProxy, ProjectProxy, SkillProxy, UserProxy } from '../../store/ducks/user/types';
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
@@ -28,6 +31,7 @@ import ProfileHighlightContent from '../../components/molecules/ProfileHighlight
 import ProfileSkillsContent from '../../components/molecules/ProfileSkillsContent';
 import ProfileTopBar from '../../components/molecules/ProfileTopBar';
 
+import api from '../../services/api';
 import uuid from 'uuid-random';
 
 type DefaultProfileHighlightProps = StackScreenProps<
@@ -43,15 +47,136 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
     const highlight: string = route.params.highlight;
     const isEditMode: boolean = route.params.isEditMode;
     const isCurrent: boolean = route.params.isCurrent;
+    const userId: string = route.params.userId || '';
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [achievementsList, setAchievementsList] = useState<AchievementProxy[]>([]);
+    const [experiencesList, setExperiencesList] = useState<ExperienceProxy[]>([]);
+    const [projectsList, setProjectsList] = useState<ProjectProxy[]>([]);
+    const [skillsList, setSkillsList] = useState<SkillProxy[]>([]);
+
+    async function getHighlightContent() {
+        try {
+            const token = await getItemAsync('access_token');
+            await api.get<
+                UserWithArrayProxy<
+                    UserProxy,
+                    AchievementProxy | ExperienceProxy | ProjectProxy | SkillProxy
+                >>(
+                `users/${userId}/${highlight === 'skills' ? 'competences' : highlight}`,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(response => {
+                console.log(response.data.arrayProxy.array);
+                if(highlight === 'skills') {
+                    setSkillsList([...response.data.arrayProxy.array.map(e => (e as SkillProxy))]);
+                } else if(highlight === 'projects') {
+                    setProjectsList([...response.data.arrayProxy.array.map(e => (e as ProjectProxy))]);
+                } else if(highlight === 'experiences') {
+                    setExperiencesList([...response.data.arrayProxy.array.map(e => (e as ExperienceProxy))]);
+                } else {
+                    setAchievementsList([...response.data.arrayProxy.array.map(e => (e as AchievementProxy))]);
+                }
+            });
+        } catch(error) {
+            alert(error);
+        }
+    }
+
+    async function saveContent(pc: ContentProxy) {
+        try {
+            const token = await getItemAsync('access_token');
+            await api.post(
+                `users/${userId}/${highlight}`,
+                {
+                    ...pc,
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(() => {
+                getHighlightContent();
+            })
+        } catch(error) {
+            alert(error);
+        }
+    }
+
+    async function saveSkill(sc: SkillProxy) {
+        try {
+            const token = await getItemAsync('access_token');
+            await api.post(
+                `users/${userId}/competences`,
+                {
+                    ...sc
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(() => {
+                getHighlightContent();
+            })
+        } catch(error) {
+            alert(error);
+        }
+    }
+
+    async function updateContent(pc: ContentProxy) {
+        try {
+            const token = await getItemAsync('access_token');
+            await api.patch(
+                `users/${userId}/${highlight}/${pc.id}`,
+                {
+                    ...pc
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(() => {
+                getHighlightContent();
+            })
+        } catch(error) {
+            alert(error);
+        }
+    }
+
+    async function updateSkill(sc: SkillProxy) {
+        try {
+            const token = await getItemAsync('access_token');
+            await api.patch(
+                `users/${userId}/competences/${sc.id}`,
+                {
+                    ...sc
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            ).then(() => {
+                getHighlightContent();
+            })
+        } catch(error) {
+            alert(error);
+        }
+    }
 
     const initialPageContent: ExperienceProxy | ProjectProxy = {
         id: '',
         image: '',
         title: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: new Date().toISOString().substr(0, 7),
+        endDate: new Date().toISOString().substr(0, 7),
         description: ''
     }
 
@@ -59,7 +184,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         id: '',
         image: '',
         title: '',
-        endDate: new Date(),
+        endDate: new Date().toISOString().substr(0, 7),
         description: ''
     }
 
@@ -84,6 +209,15 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
             setTopBarTitle('Competências');
         } else {
             setTopBarTitle('Conquistas');
+        }
+
+        getHighlightContent();
+
+        return () => {
+            setAchievementsList([]);
+            setExperiencesList([]);
+            setProjectsList([]);
+            setSkillsList([]);
         }
     }, []);
 
@@ -126,9 +260,9 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         if(highlight === 'achievements') {
             setAchievementContent({...content});
         } else if(highlight === 'experiences') {
-            setExperienceContent({...content, startDate: (inContent as {startDate: Date}).startDate});
+            setExperienceContent({...content, startDate: (inContent as {startDate: string}).startDate});
         } else {
-            setProjectContent({...content, startDate: (inContent as {startDate: Date}).startDate});
+            setProjectContent({...content, startDate: (inContent as {startDate: string}).startDate});
         }
         setModalVisible(true);
         setIsAdd(false);
@@ -140,6 +274,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
             label: inSkill.label,
             level: inSkill.level
         });
+        setIsAdd(false);
         setModalVisible(true);
     }
 
@@ -196,23 +331,11 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                 }
                 if(found === false) {
                     pc.id = uuid();
-                    highlight === 'projects'
-                        ? projectsList.push(pc as ProjectProxy)
-                        : (highlight === 'experiences'
-                            ? experiencesList.push(pc as ExperienceProxy)
-                            : achievementsList.push(pc));
+                    saveContent(pc);
                     setModalVisible(false);
                 }
             } else {
-                for(let i = 0; i < contentCopy.length; i++) {
-                    if(contentCopy[i].id === pc.id) {
-                        highlight === 'projects'
-                        ? projectsList.splice(i, 1, (pc as ProjectProxy))
-                        : (highlight === 'experiences'
-                            ? experiencesList.splice(i, 1, (pc as ExperienceProxy))
-                            : achievementsList.splice(i, 1, pc));
-                    }
-                }
+                updateContent(pc);
                 setModalVisible(false);
             }
         }
@@ -236,16 +359,11 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                 }
                 if(found === false) {
                     sc.id = uuid();
-                    skillsList.push(sc);
+                    saveSkill(sc);
                     setModalVisible(false);
                 }
             } else {
-                for(let i = 0; i < skillsCopy.length; i++) {
-                    if(skillsCopy[i].id === sc.id) {
-                        skillsCopy[i].label = sc.label;
-                        skillsCopy[i].level = sc.level;
-                    }
-                }
+                updateSkill(sc);
                 setModalVisible(false);
             }
         }
@@ -265,11 +383,6 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         }
         return 'Expert';
     }
-
-    const achievementsList: AchievementProxy[] = [];
-    const experiencesList: ExperienceProxy[] = [];
-    const projectsList: ProjectProxy[] = [];
-    const skillsList: SkillProxy[] = [];
 
     return (
         <ContainerSafeAreaView>
@@ -291,8 +404,10 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                 <ImagePicker
                                     style={{ height: 120, width: '90%', borderRadius: 10 }}
                                     imageProp={highlight === 'projects'
-                                        ?  projectContent.image
-                                        : (highlight === 'experiences' ? experienceContent.image : achievementContent.image)}
+                                        ?  `data:image/gif;base64,${projectContent.image}`
+                                        : (highlight === 'experiences'
+                                            ? `data:image/gif;base64,${experienceContent.image}`
+                                            : `data:image/gif;base64,${achievementContent.image}`)}
                                     aspect={[16, 9]}
                                     onPick={(image: string) => {
                                         if(highlight === 'projects') {
@@ -326,13 +441,13 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                             fieldWidth='50%'
                                             placeholder='Início'
                                             textValue={highlight === 'projects'
-                                                ?  projectContent.startDate.toISOString()
-                                                : experienceContent.startDate.toISOString()}
+                                                ?  projectContent.startDate
+                                                : experienceContent.startDate}
                                             onTextChange={(startDate: string) => {
                                                 if(highlight === 'projects') {
-                                                    setProjectContent({ ...projectContent, startDate: new Date(startDate) });
+                                                    setProjectContent({ ...projectContent, startDate });
                                                 } else {
-                                                    setExperienceContent({ ...experienceContent, startDate: new Date(startDate) });
+                                                    setExperienceContent({ ...experienceContent, startDate });
                                                 }
                                             }} />
                                         : <></> }
@@ -340,15 +455,15 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                         fieldWidth={ highlight === 'achievements' ? '100%' : '50%'}
                                         placeholder='Término'
                                         textValue={highlight === 'projects'
-                                            ?  projectContent.endDate?.toISOString()
-                                            : (highlight === 'experiences' ? experienceContent.endDate?.toISOString() : achievementContent.endDate?.toISOString())}
+                                            ?  projectContent.endDate
+                                            : (highlight === 'experiences' ? experienceContent.endDate : achievementContent.endDate)}
                                         onTextChange={(endDate: string) => {
                                             if(highlight === 'projects') {
-                                                setProjectContent({ ...projectContent, endDate: new Date(endDate) });
+                                                setProjectContent({ ...projectContent, endDate });
                                             } else if(highlight === 'experiences') {
-                                                setExperienceContent({ ...experienceContent, endDate: new Date(endDate) });
+                                                setExperienceContent({ ...experienceContent, endDate });
                                             } else {
-                                                setAchievementContent({ ...achievementContent, endDate: new Date(endDate) });
+                                                setAchievementContent({ ...achievementContent, endDate });
                                             }
                                         }} />
                                 </View>
