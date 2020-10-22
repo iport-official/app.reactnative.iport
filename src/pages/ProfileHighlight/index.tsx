@@ -1,9 +1,12 @@
+/* eslint-disable react/display-name */
 import Slider from '@react-native-community/slider';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Modal, View } from 'react-native';
 
 import { AntDesign, Feather, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { AchievementProxy, ExperienceProxy, ProjectProxy, SkillProxy } from '../../store/ducks/user/types';
 
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
@@ -25,25 +28,14 @@ import ProfileHighlightContent from '../../components/molecules/ProfileHighlight
 import ProfileSkillsContent from '../../components/molecules/ProfileSkillsContent';
 import ProfileTopBar from '../../components/molecules/ProfileTopBar';
 
+import uuid from 'uuid-random';
+
 type DefaultProfileHighlightProps = StackScreenProps<
     ProfileStackParamsList,
     'ProfileHighlight'
 >
 
-export interface ContentProps {
-    id: number;
-    image: string | null | undefined;
-    title: string;
-    startDate: string;
-    endDate: string | null;
-    description: string;
-}
-
-export interface SkillProps {
-    id: number;
-    label: string;
-    level: number;
-}
+export type ContentProxy = AchievementProxy | ExperienceProxy | ProjectProxy;
 
 export default function({ navigation, route }: DefaultProfileHighlightProps): JSX.Element {
 
@@ -54,23 +46,33 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const initialPageContent: ContentProps = {
-        id: 0,
+    const initialPageContent: ExperienceProxy | ProjectProxy = {
+        id: '',
         image: '',
         title: '',
-        startDate: '',
-        endDate: '',
+        startDate: new Date(),
+        endDate: new Date(),
         description: ''
     }
 
-    const initialSkillContent: SkillProps = {
-        id: 0,
+    const initialAchievementContent: AchievementProxy = {
+        id: '',
+        image: '',
+        title: '',
+        endDate: new Date(),
+        description: ''
+    }
+
+    const initialSkillContent: SkillProxy = {
+        id: '',
         label: '',
         level: 0
     }
 
-    const [pageContent, setPageContent] = useState(initialPageContent);
-    const [skillContent, setSkillContent] = useState(initialSkillContent);
+    const [experienceContent, setExperienceContent] = useState<ExperienceProxy>(initialPageContent);
+    const [projectContent, setProjectContent] = useState<ProjectProxy>(initialPageContent);
+    const [achievementContent, setAchievementContent] = useState<AchievementProxy>(initialAchievementContent);
+    const [skillContent, setSkillContent] = useState<SkillProxy>(initialSkillContent);
     const [isAdd, setIsAdd] = useState(false);
 
     useEffect(() => {
@@ -113,20 +115,26 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         return <AntDesign name="close" size={30} color="white" />
     }
 
-    const editPressed = (inContent: ContentProps): void => {
-        setPageContent({
+    const editPressed = (inContent: ContentProxy): void => {
+        const content = {
             id: inContent.id,
             image: inContent.image,
             title: inContent.title,
-            startDate: inContent.startDate,
             endDate: inContent.endDate,
             description: inContent.description
-        });
+        }
+        if(highlight === 'achievements') {
+            setAchievementContent({...content});
+        } else if(highlight === 'experiences') {
+            setExperienceContent({...content, startDate: (inContent as {startDate: Date}).startDate});
+        } else {
+            setProjectContent({...content, startDate: (inContent as {startDate: Date}).startDate});
+        }
         setModalVisible(true);
         setIsAdd(false);
     }
 
-    const skillEditPressed = (inSkill: SkillProps): void => {
+    const skillEditPressed = (inSkill: SkillProxy): void => {
         setSkillContent({
             id: inSkill.id,
             label: inSkill.label,
@@ -135,12 +143,45 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         setModalVisible(true);
     }
 
+    const sortSkills = (): SkillProxy[] => {
+        const skills = [...skillsList];
+        skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)
+        return skills;
+    }
+
+    const sortContent = (): ContentProxy[] => {
+        const content = [];
+        if(highlight === 'achievements') {
+            content.push(...achievementsList);
+            content.sort((c1, c2) => {
+                if(c1.endDate === null && c2.endDate === null) return 1;
+                if(c2.endDate === null) return -1;
+                if(c1.endDate === null) return -1;
+                if(c1.endDate === c2.endDate) return 1;
+                return c1.endDate < c2.endDate ? 1 : -1;
+            });
+        } else {
+            highlight === 'projects' ? content.push(...projectsList) : content.push(...experiencesList);
+            content.sort((c1, c2) => {
+                if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
+                if(c2.endDate === null) return -1;
+                if(c1.endDate === null) return -1;
+                if(c1.endDate !== null && c2.endDate !== null) {
+                    if(c1.endDate === c2.endDate) return c1.startDate < c2.startDate ? 1 : -1;
+                    return c1.endDate < c2.endDate ? 1 : -1;
+                }
+                return c1.endDate < c2.endDate ? 1 : -1;
+            });
+        }
+        return content;
+    }
+
     const handleConfirm = (): void => {
-        const pc = pageContent;
+        const pc = highlight === 'projects' ? projectContent : (highlight === 'experiences' ? experienceContent : achievementContent);
         if(!(pc.title.length > 0 && pc.description.length > 0)) {
             alert('Preencha os campos corretamente!');
         } else {
-            const contentCopy = [...content];
+            const contentCopy = highlight === 'projects' ? [...projectsList] : (highlight === 'experiences' ? [...experiencesList] : achievementsList);
             let found = false;
             contentCopy.sort((c1, c2) => c1.id < c2.id ? -1 : 1);
             if(isAdd) {
@@ -154,18 +195,22 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                     }
                 }
                 if(found === false) {
-                    pc.id = contentCopy[contentCopy.length - 1].id;
-                    content.push(pc);
+                    pc.id = uuid();
+                    highlight === 'projects'
+                        ? projectsList.push(pc as ProjectProxy)
+                        : (highlight === 'experiences'
+                            ? experiencesList.push(pc as ExperienceProxy)
+                            : achievementsList.push(pc));
                     setModalVisible(false);
                 }
             } else {
-                for(let i = 0; i < content.length; i++) {
-                    if(content[i].id === pc.id) {
-                        content[i].image = pc.image;
-                        content[i].title = pc.title;
-                        content[i].description = pc.description;
-                        content[i].endDate = pc.endDate !== null && pc.endDate.length > 0 ? pc.endDate : null;
-                        content[i].startDate = highlight !== 'achievements' ? pc.startDate : '';
+                for(let i = 0; i < contentCopy.length; i++) {
+                    if(contentCopy[i].id === pc.id) {
+                        highlight === 'projects'
+                        ? projectsList.splice(i, 1, (pc as ProjectProxy))
+                        : (highlight === 'experiences'
+                            ? experiencesList.splice(i, 1, (pc as ExperienceProxy))
+                            : achievementsList.splice(i, 1, pc));
                     }
                 }
                 setModalVisible(false);
@@ -178,7 +223,7 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         if(!(sc.label.length > 0 && sc.level <= 100 && sc.level >= 0)) {
             alert('Insira o nome da competência!');
         } else {
-            const skillsCopy = [...skills];
+            const skillsCopy = [...skillsList];
             let found = false;
             skillsCopy.sort((s1, s2) => s1.id < s2.id ? -1 : 1);
             if(isAdd) {
@@ -190,8 +235,8 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                     }
                 }
                 if(found === false) {
-                    sc.id = skillsCopy[skillsCopy.length - 1].id + 1;
-                    skills.push(sc);
+                    sc.id = uuid();
+                    skillsList.push(sc);
                     setModalVisible(false);
                 }
             } else {
@@ -221,95 +266,10 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
         return 'Expert';
     }
 
-    const content: ContentProps[] = [
-        {
-            id: 1,
-            image: '',
-            title: 'iPort',
-            startDate: '2020-08',
-            endDate: '2021-08',
-            description: 'iPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.\niPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.\niPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.',
-        },
-        {
-            id: 2,
-            image: '',
-            title: 'iPort Web',
-            startDate: '2020-08',
-            endDate: '2022-08',
-            description: 'iPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.\niPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.\niPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.',
-        },
-        {
-            id: 3,
-            image: '',
-            title: 'iPort Desktop',
-            startDate: '2021-08',
-            endDate: null,
-            description: 'iPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.\niPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.\niPort foi um aplicativo desenvolvido por uma equipe pequena e amadora da Faculdade de Engenharia de Sorocaba (FACENS), hoje possuindo mais de 200.000 downloads, estando em #3 na PlayStore.',
-        }
-    ]
-
-    const skills: SkillProps[] = [
-        {
-            id: 1,
-            label: 'VueJS',
-            level: 85
-        },
-        {
-            id: 2,
-            label: 'Java',
-            level: 70
-        },
-        {
-            id: 3,
-            label: 'React Native',
-            level: 70
-        },
-        {
-            id: 4,
-            label: 'C',
-            level: 60
-        },
-        {
-            id: 5,
-            label: 'CSS',
-            level: 60
-        },
-        {
-            id: 6,
-            label: 'HTML',
-            level: 60
-        },
-        {
-            id: 7,
-            label: 'React',
-            level: 55
-        },
-        {
-            id: 8,
-            label: 'Git',
-            level: 45
-        },
-        {
-            id: 9,
-            label: 'Angular',
-            level: 20
-        },
-        {
-            id: 10,
-            label: 'C#',
-            level: 10
-        },
-        {
-            id: 11,
-            label: 'C++',
-            level: 20
-        },
-        {
-            id: 12,
-            label: 'JavaScript',
-            level: 70
-        }
-    ]
+    const achievementsList: AchievementProxy[] = [];
+    const experiencesList: ExperienceProxy[] = [];
+    const projectsList: ProjectProxy[] = [];
+    const skillsList: SkillProxy[] = [];
 
     return (
         <ContainerSafeAreaView>
@@ -330,13 +290,33 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                 }}>
                                 <ImagePicker
                                     style={{ height: 120, width: '90%', borderRadius: 10 }}
-                                    imageProp={pageContent.image}
+                                    imageProp={highlight === 'projects'
+                                        ?  projectContent.image
+                                        : (highlight === 'experiences' ? experienceContent.image : achievementContent.image)}
                                     aspect={[16, 9]}
-                                    onPick={(image: string) => setPageContent({ ...pageContent, image })} />
+                                    onPick={(image: string) => {
+                                        if(highlight === 'projects') {
+                                            setProjectContent({ ...projectContent, image });
+                                        } else if(highlight === 'experiences') {
+                                            setExperienceContent({ ...experienceContent, image });
+                                        } else {
+                                            setAchievementContent({ ...achievementContent, image });
+                                        }
+                                    }} />
                                 <TextField
                                     placeholder='Título'
-                                    textValue={pageContent.title}
-                                    onTextChange={(title: string) => setPageContent({ ...pageContent, title })} />
+                                    textValue={highlight === 'projects'
+                                        ?  projectContent.title
+                                        : (highlight === 'experiences' ? experienceContent.title : achievementContent.title)}
+                                    onTextChange={(title: string) => {
+                                        if(highlight === 'projects') {
+                                            setProjectContent({ ...projectContent, title });
+                                        } else if(highlight === 'experiences') {
+                                            setExperienceContent({ ...experienceContent, title });
+                                        } else {
+                                            setAchievementContent({ ...achievementContent, title });
+                                        }
+                                    }} />
                                 <View
                                     style={{
                                         flexDirection: 'row'
@@ -345,19 +325,47 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                         ? <TextField
                                             fieldWidth='50%'
                                             placeholder='Início'
-                                            textValue={pageContent.startDate}
-                                            onTextChange={(startDate: string) => setPageContent({ ...pageContent, startDate })} />
+                                            textValue={highlight === 'projects'
+                                                ?  projectContent.startDate.toISOString()
+                                                : experienceContent.startDate.toISOString()}
+                                            onTextChange={(startDate: string) => {
+                                                if(highlight === 'projects') {
+                                                    setProjectContent({ ...projectContent, startDate: new Date(startDate) });
+                                                } else {
+                                                    setExperienceContent({ ...experienceContent, startDate: new Date(startDate) });
+                                                }
+                                            }} />
                                         : <></> }
                                     <TextField
                                         fieldWidth={ highlight === 'achievements' ? '100%' : '50%'}
                                         placeholder='Término'
-                                        textValue={pageContent.endDate}
-                                        onTextChange={(endDate: string) => setPageContent({ ...pageContent, endDate })} />
+                                        textValue={highlight === 'projects'
+                                            ?  projectContent.endDate?.toISOString()
+                                            : (highlight === 'experiences' ? experienceContent.endDate?.toISOString() : achievementContent.endDate?.toISOString())}
+                                        onTextChange={(endDate: string) => {
+                                            if(highlight === 'projects') {
+                                                setProjectContent({ ...projectContent, endDate: new Date(endDate) });
+                                            } else if(highlight === 'experiences') {
+                                                setExperienceContent({ ...experienceContent, endDate: new Date(endDate) });
+                                            } else {
+                                                setAchievementContent({ ...achievementContent, endDate: new Date(endDate) });
+                                            }
+                                        }} />
                                 </View>
                                 <TextField
                                     placeholder='Descrição'
-                                    textValue={pageContent.description}
-                                    onTextChange={(description: string) => setPageContent({ ...pageContent, description })} />
+                                    textValue={highlight === 'projects'
+                                        ?  projectContent.description
+                                        : (highlight === 'experiences' ? experienceContent.description : achievementContent.description)}
+                                    onTextChange={(description: string) => {
+                                        if(highlight === 'projects') {
+                                            setProjectContent({ ...projectContent, description });
+                                        } else if(highlight === 'experiences') {
+                                            setExperienceContent({ ...experienceContent, description });
+                                        } else {
+                                            setAchievementContent({ ...achievementContent, description });
+                                        }
+                                    }} />
                             </ModalContentItem>
                             <ModalButtonsContainer>
                                 <RoundButton
@@ -408,25 +416,16 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                         style={{ flex: 1, width: '100%' }}>
                         { highlight !== 'skills'
                             ? <ProfileHighlightContent
-                                editPressed={(c: ContentProps) => editPressed(c)}
+                                editPressed={(c: ContentProxy) => editPressed(c)}
                                 isEditMode={isEditMode}
                                 isCurrent={isCurrent}
-                                content={content.sort((c1, c2) => {
-                                    if(c1.endDate === null && c2.endDate === null) return c1.startDate < c2.startDate ? 1 : -1;
-                                    if(c2.endDate === null) return -1;
-                                    if(c1.endDate === null) return -1;
-                                    if(c1.endDate !== null && c2.endDate !== null) {
-                                        if(c1.endDate === c2.endDate) return c1.startDate < c2.startDate ? 1 : -1;
-                                        return c1.endDate < c2.endDate ? 1 : -1;
-                                    }
-                                    return c1.endDate < c2.endDate ? 1 : -1;
-                                })}
+                                content={sortContent()}
                                 contentType={highlight} />
                             : <ProfileSkillsContent
-                                editPressed={(skill: SkillProps) => skillEditPressed(skill)}
+                                editPressed={(skill: SkillProxy) => skillEditPressed(skill)}
                                 isEditMode={isEditMode}
                                 isCurrent={isCurrent}
-                                content={skills.sort((s1, s2) => s1.level < s2.level ? 1 : -1)} /> }
+                                content={sortSkills()} /> }
                     </View>
                     <ProfileTopBar
                         topBarTitle={topBarTitle}
@@ -441,7 +440,9 @@ export default function({ navigation, route }: DefaultProfileHighlightProps): JS
                                 right: 10
                             }}
                             onPress={() => {
-                                setPageContent(initialPageContent);
+                                setExperienceContent(initialPageContent);
+                                setProjectContent(initialPageContent);
+                                setAchievementContent(initialAchievementContent);
                                 setSkillContent(initialSkillContent);
                                 setModalVisible(true);
                                 setIsAdd(true);
