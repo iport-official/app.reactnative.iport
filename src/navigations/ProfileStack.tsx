@@ -10,7 +10,8 @@ export type ProfileStackParamsList = {
     ProfileHighlight: {
         highlight: string,
         isEditMode: boolean,
-        isCurrent: boolean
+        isCurrent: boolean,
+        userId?: string
     };
 }
 

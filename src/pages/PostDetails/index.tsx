@@ -6,7 +6,7 @@ import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icon
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { UserProxy } from '../../store/ducks/user/types';
+import { CompanyUserProxy, UserProxy } from '../../store/ducks/user/types';
 
 import { DrawerParamsList } from '../../navigations/MainDrawer';
 
@@ -80,13 +80,17 @@ export default function ({ navigation, route }: DefaultPostDetailsProps): JSX.El
                                 width={25}
                                 text={user.email}
                                 icon={() => <MaterialCommunityIcons name="email" size={24} color="#46266c" />} />
+                            { user.telephones && user.telephones.length > 0
+                                ? <TextPrependIcon
+                                    width={25}
+                                    text={user.telephones ? user.telephones.array[0] : ''}
+                                    icon={() => <MaterialCommunityIcons name="phone" size={24} color="#46266c" />} />
+                                : <></> }
                             <TextPrependIcon
                                 width={25}
-                                text={'(11) 984635587'}
-                                icon={() => <MaterialCommunityIcons name="phone" size={24} color="#46266c" />} />
-                            <TextPrependIcon
-                                width={25}
-                                text={user.city + ' - ' + user.state}
+                                text={(user.content as CompanyUserProxy).street
+                                        + ', ' + (user.content as CompanyUserProxy).number
+                                        + ' | ' + user.city + ' - ' + user.state}
                                 icon={() => <FontAwesome name="map-marker" size={24} color="#46266c" />} />
                         </InfoContainer>
                         <SalaryLevelContainer>

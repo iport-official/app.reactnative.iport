@@ -91,8 +91,8 @@ export interface ProjectProxy {
     id: string
     image: string
     title: string
-    startDate: Date
-    endDate: Date | null
+    startDate: string
+    endDate: string | null
     description: string
 }
 
@@ -100,8 +100,8 @@ export interface ExperienceProxy {
     id: string
     image: string
     title: string
-    startDate: Date
-    endDate: Date | null
+    startDate: string
+    endDate: string | null
     description: string
 }
 
@@ -109,7 +109,7 @@ export interface AchievementProxy {
     id: string
     image: string
     title: string
-    endDate: Date | null
+    endDate: string | null
     description: string
 }
 

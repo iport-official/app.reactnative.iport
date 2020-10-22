@@ -19,7 +19,7 @@ export const PostDetailsContainer = styled.ScrollView`
 `
 
 export const PostDetailsHeader = styled.View`
-    height: 290px;
+    height: 300px;
     background-color: #fff;
 `
 
@@ -92,8 +92,10 @@ export const SalaryLevelContainer = styled.View`
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
+    position: absolute;
 
     margin-top: 10px;
+    bottom: 15px;
 `
 
 export const SalaryLevelShape = styled.View`
