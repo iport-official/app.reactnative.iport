@@ -22,11 +22,11 @@ const AuthSwitch: React.FC<AuthSwitchProps> = ({
     return (
         <Tab.Navigator
             initialRouteName="Login"
-            screenOptions={() => ({
+            screenOptions={({route}) => ({
                 tabBarLabel: ({ focused }: { focused: boolean }) => {
                     return (
                         <AuthSwitchText isActive={focused}>
-                            {isSignup ? 'Entrar' : 'Registrar'}
+                            {route.name === 'Login' ? 'Entrar' : 'Registrar'}
                         </AuthSwitchText>
                     );
                 }
