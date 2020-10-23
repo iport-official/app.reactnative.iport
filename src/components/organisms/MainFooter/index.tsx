@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Animated, Keyboard, Easing } from 'react-native';
+
 import { FontAwesome } from '@expo/vector-icons';
 
 import {
@@ -14,7 +15,12 @@ import {
 
 import arrowImage from '../../../assets/TriangleArrow.png';
 
-export default function MainFooter() {
+interface MainFooterProps {
+    onTextChange(text: string): void;
+    search(): void;
+}
+
+export default function MainFooter({ onTextChange, search }: MainFooterProps): JSX.Element {
 
     const [isFooterShowed, setIsFooterShowed] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -194,7 +200,10 @@ export default function MainFooter() {
                 <SearchBox
                     style={{ width: searchOpen, paddingHorizontal: isSearchActivated ? 5 : 0 }}
                     value={searchText}
-                    onChangeText={(text: string) => setSearchText(text)}
+                    onChangeText={(text: string) => {
+                        setSearchText(text);
+                        onTextChange(text);
+                    }}
                     onBlur={() => {
                         if (searchText) {
                             setIsSearchActivated(false);
@@ -210,6 +219,9 @@ export default function MainFooter() {
                     }}
                     onPress={() => {
                         animatedSearchOn();
+                        if(isSearchActivated) {
+                            search();
+                        }
                     }}>
                     <FontAwesome
                         name="search"
