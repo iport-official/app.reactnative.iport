@@ -68,8 +68,8 @@ const ProfileHighlightContent: React.FC<HighlightContentProps> = ({
                                     : <></> }
                                 <ContentTitleContainer>
                                     <ContentDateContainer>
-                                        { contentType != 'achievements' ? <ContentDate>{ (c as {startDate: Date}).startDate }</ContentDate> : <></> }
-                                        <ContentDate>{ c.endDate ? c.endDate : 'Em andamento' }</ContentDate>
+                                        <ContentDate>{ c.endDate ? c.endDate?.substr(0, 7) : 'Em andamento' }</ContentDate>
+                                        { contentType != 'achievements' ? <ContentDate>{ (c as {startDate: string}).startDate.substr(0, 7) }</ContentDate> : <></> }
                                     </ContentDateContainer>
                                     <ContentVerticalLine />
                                     <ContentTitle>{ c.title }</ContentTitle>

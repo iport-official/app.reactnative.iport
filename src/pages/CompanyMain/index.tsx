@@ -76,7 +76,6 @@ export function CompanyMainPage({
     }
 
     const postEdit = async (id: string, post: UpdatePostPayload): Promise<void> => {
-        console.log(post.title);
         navigation.navigate('PostCreationPage', { id, post });
     }
 
@@ -84,9 +83,7 @@ export function CompanyMainPage({
     const postDelete = async (postId: string): Promise<void> => {
         try {
             const token = await getItemAsync('access_token');
-            const response = await api.delete<
-                any
-            >(`users/${userId}/posts/${postId}`, {
+            await api.delete(`users/${userId}/posts/${postId}`, {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }

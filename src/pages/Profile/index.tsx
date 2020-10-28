@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { AntDesign, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { getItemAsync } from 'expo-secure-store';
 import { setStatusBarStyle } from 'expo-status-bar';
 
 import { ApplicationState } from '../../store';
@@ -14,7 +15,7 @@ import { PersonalUserProxy, UserProxy } from '../../store/ducks/user/types';
 import { ProfileStackParamsList } from '../../navigations/ProfileStack';
 
 import {
-    // ContactItem,
+    ContactItem,
     ContactTitle,
     ContainerSafeAreaView,
     ContainerKeyboardAvoidView,
@@ -33,6 +34,7 @@ import ProfileHightlights from '../../components/molecules/ProfileHighlights';
 import ProfileInfo from '../../components/organisms/ProfileInfo';
 
 import ActionButtonContext from '../../contexts/actionButton';
+import api from '../../services/api';
 
 type DefaultProfilePageProps = StackScreenProps<
     ProfileStackParamsList,
@@ -59,8 +61,17 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
 
     useEffect(() => { setStatusBarStyle("light") }, []);
     useEffect(() => {
-        console.log(user);
-    }, []);
+        setProfileInfo({
+            image: user?.profileImage || '',
+            name: user?.username || '',
+            status: (user?.content as PersonalUserProxy).status || ''
+        });
+        setProfileHighlights({
+            email: user?.email || '',
+            city: user?.city || '', state: user?.state || '',
+            role: (user?.content as PersonalUserProxy).job || '',
+            spotlight: (user?.content as PersonalUserProxy).highlights || '' });
+    }, [user]);
 
     const [isActive, setIsActive] = useState(false);
     const [first, setFirst] = useState(0);
@@ -151,14 +162,34 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
         setEditMode(true);
     }
 
-    const handleConfirmPress = (): void => {
+    const handleConfirmPress = async () => {
         toggleActionButton();
         setEditMode(false);
 
-        console.log('------------------------------------');
-        console.log(profileInfo);
-        console.log('------------------------------------');
-        console.log(profileHighlights);
+        try {
+            const token = await getItemAsync('access_token');
+            await api.patch(`users/${user?.id}`,
+                {
+                    profileImage: profileInfo.image,
+                    username: profileInfo.name,
+                    email: profileHighlights.email,
+                    city: profileHighlights.city,
+                    state: profileHighlights.state,
+                    content: {
+                        status: profileInfo.status,
+                        job: profileHighlights.role,
+                        highlights: profileHighlights.spotlight
+                    }
+                    // ...user
+                },{
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }
+            )
+        } catch(error) {
+            alert(error);
+        }
     }
 
     const animatePopIn = () => {
@@ -216,16 +247,6 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
         outputRange: ['180deg', '0deg']
     });
 
-    // TODO - remove template arrays
-    // const phones = [
-    //     { id: uuid(), phone: "988776655" },
-    //     { id: uuid(), phone: "988776655" },
-    //     { id: uuid(), phone: "988776655" }];
-    // const emails = [
-    //     { id: uuid(), email: "michell@gmail.com" },
-    //     { id: uuid(), email: "michell.algarra@gmail.com"},
-    //     { id: uuid(), email: "nest.js@gmail.com" }];
-
     const isCurrent = true;
 
     return (
@@ -262,9 +283,9 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                             { user && user.emails && user.emails.length > 0 || editMode
                                 ? <ContactTitle>E-mails</ContactTitle>
                                 : <View /> }
-                            {/* { user?.emails.array.map((e, index) => {
+                            { user?.emails?.array.map((e, index) => {
                                 return <ContactItem key={index}>{ e }</ContactItem>
-                            }) } */}
+                            }) }
                         </ModalContentItem>
                         <ModalContentItem
                             isEditMode={editMode}
@@ -287,12 +308,15 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                             { user && user.telephones && user.telephones.length > 0 || editMode
                                 ? <ContactTitle>Telefones</ContactTitle>
                                 : <View /> }
-                            {/* { user?.telephones.array.map((p, index) => {
+                            { user?.telephones?.array.map((p, index) => {
                                 return <ContactItem key={index}>{ p }</ContactItem>
-                            }) } */}
+                            }) }
                         </ModalContentItem>
-                        { user && user.emails && user.emails.length === 0 && user.telephones && user.telephones.length === 0 && !editMode
-                            ? <ContactTitle style={{ textAlign: 'center', marginBottom: 10 }}
+                        { ((user && user.emails && user.emails.length === 0
+                            && user.telephones && user.telephones.length === 0)
+                            || (user && !user.emails && !user.telephones))
+                            && !editMode
+                            ? <ContactTitle style={{ textAlign: 'center', marginBottom: 25 }}
                                 >Este usuário não adicionou nenhum contato</ContactTitle>
                             : <View /> }
                     </ModalContent>
@@ -302,28 +326,61 @@ export default function ProfilePage({ navigation }: DefaultProfilePageProps): JS
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
                     <ProfileInfo
-                        profileImage={user?.profileImage}
-                        name={user?.username}
-                        status={(user?.content as PersonalUserProxy).status}
+                        // profileImage={user?.profileImage}
+                        // name={user?.username}
+                        // status={(user?.content as PersonalUserProxy).status}
+                        // isEditMode={editMode}
+                        profileImage={profileInfo.image}
+                        name={profileInfo.name}
+                        status={profileInfo.status}
                         isEditMode={editMode}
-                        onStatusChange={(status: string) => setProfileInfo({ ...profileInfo, status }) }
-                        onNameChange={(name: string) => setProfileInfo({ ...profileInfo, name }) }
-                        onImageChange={(image: string | null) => setProfileInfo({ ...profileInfo, image }) }
+                        onStatusChange={(status: string) =>
+                            setProfileInfo({ ...profileInfo, status })
+                            // user ? (user.content as PersonalUserProxy).status = status : ''
+                        }
+                        onNameChange={(name: string) =>
+                            setProfileInfo({ ...profileInfo, name })
+                            // user ? user.username = name : ''
+                        }
+                        onImageChange={(image: string | null) =>
+                            setProfileInfo({ ...profileInfo, image })
+                            // user ? user.profileImage = (image || '') : ''
+                        }
                         />
                     <ProfileHightlights
-                        role={(user?.content as PersonalUserProxy).job}
-                        spotlight={(user?.content as PersonalUserProxy).highlights}
-                        email={user?.email}
-                        city={user?.city}
-                        state={user?.state}
+                        // role={(user?.content as PersonalUserProxy).job}
+                        // spotlight={(user?.content as PersonalUserProxy).highlights}
+                        // email={user?.email}
+                        // city={user?.city}
+                        // state={user?.state}
+                        role={profileHighlights.role}
+                        spotlight={profileHighlights.spotlight}
+                        email={profileHighlights.email}
+                        city={profileHighlights.city}
+                        state={profileHighlights.state}
                         isEditMode={editMode}
-                        onRoleChange={(role: string) => setProfileHighlights({ ...profileHighlights, role }) }
-                        onSpotlightChange={(spotlight: string) => setProfileHighlights({ ...profileHighlights, spotlight }) }
-                        onEmailChange={(email: string) => setProfileHighlights({ ...profileHighlights, email }) }
-                        onCityChange={(city: string) => setProfileHighlights({ ...profileHighlights, city }) }
-                        onStateChange={(state: string) => setProfileHighlights({ ...profileHighlights, state })}
+                        onRoleChange={(role: string) =>
+                            setProfileHighlights({ ...profileHighlights, role })
+                            // user ? (user.content as PersonalUserProxy).job = role : ''
+                        }
+                        onSpotlightChange={(spotlight: string) =>
+                            setProfileHighlights({ ...profileHighlights, spotlight })
+                            // user? (user.content as PersonalUserProxy).highlights = spotlight : ''
+                        }
+                        onEmailChange={(email: string) =>
+                            setProfileHighlights({ ...profileHighlights, email })
+                            // user? user.email = email : ''
+                        }
+                        onCityChange={(city: string) =>
+                            setProfileHighlights({ ...profileHighlights, city })
+                            // user ? user.city = city : ''
+                        }
+                        onStateChange={(state: string) =>
+                            setProfileHighlights({ ...profileHighlights, state })
+                            // user ? user.state = state : ''
+                        }
                         onHighlightPress={(highlight: string) =>
-                            navigation.navigate('ProfileHighlight', { highlight, isEditMode: editMode, isCurrent })} />
+                            navigation.navigate('ProfileHighlight', { highlight, isEditMode: editMode, isCurrent, userId: user?.id })} />
                 </ContentView>
                 <ActionButtonContext.Provider value={{ isActive }}>
                     <ActionButton

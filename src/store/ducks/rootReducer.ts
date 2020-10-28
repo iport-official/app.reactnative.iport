@@ -1,9 +1,8 @@
-import { combineReducers } from 'redux'
-
-import user from './user'
 import categories from './categories'
-import highlightsPosts from './highlightsPosts'
 import categoriesPosts from './categoriesPosts'
+import highlightsPosts from './highlightsPosts'
+import user from './user'
+import { combineReducers } from 'redux'
 
 export default combineReducers({
     user,

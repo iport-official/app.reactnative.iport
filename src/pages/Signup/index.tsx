@@ -82,8 +82,8 @@ export default function SignupPage({ navigation }: DefaultSignupPageProps): JSX.
                           cep,
                           cnpj,
                       },
-                telephones: telephones.map((telephone) => telephone.value),
-                emails: emails.map((email) => email.value),
+                telephones: telephones.length > 0 ? telephones.map((telephone) => telephone.value) : [],
+                emails: emails.length ? emails.map((email) => email.value) : [],
             },
         });
     }
